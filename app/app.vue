@@ -1,6 +1,8 @@
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <NuxtWelcome />
   </div>
 </template>
+<script setup lang="ts">
+import Login from "~~/pages/login.vue";
+</script>

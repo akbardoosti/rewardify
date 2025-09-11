@@ -47,6 +47,6 @@ const login = () => {
   // Here you would implement the actual login logic
   console.log('Logging in with:', credential.value, password.value)
   // On successful login, you would navigate the user
-  // For now, we'll just log it.
+  router.push('/dashboard')
 }
 </script>

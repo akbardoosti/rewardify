@@ -42,9 +42,20 @@
             <input type="text" id="signup_phone_number" name="phone_number" readonly v-model="signupPhoneNumber">
 
             <label for="signup_birth_date">تاریخ تولد:</label>
-            <input type="text" id="signup_birth_date" name="birth_date" class="persian-date-input" autocomplete="off"
-                   placeholder="مثلاً 1370/01/01" readonly required v-model="signupBirthDate"
-                   :class="{ invalid: isSignupBirthDateInvalid }">
+            <date-picker
+                v-model="signupBirthDate"
+                id="signup_birth_date"
+                name="birth_date"
+                class="persian-date-input"
+                placeholder="مثلاً 1370/01/01"
+                required
+                :class="{ invalid: isSignupBirthDateInvalid }"
+                @input="isSignupBirthDateInvalid = false"
+                format="jYYYY/jMM/jDD"
+                display-format="jYYYY/jMM/jDD"
+                :auto-submit="true"
+                :show-gregorian="true"
+            ></date-picker>
             <div id="birth-date-preview"
                  style="margin-top: 0.5rem; font-size: 0.9rem; color: #388e3c; text-align: center;" v-if="birthDatePreview">
                  {{ birthDatePreview }}
@@ -104,13 +115,8 @@
 
 <script setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import $ from 'jquery'
-import 'persian-datepicker/dist/js/persian-datepicker.min.js'
-import persianDate from 'persian-date'
-
-if (process.client) {
-  window.jQuery = window.$ = $;
-}
+import DatePicker from 'vue-persian-datetime-picker'
+import moment from 'moment-jalaali'
 
 // State for the current view
 const currentSection = ref('phone-check'); // can be 'phone-check', 'signup', or 'purchase'
@@ -263,15 +269,14 @@ const triggerConfetti = () => {
 };
 
 const checkBirthday = (user) => {
-  const today = new persianDate();
+  const today = moment();
   if (!user.birthDate || !/^\d{4}\/\d{2}\/\d{2}$/.test(user.birthDate)) {
       isBirthday.value = false;
       return;
   }
-  const userBirthDateParts = user.birthDate.split('/').map(Number);
-  const userBirthDate = new persianDate(userBirthDateParts);
+  const userBirthDate = moment(user.birthDate, 'jYYYY/jMM/jDD');
 
-  if (today.month() === userBirthDate.month() && today.date() === userBirthDate.date()) {
+  if (today.jMonth() === userBirthDate.jMonth() && today.jDate() === userBirthDate.jDate()) {
     isBirthday.value = true;
     birthdayDiscountMessage.value = 'تولدت مبارک! یک تخفیف ویژه برای شما داریم.';
     triggerConfetti();
@@ -324,45 +329,9 @@ const purchase = async () => {
   }
 };
 
-// Datepicker
-const initDatepicker = () => {
-    if ($('#signup_birth_date').length && typeof $.fn.persianDatepicker === 'function') {
-        if (!$('#signup_birth_date').hasClass('pwt-datepicker-input-element')) {
-            $('#signup_birth_date').persianDatepicker({
-                format: 'YYYY/MM/DD',
-                autoClose: true,
-                initialValue: false,
-                calendar: { persian: { locale: 'fa' } },
-                onSelect: function (unix) {
-                    const selectedDate = new persianDate(unix).format('YYYY/MM/DD');
-                    signupBirthDate.value = selectedDate;
-
-                    const gregorianDate = new persianDate(unix).toLocale('en').format('YYYY-MM-DD');
-                    birthDatePreview.value = `تاریخ میلادی: ${gregorianDate}`;
-                }
-            });
-        }
-    }
-};
-
-watch(currentSection, (newSection) => {
-    if (newSection === 'signup') {
-        nextTick(() => {
-            initDatepicker();
-        });
-    }
-});
-
-onMounted(() => {
-    if (currentSection.value === 'signup') {
-        initDatepicker();
-    }
-});
-
 </script>
 
 <style>
-@import "persian-datepicker/dist/css/persian-datepicker.min.css";
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
 
 .wrapper {

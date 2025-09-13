@@ -102,7 +102,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
 // Disable the default layout for this page
 definePageMeta({
   layout: false,
@@ -365,6 +364,7 @@ body {
     font-weight: 700;
     margin-bottom: 16px;
     line-height: 1.2;
+  text-align: start;
 }
 
 .dashboard-subtitle {

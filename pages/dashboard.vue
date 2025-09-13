@@ -55,6 +55,8 @@
                 display-format="jYYYY/jMM/jDD"
                 :auto-submit="true"
                 :show-gregorian="true"
+                :column="1"
+                mode="single"
             ></date-picker>
             <div id="birth-date-preview"
                  style="margin-top: 0.5rem; font-size: 0.9rem; color: #388e3c; text-align: center;" v-if="birthDatePreview">
@@ -114,8 +116,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import DatePicker from 'vue-persian-datetime-picker'
+import { ref, computed, watch } from 'vue'
+import DatePicker from '@alireza-ab/vue3-persian-datepicker';
+
 import moment from 'moment-jalaali'
 
 // State for the current view
@@ -152,7 +155,7 @@ const checkPhoneNumber = async () => {
         // User found, go to purchase page
         customerNameToDisplay.value = existingUser.fullName;
         availableDiscount.value = existingUser.points * 100; // 1 point = 100 Toman
-      checkBirthday(existingUser);
+        checkBirthday(existingUser);
         currentSection.value = 'purchase';
         phoneCheckMessage.value = '';
     } else {
@@ -332,7 +335,6 @@ const purchase = async () => {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
 
 .wrapper {
     display: flex;
@@ -345,7 +347,7 @@ const purchase = async () => {
 
 section {
     background: #ffffff;
-    padding: 3.2rem 2.8rem 2.5rem 2.8rem;
+    padding: 2.2rem 1.8rem 1.5rem 1.8rem;
     margin: 2.5rem 0;
     border-radius: 28px;
     box-shadow: 0 12px 40px rgba(80, 80, 160, 0.13), 0 2px 8px rgba(80, 80, 160, 0.10);
@@ -373,7 +375,7 @@ h2 {
 form {
     display: flex;
     flex-direction: column;
-    gap: 1.3rem;
+    gap: 0.4rem;
 }
 
 label {
@@ -727,13 +729,16 @@ input[type="checkbox"] {
     text-align: right;
     opacity: 0.85;
 }
-
+.pdp-icon.pdp-pointer {
+  display: none;
+}
 #signup_birth_date.persian-date-input {
     background-image: url('data:image/svg+xml;utf8,<svg fill="%236366f1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1zm-7 5h5v5h-5z"/></svg>');
     background-repeat: no-repeat;
     background-position: left 0.7rem center;
     background-size: 1.2em 1.2em;
     padding-left: 2.2em;
+  width: 100%;
 }
 
 section, .wrapper {

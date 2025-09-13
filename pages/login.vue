@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-[400px] bg-white p-8 rounded-[4px] shadow-md">
+  <div class="w-full max-w-[400px] lg:min-w-[350px] bg-white p-8 md:p-3 rounded-[4px] shadow-md">
     <h1 class="text-2xl font-bold text-center mb-6">ورود فروشنده</h1>
     <form @submit.prevent="login">
       <div class="mb-4">

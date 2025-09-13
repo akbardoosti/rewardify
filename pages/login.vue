@@ -44,7 +44,7 @@
         </div>
 
         <div class="dashboard-section">
-            <h2 class="dashboard-title">تیم و عملیات خود را بدون زحمت مدیریت کنید.</h2>
+            <h2 class="dashboard-title">کسب‌وکار خود را بدون زحمت مدیریت کنید.</h2>
             <p class="dashboard-subtitle">برای دسترسی به داشبورد CRM و مدیریت تیم خود وارد شوید.</p>
 
             <div class="dashboard-preview">
@@ -136,7 +136,7 @@ const login = () => {
 }
 
 body {
-    font-family: 'Vazir', 'Tahoma', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Vazirmatn', 'Tahoma', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: #f5f5f7;
     min-height: 100vh;
     display: flex;
@@ -361,14 +361,14 @@ body {
 }
 
 .dashboard-title {
-    font-size: 36px;
+    font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 16px;
     line-height: 1.2;
 }
 
 .dashboard-subtitle {
-    font-size: 18px;
+    font-size: 1rem;
     opacity: 0.9;
     margin-bottom: 40px;
 }

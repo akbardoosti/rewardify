@@ -27,10 +27,12 @@
 
                 <div class="form-options">
                     <div class="checkbox-container">
-                        <button type="button" @click="toggleLoginMethod" class="forgot-password" style="background: none; border: none; padding: 0; font-family: inherit; font-size: 14px; cursor: pointer;">
-                            {{ loginWithOtp ? 'ورود با کلمه عبور' : 'ورود با رمز یکبار مصرف' }}
-                        </button>
+                        <input type="checkbox" id="remember" v-model="rememberMe">
+                        <label for="remember" style="margin-right: 8px;">مرا به خاطر بسپار</label>
                     </div>
+                    <button type="button" @click="toggleLoginMethod" class="forgot-password" style="background: none; border: none; padding: 0; font-family: inherit; font-size: 14px; cursor: pointer;">
+                        {{ loginWithOtp ? 'ورود با کلمه عبور' : 'ورود با رمز یکبار مصرف' }}
+                    </button>
                 </div>
 
                 <button type="submit" class="login-btn">ورود</button>
@@ -109,6 +111,7 @@ definePageMeta({
 const credential = ref('')
 const password = ref('')
 const loginWithOtp = ref(false)
+const rememberMe = ref(false)
 const router = useRouter()
 
 const toggleLoginMethod = () => {
@@ -118,7 +121,7 @@ const toggleLoginMethod = () => {
 
 const login = () => {
   // Here you would implement the actual login logic
-  console.log('Logging in with:', credential.value, password.value)
+  console.log('Logging in with:', credential.value, password.value, 'Remember me:', rememberMe.value)
   // On successful login, you would navigate the user
   router.push('/dashboard')
 }

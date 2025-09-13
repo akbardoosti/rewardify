@@ -1,37 +1,110 @@
 <template>
-  <div class="w-full max-w-[400px] lg:min-w-[350px] bg-white p-8 md:p-3 rounded-[4px] shadow-md">
-    <h1 class="text-2xl font-bold text-center mb-6">ورود فروشنده</h1>
-    <form @submit.prevent="login">
-      <div class="mb-4">
-        <label for="credential" class="block text-right mb-2">نام کاربری یا شماره تلفن</label>
-        <input type="text" id="credential" v-model="credential" class="w-full p-2 border rounded-[4px] text-right" dir="rtl">
-      </div>
+    <div class="container">
+        <div class="login-section">
+            <div class="logo">
+                <div class="logo-icon">س</div>
+                <div class="logo-text">سلورا</div>
+            </div>
 
-      <div class="mb-4">
-        <div class="flex justify-between items-center mb-2">
-          <label for="password" class="block text-right">
-            {{ loginWithOtp ? 'رمز یکبار مصرف' : 'کلمه عبور' }}
-          </label>
-          <button type="button" @click="toggleLoginMethod" class="text-sm text-blue-600 hover:underline">
-            {{ loginWithOtp ? 'ورود با کلمه عبور' : 'ورود با رمز یکبار مصرف' }}
-          </button>
+            <h1 class="welcome-title">خوش آمدید</h1>
+            <p class="welcome-subtitle">ایمیل و رمز عبور خود را وارد کنید تا به حساب کاربری خود دسترسی پیدا کنید.</p>
+
+            <form @submit.prevent="login">
+                <div class="form-group">
+                    <label for="credential" class="form-label">نام کاربری یا شماره تلفن</label>
+                    <input type="text" id="credential" v-model="credential" class="form-input" dir="rtl">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">
+                        {{ loginWithOtp ? 'رمز یکبار مصرف' : 'کلمه عبور' }}
+                    </label>
+                    <div class="password-container">
+                        <input :type="loginWithOtp ? 'text' : 'password'" id="password" v-model="password" class="form-input" value="Sellostore." dir="rtl">
+                        <!-- <button type="button" class="password-toggle">👁️</button> -->
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <div class="checkbox-container">
+                        <button type="button" @click="toggleLoginMethod" class="forgot-password" style="background: none; border: none; padding: 0; font-family: inherit; font-size: 14px; cursor: pointer;">
+                            {{ loginWithOtp ? 'ورود با کلمه عبور' : 'ورود با رمز یکبار مصرف' }}
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn">ورود</button>
+            </form>
+
+            <div class="register-link">
+                حساب کاربری ندارید؟ <NuxtLink to="/register">هم‌اکنون ثبت نام کنید.</NuxtLink>
+            </div>
         </div>
-        <input :type="loginWithOtp ? 'text' : 'password'" id="password" v-model="password" class="w-full p-2 border rounded-[4px] text-right" dir="rtl">
-      </div>
 
-      <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded-[4px] hover:bg-blue-700">
-        ورود
-      </button>
-    </form>
-    <div class="text-center mt-4">
-      <NuxtLink to="/register" class="text-sm text-blue-600 hover:underline">ثبت نام فروشنده</NuxtLink>
+        <div class="dashboard-section">
+            <h2 class="dashboard-title">تیم و عملیات خود را بدون زحمت مدیریت کنید.</h2>
+            <p class="dashboard-subtitle">برای دسترسی به داشبورد CRM و مدیریت تیم خود وارد شوید.</p>
+
+            <div class="dashboard-preview">
+                <div class="dashboard-header">
+                    <div class="dashboard-nav">
+                        <div class="nav-item active">عملکرد فروش</div>
+                        <div class="nav-item">بررسی فروش</div>
+                    </div>
+                    <div style="color: #9ca3af; font-size: 14px;">ماهانه</div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-value">$189,374</div>
+                        <div class="stat-label">کل فروش</div>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 12px; flex: 1; text-align: center;">
+                        <div style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">00:01:30</div>
+                        <div style="font-size: 12px; color: #6b7280;">زمان صرف شده</div>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <div class="chart-placeholder">
+                        <div>
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">$25,684</div>
+                            <div style="font-size: 12px; color: #9ca3af;">تراکنش‌های اخیر</div>
+                            <div style="margin-top: 16px;">
+                                <div style="height: 2px; background: #4f46e5; width: 80%; margin-bottom: 8px;"></div>
+                                <div style="height: 2px; background: #e5e7eb; width: 60%; margin-bottom: 8px;"></div>
+                                <div style="height: 2px; background: #e5e7eb; width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div class="donut-chart">
+                            <div class="donut-center">
+                                <div class="donut-value">6,248</div>
+                                <div class="donut-label">واحد</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 16px; font-size: 12px; color: #9ca3af;">دسته‌بندی فروش</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div>حق نشر © ۱۴۰۳ سلورا شرکت تجاری.</div>
+                <div>سیاست حریم خصوصی</div>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+// Disable the default layout for this page
+definePageMeta({
+  layout: false,
+})
 
 const credential = ref('')
 const password = ref('')
@@ -50,3 +123,382 @@ const login = () => {
   router.push('/dashboard')
 }
 </script>
+
+<style>
+/* Using unscoped style as this is a complete page replacement */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Vazir', 'Tahoma', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #f5f5f7;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+}
+
+.container {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1200px;
+    width: 100%;
+    min-height: 700px;
+}
+
+.login-section {
+    flex: 1;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    background: #4f46e5;
+    border-radius: 8px;
+    margin-left: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.welcome-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.welcome-subtitle {
+    color: #6b7280;
+    margin-bottom: 40px;
+    font-size: 16px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: right;
+}
+
+.form-input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    background: #f9fafb;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    background: white;
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container input {
+    margin-left: 8px;
+}
+
+.checkbox-container label {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.forgot-password {
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-btn {
+    width: 100%;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.login-btn:hover {
+    background: #4338ca;
+}
+
+.divider {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.social-login {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #374151;
+}
+
+.social-btn:hover {
+    border-color: #d1d5db;
+    background: #f9fafb;
+}
+
+.social-btn img {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+}
+
+.register-link {
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.dashboard-section {
+    flex: 1.2;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    position: relative;
+}
+
+.dashboard-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
+
+.dashboard-subtitle {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 40px;
+}
+
+.dashboard-preview {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    color: #1a1a1a;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.dashboard-nav {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-item {
+    padding: 8px 16px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.nav-item.active {
+    background: #4f46e5;
+    color: white;
+}
+
+.stats-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #4f46e5;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.chart-section {
+    display: flex;
+    gap: 20px;
+}
+
+.chart-placeholder {
+    flex: 1;
+    height: 200px;
+    background: #f8fafc;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+}
+
+.donut-chart {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: conic-gradient(#4f46e5 0deg 200deg, #e5e7eb 200deg 360deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.donut-center {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.donut-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.donut-label {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.footer {
+    position: absolute;
+    bottom: 30px;
+    right: 50px;
+    left: 50px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        margin: 20px;
+    }
+
+    .dashboard-section {
+        display: none;
+    }
+
+    .login-section {
+        padding: 40px 30px;
+    }
+}
+</style>

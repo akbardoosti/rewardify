@@ -493,7 +493,7 @@ body {
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
-        margin: 20px;
+        margin: unset;
     }
 
     .dashboard-section {

@@ -2,8 +2,16 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss"],
-  css: ['@/assets/css/global.css'],
+  modules: ["@nuxtjs/tailwindcss",  'primevue/nuxt'],
+  css: ['@/assets/css/global.css', 'primeicons/primeicons.css'],
+  primevue: {
+    options: {
+      ripple: true,
+    },
+    components: {
+      include: ['Toast']
+    }
+  },
   app: {
     head: {
       htmlAttrs: {

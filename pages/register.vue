@@ -73,6 +73,13 @@
                         <input type="text" id="username" v-model="form.username" placeholder="مثال: yakaboo_store" required>
                     </div>
                     <div class="form-group">
+                        <label for="email">ایمیل (اجباری)</label>
+                        <input type="email" id="email" v-model="form.email" placeholder="test@test.com" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
                         <label for="phoneNumber">شماره تلفن (اجباری)</label>
                         <input type="tel" id="phoneNumber" v-model="form.phoneNumber" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
                     </div>
@@ -110,12 +117,15 @@
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import api from '@/services/api'
+import { useToast } from 'primevue/usetoast';
 
 definePageMeta({
   layout: 'default'
 })
 
 const router = useRouter()
+const toast = useToast()
 const form = reactive({
   firstName: '',
   lastName: '',
@@ -127,17 +137,37 @@ const form = reactive({
   username: '',
   phoneNumber: '',
   password: '',
+  email: '',
   confirmPassword: '',
 })
 
-const register = () => {
+const register = async () => {
   if (form.password !== form.confirmPassword) {
-    alert('رمز عبور و تایید آن یکسان نیستند.')
+    toast.add({ severity: 'error', summary: 'Error', detail: 'رمز عبور و تایید آن یکسان نیستند.', life: 3000 });
     return
   }
-  console.log('Registering with:', form)
-  // On successful registration, navigate to the verification page
-  router.push('/verify')
+
+  const userData = {
+    username: form.username,
+    password: form.password,
+    phone_number: form.phoneNumber,
+    store_name: form.storeName,
+    category: form.salesArea,
+    email: form.email,
+    seller_first_name: form.firstName,
+    seller_last_name: form.lastName,
+    city: form.city,
+    province: form.province,
+    address: form.storeAddress,
+  }
+
+  try {
+    await api.registerUser(userData);
+    toast.add({ severity: 'success', summary: 'Success', detail: 'ثبت نام با موفقیت انجام شد', life: 3000 });
+    router.push('/login');
+  } catch (error) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'خطا در ثبت نام', life: 3000 });
+  }
 }
 </script>
 

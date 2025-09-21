@@ -143,7 +143,7 @@ const form = reactive({
 
 const register = async () => {
   if (form.password !== form.confirmPassword) {
-    toast.add({ severity: 'error', summary: 'Error', detail: 'رمز عبور و تایید آن یکسان نیستند.', life: 3000 });
+    toast.add({ severity: 'error', summary: 'خطا', detail: 'رمز عبور و تایید آن یکسان نیستند.', life: 3000 });
     return
   }
 
@@ -163,10 +163,10 @@ const register = async () => {
 
   try {
     await api.registerUser(userData);
-    toast.add({ severity: 'success', summary: 'Success', detail: 'ثبت نام با موفقیت انجام شد', life: 3000 });
+    toast.add({ severity: 'success', summary: 'موفقیت', detail: 'ثبت نام با موفقیت انجام شد', life: 3000 });
     router.push('/login');
   } catch (error) {
-    toast.add({ severity: 'error', summary: 'Error', detail: 'خطا در ثبت نام', life: 3000 });
+    toast.add({ severity: 'error', summary: 'خطا', detail: 'خطا در ثبت نام', life: 3000 });
   }
 }
 </script>

@@ -336,14 +336,6 @@ const purchase = async () => {
 
 <style>
 
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    width: 100vw;
-}
 
 section {
     background: #ffffff;
@@ -396,6 +388,7 @@ input[type="date"] {
     background: #f6f8fa;
     transition: border 0.2s, box-shadow 0.2s;
     font-family: inherit;
+    color: #2d3137;
 }
 
 input:focus {
@@ -523,21 +516,6 @@ input[type="checkbox"] {
     font-size: 1.05rem;
 }
 
-.pwt-datepicker-container, .pwt-datepicker-container *, .pwt-datepicker-calendar, .pwt-datepicker-header, .pwt-btn-submit, .pwt-btn-cancel, .pwt-datepicker-day {
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
-}
-
-.pwt-datepicker-container {
-    z-index: 9999 !important;
-    border-radius: 22px !important;
-    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.18), 0 2px 8px rgba(99, 102, 241, 0.13) !important;
-    border: 2px solid #6366f1 !important;
-    background: #fff !important;
-    padding: 0.7rem 0.7rem 0.5rem 0.7rem !important;
-    min-width: 320px !important;
-    animation: calendarPop 0.4s cubic-bezier(.68, -0.55, .27, 1.55);
-}
-
 @keyframes calendarPop {
     0% {
         transform: scale(0.85) translateY(30px);
@@ -547,110 +525,6 @@ input[type="checkbox"] {
         transform: scale(1) translateY(0);
         opacity: 1;
     }
-}
-
-.pwt-datepicker-header {
-    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%) !important;
-    color: #fff !important;
-    border-radius: 16px 16px 0 0 !important;
-    font-size: 1.18rem !important;
-    font-weight: bold !important;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10);
-    padding: 0.7rem 0.5rem !important;
-}
-
-.pwt-datepicker-calendar {
-    border-radius: 16px !important;
-    background: #f7f8fd !important;
-    padding: 0.5rem 0.2rem 0.7rem 0.2rem !important;
-}
-
-.pwt-datepicker-day {
-    border-radius: 10px !important;
-    font-size: 1.08rem !important;
-    font-weight: 600 !important;
-    color: #3b3b6d !important;
-    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-    margin: 2px !important;
-    box-shadow: none !important;
-    border: none !important;
-}
-
-.pwt-datepicker-day.pwt-selected {
-    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%) !important;
-    color: #fff !important;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.18);
-    font-size: 1.13rem !important;
-    font-weight: bold !important;
-}
-
-.pwt-datepicker-day:hover {
-    background: #e0e7ff !important;
-    color: #222 !important;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10);
-}
-
-.pwt-btn-submit, .pwt-btn-submit:active {
-    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%) !important;
-    color: #fff !important;
-    border-radius: 12px !important;
-    font-weight: 700;
-    font-size: 1.08rem !important;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.13);
-    padding: 0.6rem 1.2rem !important;
-    margin: 0.5rem 0.2rem 0.2rem 0.2rem !important;
-    border: none !important;
-    transition: background 0.18s, box-shadow 0.18s;
-}
-
-.pwt-btn-submit:hover {
-    background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%) !important;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.18);
-}
-
-.pwt-btn-cancel, .pwt-btn-cancel:active {
-    background: #e53935 !important;
-    color: #fff !important;
-    border-radius: 12px !important;
-    font-weight: 700;
-    font-size: 1.08rem !important;
-    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.13);
-    padding: 0.6rem 1.2rem !important;
-    margin: 0.5rem 0.2rem 0.2rem 0.2rem !important;
-    border: none !important;
-    transition: background 0.18s, box-shadow 0.18s;
-}
-
-.pwt-btn-cancel:hover {
-    background: #b71c1c !important;
-    box-shadow: 0 4px 16px rgba(229, 57, 53, 0.18);
-}
-
-.pwt-datepicker-nav-btn {
-    color: #6366f1 !important;
-    font-size: 1.25rem !important;
-    border-radius: 50% !important;
-    background: #f1f5ff !important;
-    margin: 0 0.2rem !important;
-    transition: background 0.18s;
-}
-
-.pwt-datepicker-nav-btn:hover {
-    background: #6366f1 !important;
-    color: #fff !important;
-}
-
-.pwt-datepicker-month, .pwt-datepicker-year {
-    color: #6366f1 !important;
-    font-weight: bold !important;
-    font-size: 1.08rem !important;
-}
-
-.pwt-datepicker-day.pwt-today {
-    border: 2px solid #6366f1 !important;
-    background: #fff !important;
-    color: #6366f1 !important;
 }
 
 .brand-header-bar {
@@ -720,18 +594,6 @@ input[type="checkbox"] {
     text-align: center;
     margin-left: 1.2rem;
 }
-
-.field-hint {
-    color: #888;
-    font-size: 0.97rem;
-    margin-top: 0.2rem;
-    margin-bottom: 0.3rem;
-    text-align: right;
-    opacity: 0.85;
-}
-.pdp-icon.pdp-pointer {
-  display: none;
-}
 #signup_birth_date.persian-date-input {
     background-image: url('data:image/svg+xml;utf8,<svg fill="%236366f1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1zm-7 5h5v5h-5z"/></svg>');
     background-repeat: no-repeat;
@@ -741,7 +603,7 @@ input[type="checkbox"] {
   width: 100%;
 }
 
-section, .wrapper {
+section {
     margin-top: 70px !important;
 }
 
@@ -789,7 +651,7 @@ section, .wrapper {
         height: 44px;
     }
 
-    section, .wrapper {
+    section {
         margin-top: 54px !important;
     }
 

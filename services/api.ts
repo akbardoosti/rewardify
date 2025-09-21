@@ -13,10 +13,20 @@ export default {
   },
 
   login(userData: any) {
-    const data = {
-      grant_type: 'password',
-      ...userData
-    };
-    return apiClient.post('/authentication/login/', data);
+    const data = new URLSearchParams({
+      grant_type: "password",
+      username: userData.username,
+      password: userData.password,
+      scope: "",
+      client_id: "string",
+      client_secret: "string",
+    });
+
+    return apiClient.post("/authentication/login/", data, {
+      headers: {
+        "accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
   }
 };

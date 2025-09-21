@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <Toast />
         <div class="login-section">
             <div class="logo">
                 <div class="logo-icon">س</div>
@@ -12,7 +13,7 @@
             <form @submit.prevent="login">
                 <div class="form-group">
                     <label for="credential" class="form-label">نام کاربری یا شماره تلفن</label>
-                    <input type="text" id="credential" v-model="credential" class="form-input" dir="rtl">
+                    <input type="text" id="credential" v-model="username" class="form-input" dir="rtl">
                 </div>
 
                 <div class="form-group">
@@ -35,7 +36,10 @@
                     </button>
                 </div>
 
-                <button type="submit" class="login-btn">ورود</button>
+                <button type="submit" class="login-btn" :disabled="loading">
+                    <ProgressSpinner v-if="loading" style="width: 24px; height: 24px" strokeWidth="8" />
+                    <span v-else>ورود</span>
+                </button>
             </form>
 
             <div class="register-link">
@@ -100,30 +104,57 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToast } from 'primevue/usetoast';
+import api from '~/services/api';
+import ProgressSpinner from 'primevue/progressspinner';
+import Toast from 'primevue/toast';
+
 // Disable the default layout for this page
 definePageMeta({
   layout: false,
-})
+});
 
-const credential = ref('')
-const password = ref('')
-const loginWithOtp = ref(false)
-const rememberMe = ref(false)
-const router = useRouter()
+const username = ref('');
+const password = ref('');
+const loginWithOtp = ref(false);
+const rememberMe = ref(false);
+const loading = ref(false);
+const router = useRouter();
+const toast = useToast();
 
 const toggleLoginMethod = () => {
-  loginWithOtp.value = !loginWithOtp.value
-  password.value = '' // Clear password field on toggle
-}
+  loginWithOtp.value = !loginWithOtp.value;
+  password.value = ''; // Clear password field on toggle
+};
 
-const login = () => {
-  // Here you would implement the actual login logic
-  console.log('Logging in with:', credential.value, password.value, 'Remember me:', rememberMe.value)
-  // On successful login, you would navigate the user
-  router.push('/dashboard')
-}
+const login = async () => {
+  if (loading.value) return;
+
+  loading.value = true;
+  try {
+    const response = await api.login({
+      username: username.value,
+      password: password.value,
+    });
+
+    if (response.data.access_token) {
+      localStorage.setItem('access_token', response.data.access_token);
+      toast.add({ severity: 'success', summary: 'موفق', detail: 'با موفقیت وارد شدید', life: 3000 });
+      router.push('/dashboard');
+    }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.detail === 'Incorrect username or password') {
+      toast.add({ severity: 'error', summary: 'خطا', detail: 'نام کاربری یا رمز عبور اشتباه است', life: 3000 });
+    } else {
+      toast.add({ severity: 'error', summary: 'خطا', detail: 'خطایی در ورود رخ داد', life: 3000 });
+    }
+    console.error('Login error:', error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <style>
@@ -288,6 +319,10 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 58px; /* To prevent layout shift */
 }
 
 .login-btn:hover {

@@ -10,5 +10,13 @@ const apiClient = axios.create({
 export default {
   registerUser(userData: any) {
     return apiClient.post('/users/', userData);
+  },
+
+  login(userData: any) {
+    const data = {
+      grant_type: 'password',
+      ...userData
+    };
+    return apiClient.post('/authentication/login/', data);
   }
 };

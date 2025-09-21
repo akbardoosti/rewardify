@@ -28,7 +28,7 @@
                 <h2>ثبت نام فروشنده در یاکابو</h2>
             </div>
 
-            <form @submit.prevent="register">
+            <form @submit.prevent="register" style="overflow-y: auto;max-height: 80vh;">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">نام فروشنده (اختیاری)</label>
@@ -81,13 +81,11 @@
                 <div class="form-group full-width password-field">
                     <label for="password">رمز عبور (اجباری)</label>
                     <input type="password" id="password" v-model="form.password" required>
-                    <div class="password-dots">••••••••••••••••••••</div>
                 </div>
 
                 <div class="form-group full-width password-field">
                     <label for="confirmPassword">تایید رمز عبور (اجباری)</label>
                     <input type="password" id="confirmPassword" v-model="form.confirmPassword" required>
-                    <div class="password-dots">••••••••••••••••••••</div>
                 </div>
 
                 <div class="checkbox-group">
@@ -144,26 +142,7 @@ const register = () => {
 </script>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5;
-    direction: rtl;
-}
-
-.container {
-    display: flex;
-    min-height: 100vh;
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
 
 .left-section {
     flex: 1;
@@ -174,16 +153,6 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-}
-
-.logo {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    font-weight: bold;
-    color: #666;
-    font-size: 14px;
-    letter-spacing: 2px;
 }
 
 .welcome-text {
@@ -365,7 +334,6 @@ body {
 
 .form-header {
     text-align: center;
-    margin-bottom: 40px;
 }
 
 .form-header h2 {
@@ -452,15 +420,6 @@ body {
     position: relative;
 }
 
-.password-dots {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    font-size: 18px;
-    letter-spacing: 3px;
-}
 
 .checkbox-group {
     display: flex;

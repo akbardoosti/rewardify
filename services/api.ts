@@ -7,9 +7,24 @@ const apiClient = axios.create({
   }
 });
 
+const iranPlacesApiClient = axios.create({
+  baseURL: 'https://iranplacesapi.liara.run/api',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
 export default {
   registerUser(userData: any) {
     return apiClient.post('/users/', userData);
+  },
+
+  getProvinces() {
+    return iranPlacesApiClient.get('/provinces');
+  },
+
+  getCities(provinceId: number) {
+    return iranPlacesApiClient.get(`/provinces/${provinceId}/cities`);
   },
 
   login(userData: any) {

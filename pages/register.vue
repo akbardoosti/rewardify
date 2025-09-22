@@ -59,11 +59,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="province">استان</label>
-                        <input type="text" id="province" v-model="form.province" placeholder="مثال: تهران">
+                        <Dropdown v-model="selectedProvince" :options="provinces" filter optionLabel="name" placeholder="استان خود را انتخاب کنید" @change="onProvinceChange" style="width: 100%;" />
                     </div>
                     <div class="form-group">
                         <label for="city">شهر</label>
-                        <input type="text" id="city" v-model="form.city" placeholder="مثال: تهران">
+                        <Dropdown v-model="form.city" :options="cities" filter optionLabel="name" optionValue="name" placeholder="شهر خود را انتخاب کنید" :disabled="!selectedProvince" style="width: 100%;" />
                     </div>
                 </div>
 
@@ -115,10 +115,11 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useToast } from 'primevue/usetoast';
+import Dropdown from 'primevue/dropdown';
 
 definePageMeta({
   layout: 'default'
@@ -126,6 +127,10 @@ definePageMeta({
 
 const router = useRouter()
 const toast = useToast()
+const provinces = ref([]);
+const cities = ref([]);
+const selectedProvince = ref(null);
+
 const form = reactive({
   firstName: '',
   lastName: '',
@@ -140,6 +145,29 @@ const form = reactive({
   email: '',
   confirmPassword: '',
 })
+
+onMounted(async () => {
+  try {
+    const response = await api.getProvinces();
+    provinces.value = response.data;
+  } catch (error) {
+    toast.add({ severity: 'error', summary: 'خطا', detail: 'خطا در دریافت لیست استان‌ها', life: 3000 });
+  }
+});
+
+const onProvinceChange = async () => {
+  if (selectedProvince.value) {
+    form.city = '';
+    cities.value = [];
+    try {
+      const response = await api.getCities(selectedProvince.value.id);
+      cities.value = response.data;
+      form.province = selectedProvince.value.name;
+    } catch (error) {
+      toast.add({ severity: 'error', summary: 'خطا', detail: 'خطا در دریافت لیست شهرها', life: 3000 });
+    }
+  }
+};
 
 const register = async () => {
   if (form.password !== form.confirmPassword) {

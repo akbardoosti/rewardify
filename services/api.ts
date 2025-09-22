@@ -14,6 +14,19 @@ const iranPlacesApiClient = axios.create({
   }
 });
 
+// Add a request interceptor to automatically add the auth token to requests
+apiClient.interceptors.request.use(config => {
+  // Retrieve the token from localStorage
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    // Set the Authorization header if the token exists
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
+
 export default {
   registerUser(userData: any) {
     return apiClient.post('/users/', userData);
@@ -43,5 +56,21 @@ export default {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+  },
+
+  // === Dashboard Workflow API Functions ===
+
+  verifyPhone(phoneNumber: string) {
+    return apiClient.get('/verify-phone/', {
+      params: { phone_number: phoneNumber }
+    });
+  },
+
+  registerCustomer(customerData: any) {
+    return apiClient.post('/costumers/register', customerData);
+  },
+
+  createPurchase(purchaseData: any) {
+    return apiClient.post('/purchase/', purchaseData);
   }
 };

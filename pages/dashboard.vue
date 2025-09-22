@@ -118,16 +118,12 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import DatePicker from '@alireza-ab/vue3-persian-datepicker';
-
-import moment from 'moment-jalaali'
+import moment from 'moment-jalaali';
+import api from '~/services/api'; // Import the centralized API service
 
 // State for the current view
-const currentSection = ref('phone-check'); // can be 'phone-check', 'signup', or 'purchase'
-
-// Mock user data
-const users = ref([
-  { fullName: 'کاربر تستی', phone: '09123456789', birthDate: '1370/01/01', points: 100 }
-]);
+const currentSection = ref('phone-check'); // 'phone-check', 'signup', or 'purchase'
+const customerId = ref(null); // To store the ID of the customer
 
 // Phone Check section
 const phoneNumber = ref('');
@@ -137,6 +133,7 @@ const isPhoneChecking = ref(false);
 
 const checkPhoneNumber = async () => {
   isPhoneChecking.value = true;
+  phoneCheckMessage.value = '';
   try {
     // Basic validation
     if (!/^09\d{9}$/.test(phoneNumber.value)) {
@@ -146,23 +143,26 @@ const checkPhoneNumber = async () => {
     }
     isPhoneNumberInvalid.value = false;
 
-    await new Promise(r => setTimeout(r, 500)); // simulate network delay
+    const response = await api.verifyPhone(phoneNumber.value);
 
-    console.log('Checking phone number:', phoneNumber.value);
-    const existingUser = users.value.find(user => user.phone === phoneNumber.value);
+    // User found
+    const customer = response.data;
+    customerId.value = customer.id;
+    customerNameToDisplay.value = customer.full_name;
+    availableDiscount.value = customer.available_discount_amount || 0;
+    checkBirthday(customer);
+    currentSection.value = 'purchase';
+    phoneCheckMessage.value = '';
 
-    if (existingUser) {
-        // User found, go to purchase page
-        customerNameToDisplay.value = existingUser.fullName;
-        availableDiscount.value = existingUser.points * 100; // 1 point = 100 Toman
-        checkBirthday(existingUser);
-        currentSection.value = 'purchase';
-        phoneCheckMessage.value = '';
+  } catch (error) {
+    if (error.response && (error.response.status === 404 || (error.response.data && error.response.data.detail === "Not Found"))) {
+      // New user, go to signup page
+      signupPhoneNumber.value = phoneNumber.value;
+      currentSection.value = 'signup';
+      phoneCheckMessage.value = '';
     } else {
-        // New user, go to signup page
-        signupPhoneNumber.value = phoneNumber.value;
-        currentSection.value = 'signup';
-        phoneCheckMessage.value = '';
+      console.error('Error checking phone number:', error);
+      phoneCheckMessage.value = 'خطا در برقراری ارتباط با سرور. لطفاً دوباره تلاش کنید.';
     }
   } finally {
     isPhoneChecking.value = false;
@@ -188,39 +188,50 @@ const isSigningUp = ref(false);
 
 const signup = async () => {
   isSigningUp.value = true;
+  signupMessage.value = '';
   try {
     // Basic validation
     isSignupFullNameInvalid.value = !signupFullName.value;
     isSignupBirthDateInvalid.value = !signupBirthDate.value;
     isSignupFirstPurchaseAmountInvalid.value = !signupFirstPurchaseAmount.value;
 
-    if (isSignupFullNameInvalid.value || isSignupBirthDateInvalid.value || isSignupFirstPurchaseAmountInvalid.value) {
+    if (isSignupFullNameInvalid.value || isSignupBirthDateInvalid.value
+      || isSignupFirstPurchaseAmountInvalid.value) {
       signupMessage.value = 'لطفاً تمام فیلدها را پر کنید.';
       return;
     }
 
-    await new Promise(r => setTimeout(r, 500));
+    const birthDateForAPI = moment(signupBirthDate.value, 'jYYYY/jMM/jDD').format('YYYY-MM-DD');
 
-    const newUser = {
-        fullName: signupFullName.value,
-        phone: signupPhoneNumber.value,
-        birthDate: signupBirthDate.value,
-        points: 0 // New users start with 0 points
+    const payload = {
+      full_name: signupFullName.value,
+      phone_number: signupPhoneNumber.value,
+      birth_date: birthDateForAPI,
+      first_purchase_amount: signupFirstPurchaseAmount.value
     };
-    users.value.push(newUser);
 
-    console.log('Signing up new user:', newUser);
-    console.log('Current users:', users.value);
+    const response = await api.registerCustomer(payload);
 
+    // Handle successful registration
+    const newCustomer = response.data;
+    customerId.value = newCustomer.id;
 
-    // Simulate successful signup
     signupMessage.value = 'ثبت‌نام با موفقیت انجام شد!';
 
     // After signup, move to the purchase section
-    customerNameToDisplay.value = signupFullName.value;
+    customerNameToDisplay.value = newCustomer.full_name;
     purchaseAmount.value = signupFirstPurchaseAmount.value;
-    availableDiscount.value = 0; // No discount for new user on first purchase
+    availableDiscount.value = 0;
     currentSection.value = 'purchase';
+
+  } catch (error) {
+    console.error('Error during signup:', error);
+    if (error.response && error.response.data) {
+        const errorMessages = Object.values(error.response.data).flat();
+        signupMessage.value = `خطا: ${errorMessages.join(' ')}`;
+    } else {
+        signupMessage.value = 'خطا در ثبت‌نام. لطفاً دوباره تلاش کنید.';
+    }
   } finally {
     isSigningUp.value = false;
   }
@@ -230,7 +241,7 @@ const signup = async () => {
 const customerNameToDisplay = ref('');
 const purchaseAmount = ref(null);
 const useDiscount = ref(false);
-const availableDiscount = ref(5000); // Sample discount
+const availableDiscount = ref(5000);
 const purchaseMessage = ref('');
 
 const finalPrice = computed(() => {
@@ -248,14 +259,11 @@ const birthdayDiscountMessage = ref('');
 const triggerConfetti = () => {
     const birthdayEffectContainer = document.getElementById('birthday-effect');
     if (!birthdayEffectContainer) return;
-
     birthdayEffectContainer.style.display = 'block';
-
     const message = document.createElement('div');
     message.className = 'birthday-message';
     message.textContent = 'تولدت مبارک!';
     birthdayEffectContainer.appendChild(message);
-
     for (let i = 0; i < 100; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
@@ -264,7 +272,6 @@ const triggerConfetti = () => {
         confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
         birthdayEffectContainer.appendChild(confetti);
     }
-
     setTimeout(() => {
         birthdayEffectContainer.innerHTML = '';
         birthdayEffectContainer.style.display = 'none';
@@ -273,12 +280,11 @@ const triggerConfetti = () => {
 
 const checkBirthday = (user) => {
   const today = moment();
-  if (!user.birthDate || !/^\d{4}\/\d{2}\/\d{2}$/.test(user.birthDate)) {
+  if (!user.birth_date) {
       isBirthday.value = false;
       return;
   }
-  const userBirthDate = moment(user.birthDate, 'jYYYY/jMM/jDD');
-
+  const userBirthDate = moment(user.birth_date, 'YYYY-MM-DD');
   if (today.jMonth() === userBirthDate.jMonth() && today.jDate() === userBirthDate.jDate()) {
     isBirthday.value = true;
     birthdayDiscountMessage.value = 'تولدت مبارک! یک تخفیف ویژه برای شما داریم.';
@@ -291,24 +297,23 @@ const checkBirthday = (user) => {
 
 const purchase = async () => {
   isPurchasing.value = true;
+  purchaseMessage.value = '';
   try {
     if (!purchaseAmount.value || purchaseAmount.value <= 0) {
       purchaseMessage.value = 'لطفاً مبلغ خرید معتبری را وارد کنید.';
       return;
     }
 
-    await new Promise(r => setTimeout(r, 500));
+    const payload = {
+      customer_id: customerId.value,
+      amount: finalPrice.value,
+      use_discount: false
+    };
 
-    console.log('Processing purchase:', {
-      customer: customerNameToDisplay.value,
-      amount: purchaseAmount.value,
-      discountUsed: useDiscount.value,
-      finalPrice: finalPrice.value
-    });
+    await api.createPurchase(payload);
 
     purchaseMessage.value = `خرید با موفقیت ثبت شد! مبلغ نهایی: ${finalPrice.value} تومان`;
 
-    // After purchase, reset to the phone check screen
     setTimeout(() => {
       currentSection.value = 'phone-check';
       phoneNumber.value = '';
@@ -323,11 +328,19 @@ const purchase = async () => {
       useDiscount.value = false;
       purchaseMessage.value = '';
       birthDatePreview.value = '';
-    isBirthday.value = false;
-    birthdayDiscountMessage.value = '';
-    }, 2500); // a bit shorter than the main reset
+      isBirthday.value = false;
+      birthdayDiscountMessage.value = '';
+      customerId.value = null;
+    }, 2500);
+  } catch (error) {
+    console.error('Error during purchase:', error);
+    if (error.response && error.response.data) {
+        const errors = Object.values(error.response.data).flat().join(' ');
+        purchaseMessage.value = `خطا در ثبت خرید: ${errors}`;
+    } else {
+        purchaseMessage.value = 'خطا در ثبت خرید. لطفاً دوباره تلاش کنید.';
+    }
   } finally {
-    // The main reset is after 3s, this should be less to show the button again
     setTimeout(() => { isPurchasing.value = false; }, 2500);
   }
 };
@@ -476,6 +489,9 @@ button:hover:not(:disabled) {
     to {
         opacity: 1;
     }
+}
+.pdp-icon.pdp-pointer {
+  display: none;
 }
 
 #discount-container {

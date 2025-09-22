@@ -118,27 +118,8 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import DatePicker from '@alireza-ab/vue3-persian-datepicker';
-import axios from 'axios';
-
-import moment from 'moment-jalaali'
-
-// API Configuration
-const API_BASE_URL = 'http://188.165.24.192:7000/api/v1';
-
-const getAuthHeaders = () => {
-  // We need to get the token from local storage. Let's assume it's stored under 'auth_token'.
-  // This might need to be adjusted based on how the login page stores it.
-  const token = localStorage.getItem('auth_token');
-  if (token) {
-    return {
-      'Authorization': `Token ${token}`, // Using 'Token' scheme, common for DRF.
-      'Content-Type': 'application/json'
-    };
-  }
-  console.warn("Auth token is not available. API calls might fail.");
-  return { 'Content-Type': 'application/json' };
-};
-
+import moment from 'moment-jalaali';
+import api from '~/services/api'; // Import the centralized API service
 
 // State for the current view
 const currentSection = ref('phone-check'); // 'phone-check', 'signup', or 'purchase'
@@ -162,31 +143,24 @@ const checkPhoneNumber = async () => {
     }
     isPhoneNumberInvalid.value = false;
 
-    const response = await axios.get(`${API_BASE_URL}/verify-phone/`, {
-      params: { phone_number: phoneNumber.value },
-      headers: getAuthHeaders()
-    });
+    const response = await api.verifyPhone(phoneNumber.value);
 
     // User found
     const customer = response.data;
     customerId.value = customer.id;
     customerNameToDisplay.value = customer.full_name;
-    // Assuming the API provides a field for the available discount.
-    // If not present, it will default to 0.
     availableDiscount.value = customer.available_discount_amount || 0;
-    checkBirthday(customer); // Pass the customer object from the API
+    checkBirthday(customer);
     currentSection.value = 'purchase';
     phoneCheckMessage.value = '';
 
   } catch (error) {
-    // The user mentioned checking for a "Not Found" message. A 404 status is the standard RESTful way to handle this.
     if (error.response && (error.response.status === 404 || (error.response.data && error.response.data.detail === "Not Found"))) {
       // New user, go to signup page
       signupPhoneNumber.value = phoneNumber.value;
       currentSection.value = 'signup';
       phoneCheckMessage.value = '';
     } else {
-      // Handle other errors (e.g., network error, server error)
       console.error('Error checking phone number:', error);
       phoneCheckMessage.value = 'خطا در برقراری ارتباط با سرور. لطفاً دوباره تلاش کنید.';
     }
@@ -226,7 +200,6 @@ const signup = async () => {
       return;
     }
 
-    // Convert date from Persian Date Picker (jYYYY/jMM/jDD) to ISO format (YYYY-MM-DD) for the API
     const birthDateForAPI = moment(signupBirthDate.value, 'jYYYY/jMM/jDD').format('YYYY-MM-DD');
 
     const payload = {
@@ -235,9 +208,7 @@ const signup = async () => {
       birth_date: birthDateForAPI
     };
 
-    const response = await axios.post(`${API_BASE_URL}/costumers/register`, payload, {
-      headers: getAuthHeaders()
-    });
+    const response = await api.registerCustomer(payload);
 
     // Handle successful registration
     const newCustomer = response.data;
@@ -245,16 +216,15 @@ const signup = async () => {
 
     signupMessage.value = 'ثبت‌نام با موفقیت انجام شد!';
 
-    // After signup, move to the purchase section for the first purchase
+    // After signup, move to the purchase section
     customerNameToDisplay.value = newCustomer.full_name;
-    purchaseAmount.value = signupFirstPurchaseAmount.value; // Carry over the first purchase amount
-    availableDiscount.value = 0; // New users have no discount available yet
+    purchaseAmount.value = signupFirstPurchaseAmount.value;
+    availableDiscount.value = 0;
     currentSection.value = 'purchase';
 
   } catch (error) {
     console.error('Error during signup:', error);
     if (error.response && error.response.data) {
-        // Attempt to display specific server-side validation errors
         const errorMessages = Object.values(error.response.data).flat();
         signupMessage.value = `خطا: ${errorMessages.join(' ')}`;
     } else {
@@ -269,7 +239,7 @@ const signup = async () => {
 const customerNameToDisplay = ref('');
 const purchaseAmount = ref(null);
 const useDiscount = ref(false);
-const availableDiscount = ref(5000); // Sample discount
+const availableDiscount = ref(5000);
 const purchaseMessage = ref('');
 
 const finalPrice = computed(() => {
@@ -287,14 +257,11 @@ const birthdayDiscountMessage = ref('');
 const triggerConfetti = () => {
     const birthdayEffectContainer = document.getElementById('birthday-effect');
     if (!birthdayEffectContainer) return;
-
     birthdayEffectContainer.style.display = 'block';
-
     const message = document.createElement('div');
     message.className = 'birthday-message';
     message.textContent = 'تولدت مبارک!';
     birthdayEffectContainer.appendChild(message);
-
     for (let i = 0; i < 100; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
@@ -303,7 +270,6 @@ const triggerConfetti = () => {
         confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
         birthdayEffectContainer.appendChild(confetti);
     }
-
     setTimeout(() => {
         birthdayEffectContainer.innerHTML = '';
         birthdayEffectContainer.style.display = 'none';
@@ -312,15 +278,11 @@ const triggerConfetti = () => {
 
 const checkBirthday = (user) => {
   const today = moment();
-  // The API sends 'birth_date' in 'YYYY-MM-DD' format.
-  // The old mock data used 'birthDate' in 'jYYYY/jMM/jDD' format. We adapt to the API.
   if (!user.birth_date) {
       isBirthday.value = false;
       return;
   }
-  // Moment.js can parse the ISO 8601 'YYYY-MM-DD' format automatically.
   const userBirthDate = moment(user.birth_date, 'YYYY-MM-DD');
-
   if (today.jMonth() === userBirthDate.jMonth() && today.jDate() === userBirthDate.jDate()) {
     isBirthday.value = true;
     birthdayDiscountMessage.value = 'تولدت مبارک! یک تخفیف ویژه برای شما داریم.';
@@ -341,17 +303,14 @@ const purchase = async () => {
     }
 
     const payload = {
-      costumer: customerId.value, // The customer ID stored from the previous step
-      price: finalPrice.value,    // The final price after any discount is applied
+      costumer: customerId.value,
+      price: finalPrice.value,
     };
 
-    await axios.post(`${API_BASE_URL}/purchase/`, payload, {
-      headers: getAuthHeaders()
-    });
+    await api.createPurchase(payload);
 
     purchaseMessage.value = `خرید با موفقیت ثبت شد! مبلغ نهایی: ${finalPrice.value} تومان`;
 
-    // After a successful purchase, reset the entire state to be ready for the next customer.
     setTimeout(() => {
       currentSection.value = 'phone-check';
       phoneNumber.value = '';
@@ -368,7 +327,7 @@ const purchase = async () => {
       birthDatePreview.value = '';
       isBirthday.value = false;
       birthdayDiscountMessage.value = '';
-      customerId.value = null; // Also reset the customer ID
+      customerId.value = null;
     }, 2500);
   } catch (error) {
     console.error('Error during purchase:', error);
@@ -379,7 +338,6 @@ const purchase = async () => {
         purchaseMessage.value = 'خطا در ثبت خرید. لطفاً دوباره تلاش کنید.';
     }
   } finally {
-    // Reset the purchasing state after the message has been shown for a bit
     setTimeout(() => { isPurchasing.value = false; }, 2500);
   }
 };

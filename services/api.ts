@@ -24,7 +24,7 @@ export default {
   },
 
   getCities(provinceId: number) {
-    return iranPlacesApiClient.get(`/provinces/${provinceId}/cities`);
+    return iranPlacesApiClient.get(`/provinces/id/${provinceId}/cities`);
   },
 
   login(userData: any) {

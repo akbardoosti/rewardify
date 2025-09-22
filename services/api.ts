@@ -17,10 +17,10 @@ const iranPlacesApiClient = axios.create({
 // Add a request interceptor to automatically add the auth token to requests
 apiClient.interceptors.request.use(config => {
   // Retrieve the token from localStorage
-  const token = localStorage.getItem('auth_token');
+  const token = localStorage.getItem('access_token');
   if (token) {
     // Set the Authorization header if the token exists
-    config.headers.Authorization = `Token ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 }, error => {

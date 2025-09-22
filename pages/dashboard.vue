@@ -195,7 +195,8 @@ const signup = async () => {
     isSignupBirthDateInvalid.value = !signupBirthDate.value;
     isSignupFirstPurchaseAmountInvalid.value = !signupFirstPurchaseAmount.value;
 
-    if (isSignupFullNameInvalid.value || isSignupBirthDateInvalid.value || isSignupFirstPurchaseAmountInvalid.value) {
+    if (isSignupFullNameInvalid.value || isSignupBirthDateInvalid.value
+      || isSignupFirstPurchaseAmountInvalid.value) {
       signupMessage.value = 'لطفاً تمام فیلدها را پر کنید.';
       return;
     }
@@ -205,7 +206,8 @@ const signup = async () => {
     const payload = {
       full_name: signupFullName.value,
       phone_number: signupPhoneNumber.value,
-      birth_date: birthDateForAPI
+      birth_date: birthDateForAPI,
+      first_purchase_amount: signupFirstPurchaseAmount.value
     };
 
     const response = await api.registerCustomer(payload);
@@ -303,8 +305,9 @@ const purchase = async () => {
     }
 
     const payload = {
-      costumer: customerId.value,
-      price: finalPrice.value,
+      customer_id: customerId.value,
+      amount: finalPrice.value,
+      use_discount: false
     };
 
     await api.createPurchase(payload);
@@ -486,6 +489,9 @@ button:hover:not(:disabled) {
     to {
         opacity: 1;
     }
+}
+.pdp-icon.pdp-pointer {
+  display: none;
 }
 
 #discount-container {

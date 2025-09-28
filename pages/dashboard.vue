@@ -312,8 +312,8 @@ const purchase = async () => {
 
     const payload = {
       customer_id: customerId.value,
-      amount: finalPrice.value,
-      use_discount: false
+      amount: purchaseAmount.value,
+      use_discount: useDiscount.value
     };
 
     await api.createPurchase(payload);

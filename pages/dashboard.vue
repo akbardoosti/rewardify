@@ -95,7 +95,7 @@
 
             <div id="discount-container" style="display: flex; align-items: center; gap: 0.7rem;">
                 <input type="checkbox" id="use_discount" name="use_discount" v-model="useDiscount">
-                <label for="use_discount">استفاده از تخفیف (<span id="available_discount">{{ availableDiscount }}</span>)</label>
+                <label for="use_discount">استفاده از تخفیف (<span id="available_discount">{{ totalDiscount }}</span>)</label>
                 <span class="unit">تومان</span>
             </div>
             <div id="birthday-discount-message" v-if="isBirthday" style="color: #ff4081; text-align: center; margin-top: 1rem; font-weight: bold;">
@@ -145,12 +145,26 @@ const checkPhoneNumber = async () => {
 
     const response = await api.verifyPhone(phoneNumber.value);
 
-    // User found
+    // User found, now get their discount info
     const customer = response.data;
     customerId.value = customer.id;
-    customerNameToDisplay.value = customer.full_name;
-    availableDiscount.value = customer.available_discount_amount || 0;
-    checkBirthday(customer);
+
+    // Fetch discount information
+    const discountResponse = await api.getCustomerDiscount(customer.id);
+    const discountData = discountResponse.data;
+
+    customerNameToDisplay.value = discountData.full_name;
+    availableDiscount.value = discountData.available_discount || 0;
+    isBirthday.value = discountData.is_birthday || false;
+    birthdayDiscount.value = discountData.birthday_discount || 0;
+
+    if (isBirthday.value) {
+        birthdayDiscountMessage.value = 'تولدت مبارک! یک تخفیف ویژه برای شما داریم.';
+        triggerConfetti();
+    } else {
+        birthdayDiscountMessage.value = '';
+    }
+
     currentSection.value = 'purchase';
     phoneCheckMessage.value = '';
 
@@ -241,12 +255,21 @@ const signup = async () => {
 const customerNameToDisplay = ref('');
 const purchaseAmount = ref(null);
 const useDiscount = ref(false);
-const availableDiscount = ref(5000);
+const availableDiscount = ref(0);
+const birthdayDiscount = ref(0);
 const purchaseMessage = ref('');
+
+const totalDiscount = computed(() => {
+    let total = availableDiscount.value || 0;
+    if (isBirthday.value && birthdayDiscount.value) {
+        total += birthdayDiscount.value;
+    }
+    return total;
+});
 
 const finalPrice = computed(() => {
   if (useDiscount.value) {
-    const price = (purchaseAmount.value || 0) - availableDiscount.value;
+    const price = (purchaseAmount.value || 0) - totalDiscount.value;
     return price > 0 ? price : 0;
   }
   return purchaseAmount.value;
@@ -276,23 +299,6 @@ const triggerConfetti = () => {
         birthdayEffectContainer.innerHTML = '';
         birthdayEffectContainer.style.display = 'none';
     }, 4000);
-};
-
-const checkBirthday = (user) => {
-  const today = moment();
-  if (!user.birth_date) {
-      isBirthday.value = false;
-      return;
-  }
-  const userBirthDate = moment(user.birth_date, 'YYYY-MM-DD');
-  if (today.jMonth() === userBirthDate.jMonth() && today.jDate() === userBirthDate.jDate()) {
-    isBirthday.value = true;
-    birthdayDiscountMessage.value = 'تولدت مبارک! یک تخفیف ویژه برای شما داریم.';
-    triggerConfetti();
-  } else {
-    isBirthday.value = false;
-    birthdayDiscountMessage.value = '';
-  }
 };
 
 const purchase = async () => {

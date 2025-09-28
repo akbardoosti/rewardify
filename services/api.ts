@@ -72,5 +72,9 @@ export default {
 
   createPurchase(purchaseData: any) {
     return apiClient.post('/purchase/', purchaseData);
-  }
+  },
+
+  getCustomerDiscount(customerId: number) {
+    return apiClient.get(`/costumers/${customerId}/discount`);
+  },
 };

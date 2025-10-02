@@ -29,7 +29,7 @@ apiClient.interceptors.request.use(config => {
 
 export default {
   registerUser(userData: any) {
-    return apiClient.post('/users/', userData);
+    return apiClient.post('/shops/', userData);
   },
 
   getProvinces() {
@@ -61,7 +61,7 @@ export default {
   // === Dashboard Workflow API Functions ===
 
   verifyPhone(phoneNumber: string) {
-    return apiClient.get('/verify-phone/', {
+    return apiClient.get('/phones/verify/', {
       params: { phone_number: phoneNumber }
     });
   },

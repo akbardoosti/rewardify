@@ -95,6 +95,24 @@
                     <input type="password" id="confirmPassword" v-model="form.confirmPassword" required>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_purchase_discount">تخفیف اولین خرید (تومان)</label>
+                        <input type="number" id="first_purchase_discount" v-model.number="form.first_purchase_discount" placeholder="مثال: 10000">
+                    </div>
+                    <div class="form-group">
+                        <label for="purchase_discount">تخفیف خرید (%)</label>
+                        <input type="number" id="purchase_discount" v-model.number="form.purchase_discount" placeholder="مثال: 15">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birthday_discount">تخفیف تولد (%)</label>
+                        <input type="number" id="birthday_discount" v-model.number="form.birthday_discount" placeholder="مثال: 20">
+                    </div>
+                </div>
+
                 <div class="checkbox-group">
                     <input type="checkbox" id="terms" name="terms" required>
                     <label for="terms">
@@ -144,6 +162,9 @@ const form = reactive({
   password: '',
   email: '',
   confirmPassword: '',
+  first_purchase_discount: null,
+  purchase_discount: null,
+  birthday_discount: null,
 })
 
 onMounted(async () => {
@@ -187,10 +208,13 @@ const register = async () => {
     city: form.city,
     province: form.province,
     address: form.storeAddress,
+    first_purchase_discount: form.first_purchase_discount,
+    purchase_discount: form.purchase_discount,
+    birthday_discount: form.birthday_discount,
   }
 
   try {
-    await api.registerUser(userData);
+    await api.registerShop(userData);
     toast.add({ severity: 'success', summary: 'موفقیت', detail: 'ثبت نام با موفقیت انجام شد', life: 3000 });
     router.push('/login');
   } catch (error) {

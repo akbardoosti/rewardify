@@ -28,7 +28,7 @@ apiClient.interceptors.request.use(config => {
 });
 
 export default {
-  registerUser(userData: any) {
+  registerShop(userData: any) {
     return apiClient.post('/shops/', userData);
   },
 

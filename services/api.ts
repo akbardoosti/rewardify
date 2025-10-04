@@ -77,4 +77,10 @@ export default {
   getCustomerDiscount(customerId: number) {
     return apiClient.get(`/costumers/${customerId}/discount`);
   },
+
+  downloadReports() {
+    return apiClient.get('/reports/', {
+      responseType: 'blob', // Important for handling file downloads
+    });
+  },
 };

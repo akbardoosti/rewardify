@@ -19,6 +19,11 @@
 definePageMeta({
   layout: 'vendor'
 })
+
+useHead({
+  title: 'پاداشینو - گزارشات'
+})
+
 import { ref } from 'vue';
 import api from '~/services/api';
 import Panel from 'primevue/panel';

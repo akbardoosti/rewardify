@@ -105,6 +105,11 @@
 definePageMeta({
   layout: 'vendor'
 })
+
+useHead({
+  title: 'پاداشینو - خانه'
+})
+
 import { ref, computed, watch } from 'vue'
 import Menubar from 'primevue/menubar';
 import Avatar from 'primevue/avatar';

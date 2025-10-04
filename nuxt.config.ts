@@ -14,7 +14,7 @@ export default defineNuxtConfig({
       }
     },
     components: {
-      include: ['Toast']
+      include: ['*']
     }
   },
   app: {

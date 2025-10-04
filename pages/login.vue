@@ -3,7 +3,7 @@
         <Toast />
         <div class="login-section">
             <div class="logo">
-                <div class="logo-icon">س</div>
+                <div class="logo-icon">پ</div>
                 <div class="logo-text">پاداشینو</div>
             </div>
 

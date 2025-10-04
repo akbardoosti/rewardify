@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="left-section">
-            <div class="logo">YAKABOO</div>
+            <div class="logo">پاداشینو</div>
             <div class="welcome-text">
-                <h1>دنیایی از خودشناسی<br>و آرامش را برای خود<br>کشف کنید</h1>
+                <h1>به پاداشینو بپیوندید<br>و فروش خود را<br>افزایش دهید</h1>
             </div>
             <div class="illustration">
                 <div class="floating-elements">
@@ -25,7 +25,7 @@
 
         <div class="right-section">
             <div class="form-header">
-                <h2>ثبت نام فروشنده در یاکابو</h2>
+                <h2>ثبت نام فروشنده در پاداشینو</h2>
             </div>
 
             <form @submit.prevent="register" style="overflow-y: auto;max-height: 80vh;">
@@ -43,7 +43,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="storeName">نام فروشگاه (اجباری)</label>
-                        <input type="text" id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ یاکابو" required>
+                        <input type="text" id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ پاداشینو" required>
                     </div>
                     <div class="form-group">
                         <label for="salesArea">حوزه فروش (اجباری)</label>

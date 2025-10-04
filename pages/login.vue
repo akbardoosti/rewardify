@@ -4,7 +4,7 @@
         <div class="login-section">
             <div class="logo">
                 <div class="logo-icon">س</div>
-                <div class="logo-text">سلورا</div>
+                <div class="logo-text">پاداشینو</div>
             </div>
 
             <h1 class="welcome-title">خوش آمدید</h1>
@@ -96,7 +96,7 @@
             </div>
 
             <div class="footer">
-                <div>حق نشر © ۱۴۰۳ سلورا شرکت تجاری.</div>
+                <div>حق نشر © ۱۴۰۳ پاداشینو شرکت تجاری.</div>
                 <div>سیاست حریم خصوصی</div>
             </div>
         </div>

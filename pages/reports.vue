@@ -9,14 +9,16 @@
           در صورتی که نیاز به دریافت گزارشات کاملتر دارید میتوانید نسخه پرو را خریداری فرمایید.
         </p>
       </Panel>
-      <div class="p-mt-4">
+      <div class="p-mt-4 mt-3">
         <Button label="دانلود گزارشات" icon="pi pi-download" @click="download" />
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
+definePageMeta({
+  layout: 'vendor'
+})
 import { ref } from 'vue';
 import api from '~/services/api';
 import Panel from 'primevue/panel';

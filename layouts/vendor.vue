@@ -48,7 +48,7 @@
   </header>
 
   <!-- Headless Drawer for Mobile -->
-  <Drawer v-model:visible="drawerVisible" position="right" :pt="{ transition: { enterFromClass: 'hidden', enterActiveClass: '', leaveToClass: 'hidden', leaveActiveClass: '' } }">
+  <Drawer v-model:visible="drawerVisible" position="left" >
     <template #container="{ closeCallback }">
       <div class="flex flex-col h-full bg-white text-gray-700">
         <!-- Header -->

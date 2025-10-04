@@ -1,19 +1,36 @@
 <template>
   <div>
     <header class="brand-header-bar">
-        <div class="brand-header-bar-content">
-            <span class="brand-logo">
-              <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="48" height="48" rx="14" fill="#6366f1"/>
-                <path d="M24 14c-2.5 0-4.5 2-4.5 4.5S21.5 23 24 23s4.5-2 4.5-4.5S26.5 14 24 14zm0 2c1.4 0 2.5 1.1 2.5 2.5S25.4 21 24 21s-2.5-1.1-2.5-2.5S22.6 16 24 16zm-8 7c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-7c0-1.1-.9-2-2-2H16zm0 2h16v7H16v-7z"
-                      fill="#fff"/>
-              </svg>
-            </span>
-            <span class="brand-title">Rewardify</span>
-            <span style="flex:1"></span>
-            <span class="brand-tagline">پاداش وفاداری شما با <b>Rewardify</b></span>
-        </div>
+      <Menubar :model="items">
+        <template #start>
+          <div class="brand-logo">
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" rx="14" fill="#6366f1"/>
+              <path d="M24 14c-2.5 0-4.5 2-4.5 4.5S21.5 23 24 23s4.5-2 4.5-4.5S26.5 14 24 14zm0 2c1.4 0 2.5 1.1 2.5 2.5S25.4 21 24 21s-2.5-1.1-2.5-2.5S22.6 16 24 16zm-8 7c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-7c0-1.1-.9-2-2-2H16zm0 2h16v7H16v-7z"
+                    fill="#fff"/>
+            </svg>
+            <div class="flex flex-col">
+              <span class="brand-title">پاداشینو</span>
+              <span class="text-xs text-violet-500">پاداش وفاداری شما</span>
+            </div>
+          </div>
+          <div class="p-3"></div>
+        </template>
+        <template #item="{ item, props }">
+          <a class="flex items-center p-2 cursor-pointer" v-bind="props.action">
+            <span :class="item.icon" />
+            <span class="ml-2">{{ item.label }}</span>
+          </a>
+        </template>
+        <template #end>
+          <div class="flex items-center gap-2">
+            <Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" shape="circle" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
+            <Menu ref="menu" id="overlay_menu" :model="userMenuItems" :popup="true" />
+          </div>
+        </template>
+      </Menubar>
     </header>
+
     <div id="birthday-effect" style="display:none;"></div>
     <!-- Phone Check Page -->
     <section id="phone-check-section" v-if="currentSection === 'phone-check'">
@@ -117,9 +134,41 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import Menubar from 'primevue/menubar';
+import Avatar from 'primevue/avatar';
+import Menu from 'primevue/menu';
+import Button from 'primevue/button';
 import DatePicker from '@alireza-ab/vue3-persian-datepicker';
 import moment from 'moment-jalaali';
 import api from '~/services/api'; // Import the centralized API service
+
+const menu = ref();
+const items = ref([
+    {
+        label: 'خانه',
+        icon: 'pi pi-home'
+    },
+    {
+        label: 'گزارشات',
+        icon: 'pi pi-chart-bar'
+    }
+]);
+
+const userMenuItems = ref([
+    {
+        label: 'پروفایل',
+        icon: 'pi pi-user'
+    },
+    {
+        label: 'خروج',
+        icon: 'pi pi-power-off'
+    }
+]);
+
+const toggle = (event) => {
+    menu.value.toggle(event);
+};
+
 
 // State for the current view
 const currentSection = ref('phone-check'); // 'phone-check', 'signup', or 'purchase'
@@ -548,50 +597,27 @@ input[type="checkbox"] {
         opacity: 1;
     }
 }
-
 .brand-header-bar {
-    width: 100%;
-    background: #f7f5f2;
-    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.07);
-    padding: 0.3rem 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    margin-bottom: 0;
-    height: 56px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  right: 0;
 }
 
-.brand-header-bar-content {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: flex-start;
-    direction: rtl;
-    gap: 0.35rem;
-    margin: 0;
-    padding: 0.2rem 2rem;
-    height: 100%;
+.brand-header-bar .p-menubar {
+    background-color: #f7f5f2 !important;
+    border-radius: 0;
+    border: none;
+    height: 60px;
 }
 
-.brand-header-bar .brand-logo svg {
-    width: 24px;
-    height: 24px;
-}
-
-.brand-header-bar .brand-logo {
-    margin: 0;
-    padding: 0;
-    background: none;
-    box-shadow: none;
+.brand-logo {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-right: 1.2rem;
+    gap: 0.5rem;
 }
 
-.brand-header-bar .brand-title {
+.brand-title {
     font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
     font-size: 1.25rem;
     font-weight: 900;
@@ -601,20 +627,7 @@ input[type="checkbox"] {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -1px;
-    margin: 0 0.2rem 0 0.2rem;
     text-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
-    vertical-align: middle;
-    margin-right: 0.3rem;
-}
-
-.brand-header-bar .brand-tagline {
-    font-size: 1.18rem;
-    color: #6366f1;
-    font-weight: bold;
-    letter-spacing: -0.2px;
-    opacity: 0.7;
-    text-align: center;
-    margin-left: 1.2rem;
 }
 #signup_birth_date.persian-date-input {
     background-image: url('data:image/svg+xml;utf8,<svg fill="%236366f1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1zm-7 5h5v5h-5z"/></svg>');
@@ -656,25 +669,16 @@ section {
         padding: 2rem 0.5rem 1.5rem 0.5rem;
     }
 
-    .brand-header-bar-content {
-        gap: 0.3rem;
-        padding: 0.1rem 0.7rem;
+    .brand-header-bar .p-menubar {
+        height: 55px !important;
     }
 
-    .brand-header-bar .brand-title {
-        font-size: 0.98rem;
-    }
-
-    .brand-header-bar .brand-tagline {
-        font-size: 1.05rem;
-    }
-
-    .brand-header-bar {
-        height: 44px;
+    .brand-title {
+        font-size: 1.1rem;
     }
 
     section {
-        margin-top: 54px !important;
+        margin-top: 60px !important;
     }
 
     .input-with-unit {
@@ -683,14 +687,6 @@ section {
 
     .unit {
         font-size: 0.93rem;
-    }
-
-    .brand-header-bar .brand-logo {
-        margin-right: 0.5rem;
-    }
-
-    .brand-header-bar .brand-tagline {
-        margin-left: 0.5rem;
     }
 }
 

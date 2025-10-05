@@ -111,14 +111,9 @@ useHead({
 })
 
 import { ref, computed, watch } from 'vue'
-import Menubar from 'primevue/menubar';
-import Avatar from 'primevue/avatar';
-import Menu from 'primevue/menu';
-import Button from 'primevue/button';
 import DatePicker from '@alireza-ab/vue3-persian-datepicker';
 import moment from 'moment-jalaali';
 import api from '~/services/api'; // Import the centralized API service
-
 
 // State for the current view
 const currentSection = ref('phone-check'); // 'phone-check', 'signup', or 'purchase'

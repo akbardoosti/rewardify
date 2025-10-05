@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://188.165.24.192:7000/api/v1',
+  baseURL: 'http://185.130.50.241:7000/api/v1',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -71,7 +71,7 @@ export default {
   },
 
   createPurchase(purchaseData: any) {
-    return apiClient.post('/purchase/', purchaseData);
+    return apiClient.post('/purchases/', purchaseData);
   },
 
   getCustomerDiscount(customerId: number) {

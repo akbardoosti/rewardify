@@ -107,6 +107,10 @@ definePageMeta({
   layout: 'vendor'
 });
 
+useHead({
+  title: 'پاداشینو - ویرایش اطلاعات کاربری'
+})
+
 const toast = useToast();
 const loading = ref(false);
 

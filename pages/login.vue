@@ -111,6 +111,9 @@ import api from '~/services/api';
 import ProgressSpinner from 'primevue/progressspinner';
 import Toast from 'primevue/toast';
 
+useHead({
+  title: 'پاداشینو - صفحه ورود'
+})
 // Disable the default layout for this page
 definePageMeta({
   layout: false,

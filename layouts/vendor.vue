@@ -25,7 +25,20 @@
       <template #end>
         <div class="flex items-center gap-2">
           <Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" shape="circle" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
-          <Menu ref="menu" id="overlay_menu" :model="userMenuItems" :popup="true" />
+          <Menu ref="menu" id="overlay_menu" :model="userMenuItems" :popup="true" >
+            <template #item="{ item, props }">
+              <router-link v-if="item.to" v-slot="{ href, navigate }" :to="item.to" custom>
+                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                  <span :class="item.icon" />
+                  <span class="ml-2">{{ item.label }}</span>
+                </a>
+              </router-link>
+              <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+                <span :class="item.icon" />
+                <span class="ml-2">{{ item.label }}</span>
+              </a>
+            </template>
+          </Menu>
         </div>
       </template>
     </Menubar>

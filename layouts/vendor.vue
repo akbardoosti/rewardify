@@ -180,7 +180,8 @@ const handleLogout = async () => {
   } finally {
     localStorage.removeItem('access_token');
     localStorage.removeItem('shopInfo');
-    await router.push('/');
+    // Redirect directly to the login page to avoid intermediate routes.
+    await router.push('/login');
   }
 };
 

@@ -104,7 +104,8 @@
 
 <script setup>
 definePageMeta({
-  layout: 'vendor'
+  layout: 'vendor',
+  ssr: false,
 })
 
 useHead({

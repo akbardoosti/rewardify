@@ -74,7 +74,7 @@
             <!-- Profile Section -->
             <div class="flex flex-col items-center py-4">
                 <Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="large" shape="circle" />
-                <span class="font-bold mt-2">کاربر تست</span>
+                <span class="font-bold mt-2">{{ sellerName }}</span>
             </div>
             <hr class="my-4" />
             <!-- Navigation Links -->
@@ -154,14 +154,23 @@ import Menubar from "primevue/menubar";
 import Avatar from "primevue/avatar";
 import Drawer from "primevue/drawer";
 import Button from "primevue/button";
-import {ref, onMounted, onUnmounted} from "vue";
+import {ref, onMounted, onUnmounted, computed} from "vue";
 import api from '~/services/api';
+import { decrypt } from '~/services/crypto';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const menu = ref();
 const drawerVisible = ref(false);
 const isMobile = ref(false);
+const shopInfo = ref(null);
+
+const sellerName = computed(() => {
+  if (shopInfo.value && shopInfo.value.seller_first_name) {
+    return `${shopInfo.value.seller_first_name} ${shopInfo.value.seller_last_name || ''}`;
+  }
+  return 'کاربر'; // Default name
+});
 
 const handleLogout = async () => {
   try {
@@ -171,7 +180,8 @@ const handleLogout = async () => {
   } finally {
     localStorage.removeItem('access_token');
     localStorage.removeItem('shopInfo');
-    await router.push('/');
+    // Redirect directly to the login page to avoid intermediate routes.
+    await router.push('/login');
   }
 };
 
@@ -182,6 +192,12 @@ const checkScreenSize = () => {
 };
 
 onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const encryptedShopInfo = localStorage.getItem('shopInfo');
+    if (encryptedShopInfo) {
+      shopInfo.value = decrypt(encryptedShopInfo);
+    }
+  }
   checkScreenSize();
   window.addEventListener('resize', checkScreenSize);
 });

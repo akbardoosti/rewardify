@@ -108,6 +108,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import api from '~/services/api';
+import { encrypt } from '~/services/crypto';
 import ProgressSpinner from 'primevue/progressspinner';
 import Toast from 'primevue/toast';
 
@@ -143,12 +144,13 @@ const login = async () => {
     });
 
     if (response.data.access_token) {
-      localStorage.setItem('access_token', response.data.access_token);
+      // Encrypt and store the access token
+      localStorage.setItem('access_token', encrypt(response.data.access_token));
 
-      // Fetch and store shop info
+      // Fetch, encrypt, and store shop info
       try {
         const shopResponse = await api.getShop();
-        localStorage.setItem('shopInfo', JSON.stringify(shopResponse.data));
+        localStorage.setItem('shopInfo', encrypt(shopResponse.data));
       } catch (shopError) {
         console.error('Failed to fetch shop info after login:', shopError);
         toast.add({ severity: 'warn', summary: 'هشدار', detail: 'ورود موفق بود اما اطلاعات فروشگاه دریافت نشد', life: 4000 });

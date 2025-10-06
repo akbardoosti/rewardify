@@ -76,11 +76,15 @@
             <hr class="my-4" />
             <!-- User Menu Items -->
             <ul class="list-none p-0 m-0">
-               <li v-for="item in userMenuItems" :key="item.label">
-                <a href="#" class="flex items-center p-3 rounded-md hover:bg-gray-100">
+              <li v-for="item in userMenuItems" :key="item.label">
+                <NuxtLink v-if="item.to" :to="item.to" class="flex items-center p-3 rounded-md hover:bg-gray-100 w-full text-right" @click="drawerVisible = false">
                   <span :class="item.icon" class="text-xl"></span>
                   <span class="ml-3 font-medium">{{ item.label }}</span>
-                </a>
+                </NuxtLink>
+                <button v-else-if="item.command" @click="item.command" class="flex items-center p-3 rounded-md hover:bg-gray-100 w-full text-right">
+                  <span :class="item.icon" class="text-xl"></span>
+                  <span class="ml-3 font-medium">{{ item.label }}</span>
+                </button>
               </li>
             </ul>
         </div>
@@ -138,10 +142,25 @@ import Avatar from "primevue/avatar";
 import Drawer from "primevue/drawer";
 import Button from "primevue/button";
 import {ref, onMounted, onUnmounted} from "vue";
+import api from '~/services/api';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const menu = ref();
 const drawerVisible = ref(false);
 const isMobile = ref(false);
+
+const handleLogout = async () => {
+  try {
+    await api.logout();
+  } catch (error) {
+    console.error("Failed to logout from server:", error);
+  } finally {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('shopInfo');
+    await router.push('/');
+  }
+};
 
 const checkScreenSize = () => {
   if (typeof window !== 'undefined') {
@@ -173,11 +192,13 @@ const items = ref([
 const userMenuItems = ref([
   {
     label: 'پروفایل',
-    icon: 'pi pi-user'
+    icon: 'pi pi-user',
+    to: '/profile'
   },
   {
     label: 'خروج',
-    icon: 'pi pi-power-off'
+    icon: 'pi pi-power-off',
+    command: handleLogout
   }
 ]);
 const toggle = (event) => {

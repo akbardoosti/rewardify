@@ -83,4 +83,16 @@ export default {
       responseType: 'blob', // Important for handling file downloads
     });
   },
+
+  logout() {
+    return apiClient.post('/authentication/logout/');
+  },
+
+  getShop() {
+    return apiClient.get('/shops/');
+  },
+
+  updateShop(shopData: any) {
+    return apiClient.put('/shops/', shopData);
+  },
 };

@@ -111,6 +111,9 @@ import api from '~/services/api';
 import ProgressSpinner from 'primevue/progressspinner';
 import Toast from 'primevue/toast';
 
+useHead({
+  title: 'پاداشینو - صفحه ورود'
+})
 // Disable the default layout for this page
 definePageMeta({
   layout: false,
@@ -141,8 +144,18 @@ const login = async () => {
 
     if (response.data.access_token) {
       localStorage.setItem('access_token', response.data.access_token);
+
+      // Fetch and store shop info
+      try {
+        const shopResponse = await api.getShop();
+        localStorage.setItem('shopInfo', JSON.stringify(shopResponse.data));
+      } catch (shopError) {
+        console.error('Failed to fetch shop info after login:', shopError);
+        toast.add({ severity: 'warn', summary: 'هشدار', detail: 'ورود موفق بود اما اطلاعات فروشگاه دریافت نشد', life: 4000 });
+      }
+
       toast.add({ severity: 'success', summary: 'موفق', detail: 'با موفقیت وارد شدید', life: 3000 });
-      router.push('/dashboard');
+      await router.push('/dashboard');
     }
   } catch (error) {
     if (error.response && error.response.data && error.response.data.detail === 'Incorrect username or password') {

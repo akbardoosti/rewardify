@@ -143,6 +143,10 @@ definePageMeta({
   layout: 'default'
 })
 
+useHead({
+  title: 'پاداشینو - صفحه ثبت‌نام'
+})
+
 const router = useRouter()
 const toast = useToast()
 const provinces = ref([]);

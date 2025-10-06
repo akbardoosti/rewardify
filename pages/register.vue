@@ -97,18 +97,18 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="first_purchase_discount">تخفیف اولین خرید (تومان)</label>
+                        <label for="first_purchase_discount">تخفیف اولین خرید(%)</label>
                         <input type="number" id="first_purchase_discount" v-model.number="form.first_purchase_discount" placeholder="مثال: 10000">
                     </div>
                     <div class="form-group">
-                        <label for="purchase_discount">تخفیف خرید (%)</label>
+                        <label for="purchase_discount">تخفیف خریدهای بعدی(%)</label>
                         <input type="number" id="purchase_discount" v-model.number="form.purchase_discount" placeholder="مثال: 15">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="birthday_discount">تخفیف تولد (%)</label>
+                        <label for="birthday_discount">تخفیف روز تولد(%)</label>
                         <input type="number" id="birthday_discount" v-model.number="form.birthday_discount" placeholder="مثال: 20">
                     </div>
                 </div>

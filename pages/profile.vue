@@ -67,15 +67,15 @@
             <div class="md:col-span-2 pt-4">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-5">
                 <div>
-                  <label for="first_purchase_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف خرید اول (%)</label>
+                  <label for="first_purchase_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف خرید اول(%)</label>
                   <InputNumber id="first_purchase_discount" v-model="form.first_purchase_discount" mode="decimal" showButtons :min="0" :max="100" class="w-full" />
                 </div>
                 <div>
-                  <label for="purchase_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف خرید (%)</label>
+                  <label for="purchase_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف خریدهای بعدی(%)</label>
                   <InputNumber id="purchase_discount" v-model="form.purchase_discount" mode="decimal" showButtons :min="0" :max="100" class="w-full" />
                 </div>
                 <div>
-                  <label for="birthday_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف تولد (%)</label>
+                  <label for="birthday_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف روز تولد(%)</label>
                   <InputNumber id="birthday_discount" v-model="form.birthday_discount" mode="decimal" showButtons :min="0" :max="100" class="w-full" />
                 </div>
               </div>

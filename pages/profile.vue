@@ -45,16 +45,16 @@
               <InputText id="seller_last_name" v-model="form.seller_last_name" class="w-full" />
             </div>
 
-            <!-- Province -->
+            <!-- Province Dropdown -->
             <div>
               <label for="province" class="block text-sm font-medium text-gray-700 mb-1">استان</label>
-              <InputText id="province" v-model="form.province" class="w-full" />
+              <Dropdown v-model="selectedProvince" :options="provinces" filter optionLabel="name" placeholder="استان را انتخاب کنید" @change="onProvinceChange" class="w-full" />
             </div>
 
-            <!-- City -->
+            <!-- City Dropdown -->
             <div>
               <label for="city" class="block text-sm font-medium text-gray-700 mb-1">شهر</label>
-              <InputText id="city" v-model="form.city" class="w-full" />
+              <Dropdown v-model="form.city" :options="cities" filter optionLabel="name" optionValue="name" placeholder="شهر را انتخاب کنید" :disabled="!selectedProvince" class="w-full" />
             </div>
 
             <!-- Address -->
@@ -99,6 +99,7 @@ import InputNumber from 'primevue/inputnumber';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
+import Dropdown from 'primevue/dropdown';
 import api from '~/services/api';
 import { useToast } from 'primevue/usetoast';
 
@@ -107,6 +108,12 @@ definePageMeta({
 });
 
 const toast = useToast();
+const loading = ref(false);
+
+const provinces = ref([]);
+const cities = ref([]);
+const selectedProvince = ref(null);
+
 const form = ref({
   phone_number: '',
   store_name: '',
@@ -121,19 +128,53 @@ const form = ref({
   purchase_discount: 0,
   birthday_discount: 0,
 });
-const loading = ref(false);
+
+const onProvinceChange = async () => {
+  if (selectedProvince.value) {
+    form.value.city = ''; // Reset city on province change
+    cities.value = [];
+    try {
+      // @ts-ignore
+      const response = await api.getCities(selectedProvince.value.id);
+      cities.value = response.data;
+      // @ts-ignore
+      form.value.province = selectedProvince.value.name;
+    } catch (error) {
+      toast.add({ severity: 'error', summary: 'خطا', detail: 'خطا در دریافت لیست شهرها', life: 3000 });
+    }
+  }
+};
 
 const loadProfile = async () => {
   loading.value = true;
   try {
-    const response = await api.getShop();
-    // Ensure all fields are initialized, even if they are null from the API
+    const [shopResponse, provincesResponse] = await Promise.all([
+      api.getShop(),
+      api.getProvinces()
+    ]);
+
+    provinces.value = provincesResponse.data;
+    const shopData = shopResponse.data;
+
     const defaultData = {
       phone_number: '', store_name: '', category: '', email: '',
       seller_first_name: '', seller_last_name: '', city: '', province: '',
       address: '', first_purchase_discount: 0, purchase_discount: 0, birthday_discount: 0
     };
-    form.value = { ...defaultData, ...response.data };
+    form.value = { ...defaultData, ...shopData };
+
+    if (form.value.province) {
+      // @ts-ignore
+      selectedProvince.value = provinces.value.find(p => p.name === form.value.province) || null;
+      if (selectedProvince.value) {
+        // Fetch cities for the pre-selected province
+        // @ts-ignore
+        const citiesResponse = await api.getCities(selectedProvince.value.id);
+        cities.value = citiesResponse.data;
+        // The city is already set in form.value from the shop data
+      }
+    }
+
   } catch (error) {
     toast.add({ severity: 'error', summary: 'خطا', detail: 'دریافت اطلاعات پروفایل با خطا مواجه شد', life: 3000 });
   } finally {
@@ -146,7 +187,6 @@ const saveProfile = async () => {
   try {
     await api.updateShop(form.value);
     toast.add({ severity: 'success', summary: 'موفق', detail: 'پروفایل با موفقیت به‌روزرسانی شد', life: 3000 });
-    // Refresh local storage data after successful update
     const response = await api.getShop();
     localStorage.setItem('shopInfo', JSON.stringify(response.data));
   } catch (error) {
@@ -162,8 +202,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Scoped styles can be kept for component-specific overrides if needed */
-/* For example, targeting PrimeVue component's internal elements */
 :deep(.p-inputnumber-input) {
   width: 100%;
 }

@@ -190,11 +190,11 @@ const checkScreenSize = () => {
   }
 };
 
-onMounted(async () => {
+onMounted(() => {
   if (typeof window !== 'undefined') {
     const encryptedShopInfo = localStorage.getItem('shopInfo');
     if (encryptedShopInfo) {
-      shopInfo.value = await decrypt(encryptedShopInfo);
+      shopInfo.value = decrypt(encryptedShopInfo);
     }
   }
   checkScreenSize();

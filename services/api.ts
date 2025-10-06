@@ -16,10 +16,10 @@ const iranPlacesApiClient = axios.create({
 });
 
 // Add a request interceptor to automatically add the auth token to requests
-apiClient.interceptors.request.use(async (config) => {
+apiClient.interceptors.request.use((config) => {
   const encryptedToken = localStorage.getItem('access_token');
   if (encryptedToken) {
-    const token = await decrypt(encryptedToken);
+    const token = decrypt(encryptedToken);
     if (token) {
       // Set the Authorization header if the token exists and is decrypted
       config.headers.Authorization = `Bearer ${token}`;

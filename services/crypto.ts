@@ -1,42 +1,51 @@
-/**
- * Encrypts data by sending it to the server-side encryption endpoint.
- * @param data The data to encrypt.
- * @returns A promise that resolves with the encrypted string.
- */
-export const encrypt = async (data: any): Promise<string> => {
-  try {
-    const response = await $fetch('/api/encrypt', {
-      method: 'POST',
-      body: { data },
-    });
-    // @ts-ignore
-    return response.encryptedData;
-  } catch (error) {
-    console.error('Client-side encryption call failed:', error);
-    throw new Error('Failed to encrypt data.');
+import CryptoJS from 'crypto-js';
+
+// This function retrieves the secret key from the public runtime config.
+const getSecretKey = (): string => {
+  const config = useRuntimeConfig();
+  const secretKey = config.public.cryptoSecretKey;
+
+  if (!secretKey) {
+    console.error("FATAL: Crypto secret key is not defined in public runtime config.");
+    // A fallback key is provided, but this signals a critical configuration error.
+    return 'default-fallback-key-if-not-set';
   }
+
+  return secretKey;
 };
 
 /**
- * Decrypts data by sending it to the server-side decryption endpoint.
- * @param encryptedData The encrypted string.
- * @returns A promise that resolves with the decrypted data, or null.
+ * Encrypts data synchronously using AES on the client-side.
+ * @param data The data to encrypt (can be any serializable object).
+ * @returns The encrypted string.
  */
-export const decrypt = async (encryptedData: string): Promise<any | null> => {
+export const encrypt = (data: any): string => {
+  const secretKey = getSecretKey();
+  const dataString = JSON.stringify(data);
+  return CryptoJS.AES.encrypt(dataString, secretKey).toString();
+};
+
+/**
+ * Decrypts data synchronously using AES on the client-side.
+ * @param encryptedData The encrypted string.
+ * @returns The decrypted data, or null if decryption fails.
+ */
+export const decrypt = (encryptedData: string): any | null => {
   if (!encryptedData) {
     return null;
   }
 
   try {
-    const response = await $fetch('/api/decrypt', {
-      method: 'POST',
-      body: { encryptedData },
-    });
-    // @ts-ignore
-    return response.decryptedData;
+    const secretKey = getSecretKey();
+    const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+
+    if (!decryptedData) {
+      return null;
+    }
+    return JSON.parse(decryptedData);
   } catch (error) {
-    console.error('Client-side decryption call failed:', error);
-    // Return null to handle errors gracefully, e.g., an invalid token.
+    console.error("Decryption failed. This may be due to an invalid key or corrupted data.", error);
     return null;
   }
 };

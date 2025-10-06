@@ -1,14 +1,13 @@
 import { decrypt } from '~/services/crypto';
 
-// This middleware is now async to handle the async decrypt function.
-export default defineNuxtRouteMiddleware(async (to) => {
+export default defineNuxtRouteMiddleware((to) => {
   // Ensure this logic only runs on the client where localStorage is accessible.
   if (process.server) {
     return;
   }
 
   const token = localStorage.getItem('access_token');
-  const isAuthenticated = token ? !!(await decrypt(token)) : false;
+  const isAuthenticated = token ? !!decrypt(token) : false;
 
   const publicPages = ['/login', '/register', '/verify'];
   const isTargetingPublicPage = publicPages.includes(to.path);

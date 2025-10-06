@@ -4,8 +4,10 @@ import Aura from '@primeuix/themes/aura';
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   runtimeConfig: {
-    // The secret key is now only available on the server, not exposed to the public.
-    cryptoSecretKey: process.env.CRYPTO_SECRET_KEY,
+    public: {
+      // The secret key is now exposed to the public runtime config for client-side use.
+      cryptoSecretKey: process.env.CRYPTO_SECRET_KEY,
+    },
   },
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss",  '@primevue/nuxt-module', '@vite-pwa/nuxt'],

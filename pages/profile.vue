@@ -194,8 +194,7 @@ const saveProfile = async () => {
     await api.updateShop(form.value);
     toast.add({ severity: 'success', summary: 'موفق', detail: 'پروفایل با موفقیت به‌روزرسانی شد', life: 3000 });
     const response = await api.getShop();
-    const encryptedShopInfo = await encrypt(response.data);
-    localStorage.setItem('shopInfo', encryptedShopInfo);
+    localStorage.setItem('shopInfo', encrypt(response.data));
   } catch (error) {
     toast.add({ severity: 'error', summary: 'خطا', detail: 'ذخیره اطلاعات پروفایل با خطا مواجه شد', life: 3000 });
   } finally {

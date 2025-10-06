@@ -145,14 +145,12 @@ const login = async () => {
 
     if (response.data.access_token) {
       // Encrypt and store the access token
-      const encryptedToken = await encrypt(response.data.access_token);
-      localStorage.setItem('access_token', encryptedToken);
+      localStorage.setItem('access_token', encrypt(response.data.access_token));
 
       // Fetch, encrypt, and store shop info
       try {
         const shopResponse = await api.getShop();
-        const encryptedShopInfo = await encrypt(shopResponse.data);
-        localStorage.setItem('shopInfo', encryptedShopInfo);
+        localStorage.setItem('shopInfo', encrypt(shopResponse.data));
       } catch (shopError) {
         console.error('Failed to fetch shop info after login:', shopError);
         toast.add({ severity: 'warn', summary: 'هشدار', detail: 'ورود موفق بود اما اطلاعات فروشگاه دریافت نشد', life: 4000 });

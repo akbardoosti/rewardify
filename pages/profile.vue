@@ -101,10 +101,12 @@ import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 import Dropdown from 'primevue/dropdown';
 import api from '~/services/api';
+import { encrypt } from '~/services/crypto';
 import { useToast } from 'primevue/usetoast';
 
 definePageMeta({
-  layout: 'vendor'
+  layout: 'vendor',
+  ssr: false,
 });
 
 useHead({
@@ -192,7 +194,8 @@ const saveProfile = async () => {
     await api.updateShop(form.value);
     toast.add({ severity: 'success', summary: 'موفق', detail: 'پروفایل با موفقیت به‌روزرسانی شد', life: 3000 });
     const response = await api.getShop();
-    localStorage.setItem('shopInfo', JSON.stringify(response.data));
+    const encryptedShopInfo = await encrypt(response.data);
+    localStorage.setItem('shopInfo', encryptedShopInfo);
   } catch (error) {
     toast.add({ severity: 'error', summary: 'خطا', detail: 'ذخیره اطلاعات پروفایل با خطا مواجه شد', life: 3000 });
   } finally {

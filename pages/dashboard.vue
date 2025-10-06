@@ -52,9 +52,10 @@
 
             <label for="signup_first_purchase_amount">مبلغ اولین خرید:</label>
             <div class="input-with-unit">
-                <input type="number" id="signup_first_purchase_amount" name="first_purchase_amount" min="0" required
-                       placeholder="مثلاً 100000" v-model="signupFirstPurchaseAmount"
-                       :class="{ invalid: isSignupFirstPurchaseAmountInvalid }" @input="isSignupFirstPurchaseAmountInvalid = false">
+                <input type="text" id="signup_first_purchase_amount" name="first_purchase_amount" min="0" required
+                       placeholder="مثلاً 100,000" v-model="signupFirstPurchaseAmountFormatted"
+                       :class="{ invalid: isSignupFirstPurchaseAmountInvalid }" @input="isSignupFirstPurchaseAmountInvalid = false"
+                       inputmode="numeric">
                 <span class="unit">تومان</span>
             </div>
 
@@ -75,13 +76,13 @@
             </div>
             <label for="purchase_amount">مبلغ خرید:</label>
             <div class="input-with-unit">
-                <input type="number" id="purchase_amount" name="amount" min="0" required placeholder="مثلاً 50000" v-model.number="purchaseAmount">
+                <input type="text" id="purchase_amount" name="amount" min="0" required placeholder="مثلاً 50,000" v-model="purchaseAmountFormatted" inputmode="numeric">
                 <span class="unit">تومان</span>
             </div>
 
             <div id="discount-container" style="display: flex; align-items: center; gap: 0.7rem;">
                 <input type="checkbox" id="use_discount" name="use_discount" v-model="useDiscount">
-                <label for="use_discount">استفاده از تخفیف (<span id="available_discount">{{ totalDiscount }}</span>)</label>
+                <label for="use_discount">استفاده از تخفیف (<span id="available_discount">{{ formatNumber(totalDiscount) }}</span>)</label>
                 <span class="unit">تومان</span>
             </div>
             <div id="birthday-discount-message" v-if="isBirthday" style="color: #ff4081; text-align: center; margin-top: 1rem; font-weight: bold;">
@@ -89,7 +90,7 @@
             </div>
             <div id="final-price-container"
                  style="margin-top:0.7rem; color:#388e3c; font-weight:600; font-size:1.08rem;" v-if="purchaseAmount">
-                قیمت بعد از اعمال تخفیف: <span id="final-price">{{ finalPrice }}</span> تومان
+                قیمت بعد از اعمال تخفیف: <span id="final-price">{{ formatNumber(finalPrice) }}</span> تومان
             </div>
 
             <button type="submit" id="purchase-btn" :disabled="isPurchasing">
@@ -114,6 +115,9 @@ import { ref, computed, watch } from 'vue'
 import DatePicker from '@alireza-ab/vue3-persian-datepicker';
 import moment from 'moment-jalaali';
 import api from '~/services/api'; // Import the centralized API service
+import { useUtils } from '~/composables/useUtils';
+
+const { formatNumber, parseNumber } = useUtils();
 
 // State for the current view
 const currentSection = ref('phone-check'); // 'phone-check', 'signup', or 'purchase'
@@ -181,12 +185,19 @@ const checkPhoneNumber = async () => {
 const signupFullName = ref('');
 const signupPhoneNumber = ref('');
 const signupBirthDate = ref('');
-const signupFirstPurchaseAmount = ref('');
+const signupFirstPurchaseAmount = ref(null);
 const signupMessage = ref('');
 const birthDatePreview = ref('');
 const isSignupFullNameInvalid = ref(false);
 const isSignupBirthDateInvalid = ref(false);
 const isSignupFirstPurchaseAmountInvalid = ref(false);
+
+const signupFirstPurchaseAmountFormatted = computed({
+  get: () => formatNumber(signupFirstPurchaseAmount.value),
+  set: (newValue) => {
+    signupFirstPurchaseAmount.value = parseNumber(newValue);
+  }
+});
 
 watch(signupBirthDate, () => {
     isSignupBirthDateInvalid.value = false;
@@ -253,6 +264,13 @@ const availableDiscount = ref(0);
 const birthdayDiscount = ref(0);
 const purchaseMessage = ref('');
 
+const purchaseAmountFormatted = computed({
+  get: () => formatNumber(purchaseAmount.value),
+  set: (newValue) => {
+    purchaseAmount.value = parseNumber(newValue);
+  }
+});
+
 const totalDiscount = computed(() => {
     let total = availableDiscount.value || 0;
     if (isBirthday.value && birthdayDiscount.value) {
@@ -312,7 +330,7 @@ const purchase = async () => {
 
     await api.createPurchase(payload);
 
-    purchaseMessage.value = `خرید با موفقیت ثبت شد! مبلغ نهایی: ${finalPrice.value} تومان`;
+    purchaseMessage.value = `خرید با موفقیت ثبت شد! مبلغ نهایی: ${formatNumber(finalPrice.value)} تومان`;
 
     setTimeout(() => {
       currentSection.value = 'phone-check';
@@ -321,7 +339,7 @@ const purchase = async () => {
       signupFullName.value = '';
       signupPhoneNumber.value = '';
       signupBirthDate.value = '';
-      signupFirstPurchaseAmount.value = '';
+      signupFirstPurchaseAmount.value = null;
       signupMessage.value = '';
       customerNameToDisplay.value = '';
       purchaseAmount.value = null;

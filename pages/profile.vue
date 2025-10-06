@@ -1,60 +1,92 @@
 <template>
-  <div class="profile-page">
+  <div class="min-h-screen bg-gray-50 pt-20">
     <Toast />
-    <div class="card">
-      <h2 class="card-header">پروفایل فروشگاه</h2>
-      <div class="p-fluid grid">
-        <div class="field col-12 md:col-6">
-          <label for="store_name">نام فروشگاه</label>
-          <InputText id="store_name" v-model="form.store_name" />
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6 border-b border-gray-200">
+          <h2 class="text-xl font-semibold text-gray-800">پروفایل فروشگاه</h2>
         </div>
-        <div class="field col-12 md:col-6">
-          <label for="phone_number">شماره تلفن</label>
-          <InputText id="phone_number" v-model="form.phone_number" disabled />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="category">دسته بندی</label>
-          <InputText id="category" v-model="form.category" />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="email">ایمیل</label>
-          <InputText id="email" v-model="form.email" />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="seller_first_name">نام فروشنده</label>
-          <InputText id="seller_first_name" v-model="form.seller_first_name" />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="seller_last_name">نام خانوادگی فروشنده</label>
-          <InputText id="seller_last_name" v-model="form.seller_last_name" />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="province">استان</label>
-          <InputText id="province" v-model="form.province" />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="city">شهر</label>
-          <InputText id="city" v-model="form.city" />
-        </div>
-        <div class="field col-12">
-          <label for="address">آدرس</label>
-          <Textarea id="address" v-model="form.address" rows="3" />
-        </div>
-        <div class="field col-12 md:col-4">
-          <label for="first_purchase_discount">تخفیف خرید اول (درصد)</label>
-          <InputNumber id="first_purchase_discount" v-model="form.first_purchase_discount" mode="decimal" showButtons :min="0" :max="100" />
-        </div>
-        <div class="field col-12 md:col-4">
-          <label for="purchase_discount">تخفیف خرید (درصد)</label>
-          <InputNumber id="purchase_discount" v-model="form.purchase_discount" mode="decimal" showButtons :min="0" :max="100" />
-        </div>
-        <div class="field col-12 md:col-4">
-          <label for="birthday_discount">تخفیف تولد (درصد)</label>
-          <InputNumber id="birthday_discount" v-model="form.birthday_discount" mode="decimal" showButtons :min="0" :max="100" />
-        </div>
-      </div>
-      <div class="card-footer">
-        <Button label="ذخیره تغییرات" icon="pi pi-check" @click="saveProfile" :loading="loading" />
+        <form @submit.prevent="saveProfile" class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+
+            <!-- Store Name -->
+            <div>
+              <label for="store_name" class="block text-sm font-medium text-gray-700 mb-1">نام فروشگاه</label>
+              <InputText id="store_name" v-model="form.store_name" class="w-full" />
+            </div>
+
+            <!-- Phone Number (Disabled) -->
+            <div>
+              <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">شماره تلفن</label>
+              <InputText id="phone_number" v-model="form.phone_number" disabled class="w-full bg-gray-100" />
+            </div>
+
+            <!-- Category -->
+            <div>
+              <label for="category" class="block text-sm font-medium text-gray-700 mb-1">دسته بندی</label>
+              <InputText id="category" v-model="form.category" class="w-full" />
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">ایمیل</label>
+              <InputText id="email" v-model="form.email" type="email" class="w-full" />
+            </div>
+
+            <!-- Seller First Name -->
+            <div>
+              <label for="seller_first_name" class="block text-sm font-medium text-gray-700 mb-1">نام فروشنده</label>
+              <InputText id="seller_first_name" v-model="form.seller_first_name" class="w-full" />
+            </div>
+
+            <!-- Seller Last Name -->
+            <div>
+              <label for="seller_last_name" class="block text-sm font-medium text-gray-700 mb-1">نام خانوادگی فروشنده</label>
+              <InputText id="seller_last_name" v-model="form.seller_last_name" class="w-full" />
+            </div>
+
+            <!-- Province -->
+            <div>
+              <label for="province" class="block text-sm font-medium text-gray-700 mb-1">استان</label>
+              <InputText id="province" v-model="form.province" class="w-full" />
+            </div>
+
+            <!-- City -->
+            <div>
+              <label for="city" class="block text-sm font-medium text-gray-700 mb-1">شهر</label>
+              <InputText id="city" v-model="form.city" class="w-full" />
+            </div>
+
+            <!-- Address -->
+            <div class="md:col-span-2">
+              <label for="address" class="block text-sm font-medium text-gray-700 mb-1">آدرس</label>
+              <Textarea id="address" v-model="form.address" rows="3" class="w-full" autoResize />
+            </div>
+
+            <!-- Discount Section -->
+            <div class="md:col-span-2 pt-4">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-5">
+                <div>
+                  <label for="first_purchase_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف خرید اول (%)</label>
+                  <InputNumber id="first_purchase_discount" v-model="form.first_purchase_discount" mode="decimal" showButtons :min="0" :max="100" class="w-full" />
+                </div>
+                <div>
+                  <label for="purchase_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف خرید (%)</label>
+                  <InputNumber id="purchase_discount" v-model="form.purchase_discount" mode="decimal" showButtons :min="0" :max="100" class="w-full" />
+                </div>
+                <div>
+                  <label for="birthday_discount" class="block text-sm font-medium text-gray-700 mb-1">تخفیف تولد (%)</label>
+                  <InputNumber id="birthday_discount" v-model="form.birthday_discount" mode="decimal" showButtons :min="0" :max="100" class="w-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer with Save Button -->
+          <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end">
+            <Button type="submit" label="ذخیره تغییرات" icon="pi pi-check" :loading="loading" />
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -66,6 +98,7 @@ import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
+import Toast from 'primevue/toast';
 import api from '~/services/api';
 import { useToast } from 'primevue/usetoast';
 
@@ -94,7 +127,13 @@ const loadProfile = async () => {
   loading.value = true;
   try {
     const response = await api.getShop();
-    form.value = response.data;
+    // Ensure all fields are initialized, even if they are null from the API
+    const defaultData = {
+      phone_number: '', store_name: '', category: '', email: '',
+      seller_first_name: '', seller_last_name: '', city: '', province: '',
+      address: '', first_purchase_discount: 0, purchase_discount: 0, birthday_discount: 0
+    };
+    form.value = { ...defaultData, ...response.data };
   } catch (error) {
     toast.add({ severity: 'error', summary: 'خطا', detail: 'دریافت اطلاعات پروفایل با خطا مواجه شد', life: 3000 });
   } finally {
@@ -107,7 +146,7 @@ const saveProfile = async () => {
   try {
     await api.updateShop(form.value);
     toast.add({ severity: 'success', summary: 'موفق', detail: 'پروفایل با موفقیت به‌روزرسانی شد', life: 3000 });
-    // Optionally, refresh local storage data
+    // Refresh local storage data after successful update
     const response = await api.getShop();
     localStorage.setItem('shopInfo', JSON.stringify(response.data));
   } catch (error) {
@@ -123,28 +162,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Scoped styles can be kept for component-specific overrides if needed */
+/* For example, targeting PrimeVue component's internal elements */
+:deep(.p-inputnumber-input) {
+  width: 100%;
+}
 .profile-page {
-  padding: 2rem;
-  padding-top: 80px; /* To avoid overlap with fixed header */
-}
-
-.card {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.card-header {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  border-bottom: 1px solid #dee2e6;
-  padding-bottom: 1rem;
-}
-
-.card-footer {
-  margin-top: 1.5rem;
-  text-align: left;
+  padding-top: 60px; /* To avoid overlap with fixed header */
 }
 </style>

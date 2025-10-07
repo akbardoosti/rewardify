@@ -200,6 +200,21 @@ const handleLogout = async () => {
   }
 };
 
+const handleDownloadReports = async () => {
+  try {
+    const response = await api.downloadReports();
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'reports.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error('Error downloading the report:', error);
+  }
+};
+
 const checkScreenSize = () => {
   if (typeof window !== 'undefined') {
     isMobile.value = window.innerWidth < 600;
@@ -235,10 +250,7 @@ const items = ref([
   {
     label: 'دانلود گزارشات',
     icon: 'pi pi-download',
-    command: () => {
-      // Placeholder for download logic
-      console.log('Download reports clicked');
-    }
+    command: handleDownloadReports
   }
 ]);
 const userMenuItems = ref([

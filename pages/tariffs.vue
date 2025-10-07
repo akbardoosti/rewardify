@@ -1,65 +1,125 @@
 <template>
-  <div class="tariffs-page">
-    <div class="page-header">
-      <h1>تعرفه‌های لویانا</h1>
-      <p>با تعرفه‌های متنوع لویانا، ارتباطی مؤثر و به‌صرفه با مشتریان خود برقرار کنید. بسته‌ای را انتخاب کنید که به بهترین شکل با نیازهای کسب‌وکار شما هماهنگ است و از همین امروز کمپین‌های خود را آغاز کنید.</p>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8" style="margin-top: 60px;">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+        تعرفه‌های لویانا
+      </h1>
+      <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+        با تعرفه‌های متنوع لویانا، ارتباطی مؤثر و به‌صرفه با مشتریان خود برقرار کنید. بسته‌ای را انتخاب کنید که به بهترین شکل با نیازهای کسب‌وکار شما هماهنگ است و از همین امروز کمپین‌های خود را آغاز کنید.
+      </p>
     </div>
 
-    <TabView>
-      <TabPanel header="پیامک">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-4" v-for="tariff in smsTariffs" :key="tariff.id">
-            <Card class="tariff-card">
-              <template #title>{{ tariff.name }}</template>
-              <template #content>
-                <p>تعداد پیامک: {{ tariff.messages }}</p>
-                <p>هزینه هر پیام: {{ tariff.cost_per_message }} تومان</p>
-                <p>قیمت کل: {{ tariff.total_price }} تومان</p>
-                <a :href="contactLink" class="p-button p-button-primary">تماس با پشتیبانی</a>
-              </template>
-            </Card>
+    <!-- SMS Tariffs Table -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">تعرفه پیامک</h2>
+      <div class="flex flex-col">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">نام بسته</th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تعداد پیامک</th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">هزینه هر پیام (تومان)</th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت کل (تومان)</th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr v-for="tariff in smsTariffs" :key="tariff.id">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ tariff.name }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.messages }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.cost_per_message }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.total_price }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <a :href="contactLink" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 px-4 py-2 rounded-md">تماس با پشتیبانی</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </TabPanel>
-      <TabPanel header="تلگرام">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-4" v-for="tariff in telegramTariffs" :key="tariff.id">
-            <Card class="tariff-card">
-              <template #title>{{ tariff.name }}</template>
-              <template #content>
-                <p>تعداد پیام: {{ tariff.messages }}</p>
-                <p>هزینه هر پیام: {{ tariff.cost_per_message }} تومان</p>
-                <p>قیمت کل: {{ tariff.total_price }} تومان</p>
-                <a :href="contactLink" class="p-button p-button-primary">تماس با پشتیبانی</a>
-              </template>
-            </Card>
-          </div>
+      </div>
+    </div>
+
+    <!-- Telegram Tariffs Table -->
+    <div class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">تعرفه تلگرام</h2>
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">نام بسته</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تعداد پیام</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">هزینه هر پیام (تومان)</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت کل (تومان)</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr v-for="tariff in telegramTariffs" :key="tariff.id">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ tariff.name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.messages }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.cost_per_message }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.total_price }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a :href="contactLink" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 px-4 py-2 rounded-md">تماس با پشتیبانی</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </TabPanel>
-      <TabPanel header="بله">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-4" v-for="tariff in baleTariffs" :key="tariff.id">
-            <Card class="tariff-card">
-              <template #title>{{ tariff.name }}</template>
-              <template #content>
-                <p>تعداد پیام: {{ tariff.messages }}</p>
-                <p>هزینه هر پیام: {{ tariff.cost_per_message }} تومان</p>
-                <p>قیمت کل: {{ tariff.total_price }} تومان</p>
-                <a :href="contactLink" class="p-button p-button-primary">تماس با پشتیبانی</a>
-              </template>
-            </Card>
-          </div>
+    </div>
+
+
+    <!-- Bale Tariffs Table -->
+    <div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">تعرفه بله</h2>
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">نام بسته</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تعداد پیام</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">هزینه هر پیام (تومان)</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت کل (تومان)</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr v-for="tariff in baleTariffs" :key="tariff.id">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ tariff.name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.messages }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.cost_per_message }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.total_price }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a :href="contactLink" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 px-4 py-2 rounded-md">تماس با پشتیبانی</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </TabPanel>
-    </TabView>
+    </div>
+
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import Card from 'primevue/card';
-import TabView from 'primevue/tabview';
-import TabPanel from 'primevue/tabpanel';
 
 useHead({
   title: 'لویانا - تعرفه‌ها'
@@ -91,47 +151,5 @@ const baleTariffs = ref([
 </script>
 
 <style scoped>
-.tariffs-page {
-  padding: 2rem;
-}
-
-.page-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.page-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.page-header p {
-  font-size: 1.2rem;
-  color: #6c757d;
-}
-
-.tariff-card {
-  margin-bottom: 1rem;
-}
-
-.p-grid {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -0.5rem;
-    margin-left: -0.5rem;
-    margin-top: -0.5rem;
-}
-
-.p-col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-    padding: 0.5rem;
-}
-
-@media screen and (min-width: 768px) {
-    .p-md-4 {
-        flex: 0 0 33.3333%;
-        max-width: 33.3333%;
-    }
-}
+/* Scoped styles can be removed or kept if needed for specific adjustments */
 </style>

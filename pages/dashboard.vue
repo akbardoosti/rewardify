@@ -109,7 +109,7 @@ definePageMeta({
 })
 
 useHead({
-  title: 'پاداشینو - خانه'
+  title: 'لویانا - خانه'
 })
 
 import { ref, computed, watch } from 'vue'

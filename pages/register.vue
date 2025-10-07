@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="left-section">
-            <div class="logo">پاداشینو</div>
+            <div class="logo">لویانا</div>
             <div class="welcome-text">
-                <h1>به پاداشینو بپیوندید<br>و فروش خود را<br>افزایش دهید</h1>
+                <h1>به لویانا بپیوندید<br>و فروش خود را<br>افزایش دهید</h1>
             </div>
             <div class="illustration">
                 <div class="floating-elements">
@@ -25,7 +25,7 @@
 
         <div class="right-section">
             <div class="form-header">
-                <h2>ثبت نام فروشنده در پاداشینو</h2>
+                <h2>ثبت نام فروشنده در لویانا</h2>
             </div>
 
             <form @submit.prevent="register" style="overflow-y: auto;max-height: 80vh;">
@@ -43,7 +43,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="storeName">نام فروشگاه (اجباری)</label>
-                        <input type="text" id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ پاداشینو" required>
+                        <input type="text" id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ لویانا" required>
                     </div>
                     <div class="form-group">
                         <label for="salesArea">حوزه فروش (اجباری)</label>
@@ -144,7 +144,7 @@ definePageMeta({
 })
 
 useHead({
-  title: 'پاداشینو - صفحه ثبت‌نام'
+  title: 'لویانا - صفحه ثبت‌نام'
 })
 
 const router = useRouter()

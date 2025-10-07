@@ -43,8 +43,8 @@ export default defineNuxtConfig({
         // { src: '/icon-192.png', sizes: '192x192', type: 'image/png' }
       ],
       // تنظیمات دیگر manifest (اختیاری)
-      name: 'پاداشینو-سیستم مدیریت و پاداش دهی',
-      short_name: 'پاداشینو',
+      name: 'لویانا-سیستم مدیریت و پاداش دهی',
+      short_name: 'لویانا',
       theme_color: '#ffffff',
       background_color: '#ffffff',
       display: 'standalone'

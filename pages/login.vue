@@ -4,7 +4,7 @@
         <div class="login-section">
             <div class="logo">
                 <div class="logo-icon">پ</div>
-                <div class="logo-text">پاداشینو</div>
+                <div class="logo-text">لویانا</div>
             </div>
 
             <h1 class="welcome-title">خوش آمدید</h1>
@@ -96,7 +96,7 @@
             </div>
 
             <div class="footer">
-                <div>حق نشر © ۱۴۰۳ پاداشینو شرکت تجاری.</div>
+                <div>حق نشر © ۱۴۰۳ لویانا شرکت تجاری.</div>
                 <div>سیاست حریم خصوصی</div>
             </div>
         </div>
@@ -113,7 +113,7 @@ import ProgressSpinner from 'primevue/progressspinner';
 import Toast from 'primevue/toast';
 
 useHead({
-  title: 'پاداشینو - صفحه ورود'
+  title: 'لویانا - صفحه ورود'
 })
 // Disable the default layout for this page
 definePageMeta({

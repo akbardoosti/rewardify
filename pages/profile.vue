@@ -110,7 +110,7 @@ definePageMeta({
 });
 
 useHead({
-  title: 'پاداشینو - ویرایش اطلاعات کاربری'
+  title: 'لویانا - ویرایش اطلاعات کاربری'
 })
 
 const toast = useToast();

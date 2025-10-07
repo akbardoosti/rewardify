@@ -10,17 +10,21 @@
                   fill="#fff"/>
           </svg>
           <div class="flex flex-col">
-            <span class="brand-title">پاداشینو</span>
+            <span class="brand-title">لویانا</span>
             <span class="text-xs text-violet-500">پاداش وفاداری شما</span>
           </div>
         </div>
         <div class="p-3"></div>
       </template>
       <template #item="{ item }">
-        <NuxtLink :to="item.to" class="flex items-center p-2 cursor-pointer">
+        <NuxtLink v-if="item.to" :to="item.to" class="flex items-center p-2 cursor-pointer">
           <span :class="item.icon" />
           <span class="ml-2">{{ item.label }}</span>
         </NuxtLink>
+        <a v-else-if="item.command" @click="item.command" class="flex items-center p-2 cursor-pointer">
+          <span :class="item.icon" />
+          <span class="ml-2">{{ item.label }}</span>
+        </a>
       </template>
       <template #end>
         <div class="flex items-center gap-2">
@@ -52,7 +56,7 @@
                   fill="#fff"/>
           </svg>
         <div class="flex flex-col">
-          <span class="brand-title">پاداشینو</span>
+          <span class="brand-title">لویانا</span>
           <span class="text-xs text-violet-500">پاداش وفاداری شما</span>
         </div>
       </div>
@@ -80,10 +84,14 @@
             <!-- Navigation Links -->
             <ul class="list-none p-0 m-0">
               <li v-for="item in items" :key="item.label">
-                <NuxtLink :to="item.to" class="flex items-center p-3 rounded-md hover:bg-gray-100" @click="drawerVisible = false">
+                <NuxtLink v-if="item.to" :to="item.to" class="flex items-center p-3 rounded-md hover:bg-gray-100" @click="drawerVisible = false">
                   <span :class="item.icon" class="text-xl"></span>
                   <span class="ml-3 font-medium">{{ item.label }}</span>
                 </NuxtLink>
+                <button v-else-if="item.command" @click="item.command(); drawerVisible = false" class="flex items-center p-3 rounded-md hover:bg-gray-100 w-full text-right">
+                  <span :class="item.icon" class="text-xl"></span>
+                  <span class="ml-3 font-medium">{{ item.label }}</span>
+                </button>
               </li>
             </ul>
             <hr class="my-4" />
@@ -147,6 +155,13 @@
 .drawer-nav a:hover {
     background-color: #f3f4f6;
 }
+
+.router-link-exact-active {
+  background-color: #eef2ff;
+  color: #4f46e5 !important;
+  font-weight: 600;
+  border-radius: 6px;
+}
 </style>
 <script setup lang="ts">
 import Menu from "primevue/menu";
@@ -185,6 +200,21 @@ const handleLogout = async () => {
   }
 };
 
+const handleDownloadReports = async () => {
+  try {
+    const response = await api.downloadReports();
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'reports.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error('Error downloading the report:', error);
+  }
+};
+
 const checkScreenSize = () => {
   if (typeof window !== 'undefined') {
     isMobile.value = window.innerWidth < 600;
@@ -213,9 +243,14 @@ const items = ref([
     to: '/dashboard'
   },
   {
-    label: 'گزارشات',
-    icon: 'pi pi-chart-bar',
-    to: '/reports'
+    label: 'تعرفه ها',
+    icon: 'pi pi-dollar',
+    to: '/tariffs'
+  },
+  {
+    label: 'دانلود گزارشات',
+    icon: 'pi pi-download',
+    command: handleDownloadReports
   }
 ]);
 const userMenuItems = ref([

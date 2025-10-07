@@ -36,8 +36,9 @@ apiClient.interceptors.response.use(
   error => {
     // We check for window to ensure this only runs on the client-side
     if (typeof window !== 'undefined' && error.response && error.response.status === 401) {
-      // Don't redirect if we are already on the login page, as it's a failed login attempt.
-      if (window.location.pathname !== '/login') {
+      const publicPaths = ['/login', '/forgot-password', '/reset-password'];
+      // Don't redirect if we are on a public page that can receive a 401.
+      if (!publicPaths.includes(window.location.pathname)) {
         // Clear user data from storage
         localStorage.removeItem('access_token');
         localStorage.removeItem('shopInfo');

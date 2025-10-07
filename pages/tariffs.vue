@@ -1,52 +1,45 @@
 <template>
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8" style="margin-top: 60px;">
-    <div class="text-center mb-12">
-      <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-        تعرفه‌های لویانا
-      </h1>
-      <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+    <Panel header="تعرفه‌های لویانا" class="mb-8">
+      <p class="leading-relaxed">
         با تعرفه‌های متنوع لویانا، ارتباطی مؤثر و به‌صرفه با مشتریان خود برقرار کنید. بسته‌ای را انتخاب کنید که به بهترین شکل با نیازهای کسب‌وکار شما هماهنگ است و از همین امروز کمپین‌های خود را آغاز کنید.
       </p>
-    </div>
+    </Panel>
 
-    <!-- SMS Tariffs Table -->
-    <div class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">تعرفه پیامک</h2>
-      <div class="flex flex-col">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">نام بسته</th>
-                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تعداد پیامک</th>
-                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">هزینه هر پیام (تومان)</th>
-                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت کل (تومان)</th>
-                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr v-for="tariff in smsTariffs" :key="tariff.id">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ tariff.name }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.messages }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.cost_per_message }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.total_price }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <a :href="contactLink" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 px-4 py-2 rounded-md">تماس با پشتیبانی</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+    <Accordion :multiple="false" :activeIndex="0">
+      <AccordionTab header="تعرفه پیامک">
+        <div class="flex flex-col">
+          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">نام بسته</th>
+                      <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تعداد پیامک</th>
+                      <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">هزینه هر پیام (تومان)</th>
+                      <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت کل (تومان)</th>
+                      <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr v-for="tariff in smsTariffs" :key="tariff.id">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ tariff.name }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.messages }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.cost_per_message }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ tariff.total_price }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <a :href="contactLink" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 px-4 py-2 rounded-md">تماس با پشتیبانی</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Telegram Tariffs Table -->
-    <div class="mb-12">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">تعرفه تلگرام</h2>
+      </AccordionTab>
+      <AccordionTab header="تعرفه تلگرام">
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -77,12 +70,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <!-- Bale Tariffs Table -->
-    <div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">تعرفه بله</h2>
+      </AccordionTab>
+      <AccordionTab header="تعرفه بله">
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -113,13 +102,16 @@
                 </div>
             </div>
         </div>
-    </div>
-
+      </AccordionTab>
+    </Accordion>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import Panel from 'primevue/panel';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
 
 useHead({
   title: 'لویانا - تعرفه‌ها'

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { decrypt } from './crypto';
 
 const apiClient = axios.create({
-  baseURL: 'http://185.130.50.241:7000/api/v1',
+  baseURL: 'http://loyana.ir:7000/api/v1',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -117,5 +117,13 @@ export default {
 
   updateShop(shopData: any) {
     return apiClient.put('/shops/', shopData);
+  },
+
+  forgotPassword(identifier: string) {
+    return apiClient.post('/authentication/forgot-password', { identifier });
+  },
+
+  resetPassword(data: { token: string; new_password: string }) {
+    return apiClient.post('/authentication/reset-password', data);
   },
 };

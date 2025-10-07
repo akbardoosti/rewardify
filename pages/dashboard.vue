@@ -242,7 +242,7 @@ const signup = async () => {
     customerNameToDisplay.value = newCustomer.full_name;
     purchaseAmount.value = signupFirstPurchaseAmount.value;
     availableDiscount.value = 0;
-    currentSection.value = 'purchase';
+    currentSection.value = 'phone-check';
 
   } catch (error) {
     console.error('Error during signup:', error);
@@ -275,7 +275,7 @@ const purchaseAmountFormatted = computed({
 const totalDiscount = computed(() => {
     let total = availableDiscount.value || 0;
     if (isBirthday.value && birthdayDiscount.value) {
-        total += birthdayDiscount.value;
+        total += birthdayDiscount.value * purchaseAmount.value;
     }
     return total;
 });
@@ -665,7 +665,7 @@ section {
 
 #birthday-effect .birthday-message {
     position: absolute;
-    top: 30%;
+    top: 19%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2.2rem;

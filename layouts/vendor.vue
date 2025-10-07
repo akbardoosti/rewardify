@@ -28,7 +28,7 @@
       </template>
       <template #end>
         <div class="flex items-center gap-2">
-          <Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" shape="circle" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
+          <Avatar image="/user-3296.png" shape="circle" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
           <Menu ref="menu" id="overlay_menu" :model="userMenuItems" :popup="true" >
             <template #item="{ item, props }">
               <router-link v-if="item.to" v-slot="{ href, navigate }" :to="item.to" custom>

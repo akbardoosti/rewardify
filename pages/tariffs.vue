@@ -6,7 +6,7 @@
       </p>
     </Panel>
 
-    <Accordion :multiple="false" :activeIndex="0">
+    <Accordion :multiple="false" :activeIndex="0" expandIcon="pi pi-chevron-up" collapseIcon="pi pi-chevron-down">
       <AccordionTab header="تعرفه پیامک">
         <div class="flex flex-col">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -1,10 +1,18 @@
 <template>
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8" style="margin-top: 60px;">
-    <Panel header="تعرفه‌های لویانا" class="mb-8">
-      <p class="leading-relaxed">
-        با تعرفه‌های متنوع لویانا، ارتباطی مؤثر و به‌صرفه با مشتریان خود برقرار کنید. بسته‌ای را انتخاب کنید که به بهترین شکل با نیازهای کسب‌وکار شما هماهنگ است و از همین امروز کمپین‌های خود را آغاز کنید.
-      </p>
-    </Panel>
+  <div class=" mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col" style="margin-top: 60px;">
+    <h1 class="text-2xl text-center">
+      تعرفه‌های ارسال پیام لویانا
+    </h1>
+
+
+    <Card class="mb-8 mt-4">
+      <template #content>
+        <p class="m-0">
+          با تعرفه‌های متنوع لویانا، ارتباطی مؤثر و به‌صرفه با مشتریان خود برقرار کنید. بسته‌ای را انتخاب کنید که به بهترین شکل با نیازهای کسب‌وکار شما هماهنگ است و از همین امروز کمپین‌های خود را آغاز کنید.
+        </p>
+      </template>
+    </Card>
+
 
     <Accordion :multiple="false" :activeIndex="0">
       <AccordionTab header="تعرفه پیامک">
@@ -109,9 +117,9 @@
 
 <script setup>
 import { ref } from 'vue';
-import Panel from 'primevue/panel';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import {Card} from "primevue";
 
 useHead({
   title: 'لویانا - تعرفه‌ها'

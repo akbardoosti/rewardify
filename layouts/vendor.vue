@@ -28,7 +28,7 @@
       </template>
       <template #end>
         <div class="flex items-center gap-2">
-          <Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" shape="circle" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
+          <Avatar image="/user-3296.png" shape="circle" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
           <Menu ref="menu" id="overlay_menu" :model="userMenuItems" :popup="true" >
             <template #item="{ item, props }">
               <router-link v-if="item.to" v-slot="{ href, navigate }" :to="item.to" custom>
@@ -115,7 +115,7 @@
 
   <slot />
 </template>
-<style>
+<style scoped>
 .brand-header-bar {
   position: fixed;
   top: 0;
@@ -161,6 +161,24 @@
   color: #4f46e5 !important;
   font-weight: 600;
   border-radius: 6px;
+}
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-title {
+  font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
 }
 </style>
 <script setup lang="ts">

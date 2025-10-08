@@ -2,7 +2,7 @@
   <div>
     <div id="birthday-effect" style="display:none;"></div>
     <!-- Phone Check Page -->
-    <section id="phone-check-section" v-if="currentSection === 'phone-check'">
+    <section id="phone-check-section" class="dashboard-section" v-if="currentSection === 'phone-check'">
         <h2>بررسی شماره موبایل</h2>
         <form id="phone-check-form" @submit.prevent="checkPhoneNumber">
             <label for="phone_number">شماره موبایل:</label>
@@ -17,7 +17,7 @@
     </section>
 
     <!-- Signup Page -->
-    <section id="signup-section" v-if="currentSection === 'signup'">
+    <section id="signup-section" class="dashboard-section" v-if="currentSection === 'signup'">
         <h2>ثبت‌نام مشتری جدید</h2>
         <form id="signup-form" @submit.prevent="signup">
             <label for="signup_full_name">نام و نام خانوادگی:</label>
@@ -67,7 +67,7 @@
     </section>
 
     <!-- Purchase Page -->
-    <section id="purchase-section" v-if="currentSection === 'purchase'">
+    <section id="purchase-section" class="dashboard-section" v-if="currentSection === 'purchase'">
         <h2>ثبت خرید</h2>
         <form id="purchase-form" @submit.prevent="purchase">
             <div id="customer-name"
@@ -242,7 +242,7 @@ const signup = async () => {
     customerNameToDisplay.value = newCustomer.full_name;
     purchaseAmount.value = signupFirstPurchaseAmount.value;
     availableDiscount.value = 0;
-    currentSection.value = 'purchase';
+    currentSection.value = 'phone-check';
 
   } catch (error) {
     console.error('Error during signup:', error);
@@ -275,7 +275,7 @@ const purchaseAmountFormatted = computed({
 const totalDiscount = computed(() => {
     let total = availableDiscount.value || 0;
     if (isBirthday.value && birthdayDiscount.value) {
-        total += birthdayDiscount.value;
+        total += birthdayDiscount.value * purchaseAmount.value;
     }
     return total;
 });
@@ -366,10 +366,10 @@ const purchase = async () => {
 
 </script>
 
-<style>
+<style scope>
 
 
-section {
+section.dashboard-section {
     background: #ffffff;
     padding: 2.2rem 1.8rem 1.5rem 1.8rem;
     margin: 2.5rem 0;
@@ -383,7 +383,7 @@ section {
     position: relative;
 }
 
-section:hover {
+section.dashboard-section:hover {
     box-shadow: 0 18px 48px rgba(80, 80, 160, 0.17), 0 4px 16px rgba(80, 80, 160, 0.13);
 }
 
@@ -562,24 +562,7 @@ input[type="checkbox"] {
     }
 }
 
-.brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
 
-.brand-title {
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
-    font-size: 1.25rem;
-    font-weight: 900;
-    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
-    text-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
-}
 #signup_birth_date.persian-date-input {
     background-image: url('data:image/svg+xml;utf8,<svg fill="%236366f1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1zm-7 5h5v5h-5z"/></svg>');
     background-repeat: no-repeat;
@@ -589,7 +572,7 @@ input[type="checkbox"] {
   width: 100%;
 }
 
-section {
+section.dashboard-section {
     margin-top: 70px !important;
 }
 
@@ -614,7 +597,7 @@ section {
 }
 
 @media (max-width: 600px) {
-    section {
+    section.dashboard-section {
         min-width: 90vw;
         max-width: 98vw;
         padding: 2rem 0.5rem 1.5rem 0.5rem;
@@ -624,7 +607,7 @@ section {
         font-size: 1.1rem;
     }
 
-    section {
+    section.dashboard-section {
         margin-top: 60px !important;
     }
 
@@ -665,7 +648,7 @@ section {
 
 #birthday-effect .birthday-message {
     position: absolute;
-    top: 30%;
+    top: 19%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2.2rem;

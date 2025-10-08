@@ -24,6 +24,9 @@
                         <input :type="loginWithOtp ? 'text' : 'password'" id="password" v-model="password" class="form-input" value="Sellostore." dir="rtl">
                         <!-- <button type="button" class="password-toggle">👁️</button> -->
                     </div>
+<div v-if="!loginWithOtp" style="text-align: left; margin-top: 8px;">
+    <NuxtLink to="/forgot-password" class="forgot-password">رمز عبور را فراموش کرده‌اید؟</NuxtLink>
+</div>
                 </div>
 
                 <div class="form-options">

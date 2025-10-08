@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const token = localStorage.getItem('access_token');
   const isAuthenticated = token ? !!decrypt(token) : false;
 
-  const publicPages = ['/login', '/register', '/verify'];
+  const publicPages = ['/login', '/register', '/verify', '/forgot-password', '/reset-password'];
   const isTargetingPublicPage = publicPages.includes(to.path);
 
   // 1. Handle redirection from the root path ('/')

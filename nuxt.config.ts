@@ -67,5 +67,9 @@ export default defineNuxtConfig({
     //     }
     //   }
     // }
-  }
+  },
+  features: {
+    inlineStyles: true,
+  },
+  ssr: true,
 })

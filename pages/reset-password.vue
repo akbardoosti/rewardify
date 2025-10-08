@@ -64,6 +64,10 @@ definePageMeta({
   layout: false, // No layout for the reset password page
 });
 
+useHead({
+  title: 'لویانا - بازنشانی کلمه عبور'
+});
+
 const route = useRoute();
 const router = useRouter();
 

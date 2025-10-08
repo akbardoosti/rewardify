@@ -52,6 +52,9 @@ import api from '~/services/api';
 definePageMeta({
   layout: false, // No layout for the forgot password page
 });
+useHead({
+  title: 'لویانا - فراموشی کلمه عبور'
+});
 
 const identifier = ref('');
 const loading = ref(false);

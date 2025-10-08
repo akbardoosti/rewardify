@@ -115,7 +115,7 @@
 
   <slot />
 </template>
-<style>
+<style scoped>
 .brand-header-bar {
   position: fixed;
   top: 0;
@@ -161,6 +161,24 @@
   color: #4f46e5 !important;
   font-weight: 600;
   border-radius: 6px;
+}
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-title {
+  font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
 }
 </style>
 <script setup lang="ts">

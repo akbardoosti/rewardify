@@ -2,7 +2,7 @@ import axios from 'axios';
 import { decrypt } from './crypto';
 
 const apiClient = axios.create({
-  baseURL: 'http://loyana.ir:7000/api/v1',
+  baseURL: 'https://loyana.ir/api/v1',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -36,7 +36,7 @@ apiClient.interceptors.response.use(
   error => {
     // We check for window to ensure this only runs on the client-side
     if (typeof window !== 'undefined' && error.response && error.response.status === 401) {
-      const publicPaths = ['/login', '/forgot-password', '/reset-password'];
+      const publicPaths = ['/login', '/forgot-password', '/reset-password', '/register'];
       // Don't redirect if we are on a public page that can receive a 401.
       if (!publicPaths.includes(window.location.pathname)) {
         // Clear user data from storage

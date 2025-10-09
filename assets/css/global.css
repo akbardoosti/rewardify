@@ -27,3 +27,7 @@ body {
     align-items: center;
     overflow-x: visible;
 }
+
+#__nuxt {
+    width: 100%;
+}

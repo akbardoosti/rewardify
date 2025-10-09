@@ -12,21 +12,19 @@
 
             <form @submit.prevent="login">
                 <div class="form-group">
-                    <label for="credential" class="form-label">نام کاربری یا شماره تلفن</label>
+                    <label for="credential" class="form-label">نام کاربری</label>
                     <input type="text" id="credential" v-model="username" class="form-input" dir="rtl">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="password">
-                        {{ loginWithOtp ? 'رمز یکبار مصرف' : 'کلمه عبور' }}
-                    </label>
+                    <label class="form-label" for="password">کلمه عبور</label>
                     <div class="password-container">
-                        <input :type="loginWithOtp ? 'text' : 'password'" id="password" v-model="password" class="form-input" value="Sellostore." dir="rtl">
+                        <input type="password" id="password" v-model="password" class="form-input" dir="rtl">
                         <!-- <button type="button" class="password-toggle">👁️</button> -->
                     </div>
-<div v-if="!loginWithOtp" style="text-align: left; margin-top: 8px;">
-    <NuxtLink to="/forgot-password" class="forgot-password">رمز عبور را فراموش کرده‌اید؟</NuxtLink>
-</div>
+                    <div style="text-align: left; margin-top: 8px;">
+                        <NuxtLink to="/forgot-password" class="forgot-password">رمز عبور را فراموش کرده‌اید؟</NuxtLink>
+                    </div>
                 </div>
 
                 <div class="form-options">
@@ -34,9 +32,6 @@
                         <input type="checkbox" id="remember" v-model="rememberMe">
                         <label for="remember" style="margin-right: 8px;">مرا به خاطر بسپار</label>
                     </div>
-                    <button type="button" @click="toggleLoginMethod" class="forgot-password" style="background: none; border: none; padding: 0; font-family: inherit; font-size: 14px; cursor: pointer;">
-                        {{ loginWithOtp ? 'ورود با کلمه عبور' : 'ورود با رمز یکبار مصرف' }}
-                    </button>
                 </div>
 
                 <button type="submit" class="login-btn" :disabled="loading">
@@ -51,8 +46,8 @@
         </div>
 
         <div class="dashboard-section">
-            <h2 class="dashboard-title">کسب‌وکار خود را بدون زحمت مدیریت کنید.</h2>
-            <p class="dashboard-subtitle">برای دسترسی به داشبورد CRM و مدیریت تیم خود وارد شوید.</p>
+            <h2 class="dashboard-title" style="color: white;">کسب‌وکار خود را بدون زحمت مدیریت کنید.</h2>
+            <p class="dashboard-subtitle">برای دسترسی به داشبورد مدیریت فروش خود وارد شوید.</p>
 
             <div class="dashboard-preview">
                 <div class="dashboard-header">
@@ -99,7 +94,7 @@
             </div>
 
             <div class="footer">
-                <div>حق نشر © ۱۴۰۳ لویانا شرکت تجاری.</div>
+                <div>حق نشر © ۱۴۰۴ لویانا شرکت تجاری.</div>
                 <div>سیاست حریم خصوصی</div>
             </div>
         </div>
@@ -125,16 +120,10 @@ definePageMeta({
 
 const username = ref('');
 const password = ref('');
-const loginWithOtp = ref(false);
 const rememberMe = ref(false);
 const loading = ref(false);
 const router = useRouter();
 const toast = useToast();
-
-const toggleLoginMethod = () => {
-  loginWithOtp.value = !loginWithOtp.value;
-  password.value = ''; // Clear password field on toggle
-};
 
 const login = async () => {
   if (loading.value) return;

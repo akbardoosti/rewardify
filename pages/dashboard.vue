@@ -8,6 +8,7 @@
             <label for="phone_number">شماره موبایل:</label>
             <input type="text" id="phone_number" name="phone_number" pattern="^09\d{9}$" required
                    placeholder="مثلاً 09123456789" v-model="phoneNumber"
+                   inputmode="numeric"
                    :class="{ invalid: isPhoneNumberInvalid }" @input="isPhoneNumberInvalid = false">
             <button type="submit" id="phone-check-btn" :disabled="isPhoneChecking">
                 {{ isPhoneChecking ? 'در حال بررسی...' : 'بررسی' }}

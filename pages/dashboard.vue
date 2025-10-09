@@ -61,7 +61,7 @@
             </div>
 
             <div class="form-buttons">
-                <button type="button" @click="goBack" class="back-btn">بازگشت</button>
+                <button type="button" @click="goBack" class="back-btn p-2">بازگشت</button>
                 <button type="submit" id="signup-btn" :disabled="isSigningUp">
                     {{ isSigningUp ? 'در حال ثبت‌نام...' : 'ثبت‌نام' }}
                 </button>
@@ -557,7 +557,7 @@ button:hover:not(:disabled) {
         opacity: 1;
     }
 }
-.pdp-icon.pdp-pointer {
+:deep(.pdp-icon.pdp-pointer) {
   display: none;
 }
 
@@ -611,7 +611,7 @@ input[type="checkbox"] {
 }
 
 
-#signup_birth_date.persian-date-input {
+:deep(#signup_birth_date.persian-date-input) {
     background-image: url('data:image/svg+xml;utf8,<svg fill="%236366f1" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1zm-7 5h5v5h-5z"/></svg>');
     background-repeat: no-repeat;
     background-position: left 0.7rem center;

@@ -313,7 +313,7 @@ const register = async () => {
 
 .right-section {
     flex: 1;
-    padding: 60px 50px;
+    padding: 25px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;

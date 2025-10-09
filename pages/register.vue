@@ -13,111 +13,116 @@
             </div>
 
             <form @submit.prevent="register" style="overflow-y: auto;max-height: 80vh;padding: 1rem;">
-                <!-- Step 1: Business Info -->
-                <div v-if="activeStep === 0">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="storeName">نام کسب و کار <span class="required-star">*</span></label>
-                            <input type="text" id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ لویانا">
-                        </div>
-                        <div class="form-group">
-                            <label for="salesArea">حوزه فروش <span class="required-star">*</span></label>
-                            <input type="text" id="salesArea" v-model="form.salesArea" placeholder="مثال: سوپرمارکت">
-                        </div>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="storeAddress">آدرس مجموعه</label>
-                        <input type="text" id="storeAddress" v-model="form.storeAddress" placeholder="مثال: خیابان اصلی، کوچه فرعی، پلاک ۱۰">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="province">استان</label>
-                            <Dropdown v-model="selectedProvince" :options="provinces" filter optionLabel="name" placeholder="استان خود را انتخاب کنید" @change="onProvinceChange" style="width: 100%;" />
-                        </div>
-                        <div class="form-group">
-                            <label for="city">شهر</label>
-                            <Dropdown v-model="form.city" :options="cities" filter optionLabel="name" optionValue="name" placeholder="شهر خود را انتخاب کنید" :disabled="!selectedProvince" style="width: 100%;" />
-                        </div>
-                    </div>
-                    <div class="stepper-buttons">
-                        <button type="button" @click="validateAndNextStep" class="submit-btn" style="width: auto; padding: 10px 20px;">بعدی</button>
-                    </div>
-                </div>
-
-                <!-- Step 2: Owner Info -->
-                <div v-if="activeStep === 1">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName">نام</label>
-                            <input type="text" id="firstName" v-model="form.firstName" placeholder="مثال: علی">
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName">نام خانوادگی</label>
-                            <input type="text" id="lastName" v-model="form.lastName" placeholder="مثال: محمدی">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="username">نام کاربری <span class="required-star">*</span></label>
-                            <input type="text" id="username" v-model="form.username" placeholder="مثال: yakaboo_store">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">ایمیل <span class="required-star">*</span></label>
-                            <input type="email" id="email" v-model="form.email" placeholder="test@test.com">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="phoneNumber">شماره تلفن <span class="required-star">*</span></label>
-                            <input type="tel" id="phoneNumber" v-model="form.phoneNumber" placeholder="۰۹۱۲۳۴۵۶۷۸۹">
-                        </div>
-                    </div>
-                    <div class="form-group full-width password-field">
-                        <label for="password">رمز عبور <span class="required-star">*</span></label>
-                        <input type="password" id="password" v-model="form.password">
-                    </div>
-                    <div class="form-group full-width password-field">
-                        <label for="confirmPassword">تایید رمز عبور <span class="required-star">*</span></label>
-                        <input type="password" id="confirmPassword" v-model="form.confirmPassword">
-                    </div>
-                    <div class="stepper-buttons">
-                        <button type="button" @click="activeStep--" class="submit-btn secondary-btn">قبلی</button>
-                        <button type="button" @click="validateAndNextStep" class="submit-btn">بعدی</button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Config -->
-                <div v-if="activeStep === 2">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="first_purchase_discount">تخفیف اولین خرید(%)</label>
-                            <input type="number" id="first_purchase_discount" v-model.number="form.first_purchase_discount" placeholder="مثال: 10000">
-                        </div>
-                        <div class="form-group">
-                            <label for="purchase_discount">تخفیف خریدهای بعدی(%)</label>
-                            <input type="number" id="purchase_discount" v-model.number="form.purchase_discount" placeholder="مثال: 15">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="birthday_discount">تخفیف روز تولد(%)</label>
-                            <input type="number" id="birthday_discount" v-model.number="form.birthday_discount" placeholder="مثال: 20">
-                        </div>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="terms" name="terms" v-model="form.terms">
-                        <label for="terms">
-                            موافقم با <a href="#">شرایط استفاده</a><br>
-                            با ثبت نام، شما موافقت می‌کنید که اطلاعات و داده‌های شخصی خود را
-                            برای اهداف تجاری ارائه دهید.
-                        </label>
-                    </div>
-                    <div class="stepper-buttons">
-                        <button type="button" @click="activeStep--" class="submit-btn secondary-btn">قبلی</button>
-                        <button type="submit" class="submit-btn">تکمیل ثبت نام</button>
-                    </div>
-                </div>
-
+                <ClientOnly>
+                    <Stepper v-model:value="activeStep">
+                        <StepList>
+                            <Step :value="1">اطلاعات کسب و کار</Step>
+                            <Step :value="2">اطلاعات مالک</Step>
+                            <Step :value="3">تنظیمات</Step>
+                        </StepList>
+                        <StepPanels>
+                            <StepPanel v-slot="{ activateCallback }" :value="1">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="storeName">نام کسب و کار <span class="required-star">*</span></label>
+                                        <input type="text" id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ لویانا">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salesArea">حوزه فروش <span class="required-star">*</span></label>
+                                        <input type="text" id="salesArea" v-model="form.salesArea" placeholder="مثال: سوپرمارکت">
+                                    </div>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="storeAddress">آدرس مجموعه</label>
+                                    <input type="text" id="storeAddress" v-model="form.storeAddress" placeholder="مثال: خیابان اصلی، کوچه فرعی، پلاک ۱۰">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="province">استان</label>
+                                        <Dropdown v-model="selectedProvince" :options="provinces" filter optionLabel="name" placeholder="استان خود را انتخاب کنید" @change="onProvinceChange" style="width: 100%;" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city">شهر</label>
+                                        <Dropdown v-model="form.city" :options="cities" filter optionLabel="name" optionValue="name" placeholder="شهر خود را انتخاب کنید" :disabled="!selectedProvince" style="width: 100%;" />
+                                    </div>
+                                </div>
+                                <div class="stepper-buttons">
+                                    <button type="button" @click="() => validateAndGoToNext(activateCallback, 2)" class="submit-btn" style="width: auto; padding: 10px 20px;">بعدی</button>
+                                </div>
+                            </StepPanel>
+                            <StepPanel v-slot="{ activateCallback }" :value="2">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">نام</label>
+                                        <input type="text" id="firstName" v-model="form.firstName" placeholder="مثال: علی">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">نام خانوادگی</label>
+                                        <input type="text" id="lastName" v-model="form.lastName" placeholder="مثال: محمدی">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="username">نام کاربری <span class="required-star">*</span></label>
+                                        <input type="text" id="username" v-model="form.username" placeholder="مثال: yakaboo_store">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">ایمیل <span class="required-star">*</span></label>
+                                        <input type="email" id="email" v-model="form.email" placeholder="test@test.com">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="phoneNumber">شماره تلفن <span class="required-star">*</span></label>
+                                        <input type="tel" id="phoneNumber" v-model="form.phoneNumber" placeholder="۰۹۱۲۳۴۵۶۷۸۹">
+                                    </div>
+                                </div>
+                                <div class="form-group full-width password-field">
+                                    <label for="password">رمز عبور <span class="required-star">*</span></label>
+                                    <input type="password" id="password" v-model="form.password">
+                                </div>
+                                <div class="form-group full-width password-field">
+                                    <label for="confirmPassword">تایید رمز عبور <span class="required-star">*</span></label>
+                                    <input type="password" id="confirmPassword" v-model="form.confirmPassword">
+                                </div>
+                                <div class="stepper-buttons">
+                                    <button type="button" @click="activateCallback(1)" class="submit-btn secondary-btn">قبلی</button>
+                                    <button type="button" @click="() => validateAndGoToNext(activateCallback, 3)" class="submit-btn">بعدی</button>
+                                </div>
+                            </StepPanel>
+                            <StepPanel v-slot="{ activateCallback }" :value="3">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="first_purchase_discount">تخفیف اولین خرید(%)</label>
+                                        <input type="number" id="first_purchase_discount" v-model.number="form.first_purchase_discount" placeholder="مثال: 10000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="purchase_discount">تخفیف خریدهای بعدی(%)</label>
+                                        <input type="number" id="purchase_discount" v-model.number="form.purchase_discount" placeholder="مثال: 15">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="birthday_discount">تخفیف روز تولد(%)</label>
+                                        <input type="number" id="birthday_discount" v-model.number="form.birthday_discount" placeholder="مثال: 20">
+                                    </div>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="terms" name="terms" v-model="form.terms">
+                                    <label for="terms">
+                                        موافقم با <a href="#">شرایط استفاده</a><br>
+                                        با ثبت نام، شما موافقت می‌کنید که اطلاعات و داده‌های شخصی خود را
+                                        برای اهداف تجاری ارائه دهید.
+                                    </label>
+                                </div>
+                                <div class="stepper-buttons">
+                                    <button type="button" @click="activateCallback(2)" class="submit-btn secondary-btn">قبلی</button>
+                                    <button type="submit" class="submit-btn">تکمیل ثبت نام</button>
+                                </div>
+                            </StepPanel>
+                        </StepPanels>
+                    </Stepper>
+                </ClientOnly>
                 <div class="login-link">
                     قبلاً حساب کاربری دارید؟ <NuxtLink to="/login">وارد شوید</NuxtLink>
                 </div>
@@ -132,6 +137,11 @@ import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useToast } from 'primevue/usetoast';
 import Dropdown from 'primevue/dropdown';
+import Stepper from 'primevue/stepper';
+import StepPanel from 'primevue/steppanel';
+import StepList from 'primevue/steplist';
+import Step from 'primevue/step';
+import StepPanels from 'primevue/steppanels';
 
 definePageMeta({
   layout: 'default'
@@ -146,7 +156,7 @@ const toast = useToast()
 const provinces = ref([]);
 const cities = ref([]);
 const selectedProvince = ref(null);
-const activeStep = ref(0);
+const activeStep = ref(1);
 
 const form = reactive({
   firstName: '',
@@ -167,8 +177,8 @@ const form = reactive({
   terms: false,
 })
 
-const validateAndNextStep = () => {
-    if (activeStep.value === 0) {
+const validateAndGoToNext = (callback, nextStep) => {
+    if (activeStep.value === 1) {
         if (!form.storeName) {
             toast.add({ severity: 'error', summary: 'خطا', detail: 'لطفاً نام کسب و کار را وارد کنید.', life: 3000 });
             return;
@@ -177,7 +187,7 @@ const validateAndNextStep = () => {
             toast.add({ severity: 'error', summary: 'خطا', detail: 'لطفاً حوزه فروش را وارد کنید.', life: 3000 });
             return;
         }
-    } else if (activeStep.value === 1) {
+    } else if (activeStep.value === 2) {
         if (!form.username) {
             toast.add({ severity: 'error', summary: 'خطا', detail: 'لطفاً نام کاربری را وارد کنید.', life: 3000 });
             return;
@@ -199,7 +209,7 @@ const validateAndNextStep = () => {
             return;
         }
     }
-    activeStep.value++;
+    callback(nextStep);
 };
 
 onMounted(async () => {
@@ -303,7 +313,7 @@ const register = async () => {
 
 .right-section {
     flex: 1;
-    padding: 60px 50px;
+    padding: 25px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;

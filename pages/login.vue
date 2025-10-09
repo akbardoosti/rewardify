@@ -46,8 +46,8 @@
         </div>
 
         <div class="dashboard-section">
-            <h2 class="dashboard-title">کسب‌وکار خود را بدون زحمت مدیریت کنید.</h2>
-            <p class="dashboard-subtitle">برای دسترسی به داشبورد CRM و مدیریت تیم خود وارد شوید.</p>
+            <h2 class="dashboard-title" style="color: white;">کسب‌وکار خود را بدون زحمت مدیریت کنید.</h2>
+            <p class="dashboard-subtitle">برای دسترسی به داشبورد مدیریت فروش خود وارد شوید.</p>
 
             <div class="dashboard-preview">
                 <div class="dashboard-header">

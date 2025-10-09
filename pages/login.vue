@@ -8,16 +8,16 @@
             </div>
 
             <h1 class="welcome-title">خوش آمدید</h1>
-            <p class="welcome-subtitle">ایمیل و رمز عبور خود را وارد کنید تا به حساب کاربری خود دسترسی پیدا کنید.</p>
+            <p class="welcome-subtitle">نام‌کاربری و کلمه‌عبور خود را وارد کنید تا به حساب کاربری خود دسترسی پیدا کنید.</p>
 
             <form @submit.prevent="login">
                 <div class="form-group">
-                    <label for="credential" class="form-label">نام کاربری</label>
+                    <label for="credential" class="form-label">نام‌کاربری</label>
                     <input type="text" id="credential" v-model="username" class="form-input" dir="rtl">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="password">کلمه عبور</label>
+                    <label class="form-label" for="password">کلمه‌عبور</label>
                     <div class="password-container">
                         <input type="password" id="password" v-model="password" class="form-input" dir="rtl">
                         <!-- <button type="button" class="password-toggle">👁️</button> -->

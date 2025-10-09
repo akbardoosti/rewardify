@@ -5,22 +5,6 @@
             <div class="welcome-text">
                 <h1>به لویانا بپیوندید<br>و فروش خود را<br>افزایش دهید</h1>
             </div>
-            <div class="illustration">
-                <div class="floating-elements">
-                    <div class="floating-rect rect1"></div>
-                    <div class="floating-rect rect2"></div>
-                    <div class="floating-rect rect3"></div>
-                </div>
-                <div class="plant">
-                    <div class="plant-pot"></div>
-                    <div class="plant-leaves"></div>
-                </div>
-                <div class="table"></div>
-                <div class="phone"></div>
-                <div class="cup"></div>
-                <div class="chair"></div>
-                <div class="person"></div>
-            </div>
         </div>
 
         <div class="right-section">
@@ -283,7 +267,6 @@ const register = async () => {
   overflow: hidden;
   max-width: 1200px;
   width: 100%;
-  min-height: 700px;
   margin-inline: auto;
 }
 .required-star {
@@ -300,6 +283,7 @@ const register = async () => {
     justify-content: center;
     align-items: center;
     position: relative;
+  flex-basis: 30%;
 }
 
 .welcome-text {
@@ -307,6 +291,7 @@ const register = async () => {
     color: #4a6741;
     margin-bottom: 40px;
     z-index: 2;
+  font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
 }
 
 .welcome-text h1 {
@@ -316,167 +301,13 @@ const register = async () => {
     margin-bottom: 10px;
 }
 
-.illustration {
-    position: relative;
-    width: 300px;
-    height: 300px;
-}
-
-.person {
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
-    width: 120px;
-    height: 140px;
-    background: #4472c4;
-    border-radius: 60px 60px 20px 20px;
-    z-index: 3;
-}
-
-.person::before {
-    content: '';
-    position: absolute;
-    top: -30px;
-    right: 20px;
-    width: 80px;
-    height: 80px;
-    background: #ffd6cc;
-    border-radius: 50%;
-}
-
-.person::after {
-    content: '';
-    position: absolute;
-    top: -20px;
-    right: 30px;
-    width: 60px;
-    height: 40px;
-    background: #ff6b4a;
-    border-radius: 30px;
-}
-
-.chair {
-    position: absolute;
-    bottom: 20px;
-    right: 80px;
-    width: 60px;
-    height: 80px;
-    background: #ffffff;
-    border-radius: 10px;
-    z-index: 2;
-}
-
-.table {
-    position: absolute;
-    bottom: 40px;
-    right: 120px;
-    width: 80px;
-    height: 8px;
-    background: #ffffff;
-    border-radius: 4px;
-    z-index: 1;
-}
-
-.phone {
-    position: absolute;
-    bottom: 48px;
-    right: 140px;
-    width: 20px;
-    height: 35px;
-    background: #ff6b4a;
-    border-radius: 8px;
-    z-index: 2;
-}
-
-.cup {
-    position: absolute;
-    bottom: 48px;
-    right: 170px;
-    width: 15px;
-    height: 20px;
-    background: #87ceeb;
-    border-radius: 0 0 8px 8px;
-    z-index: 2;
-}
-
-.plant {
-    position: absolute;
-    bottom: 20px;
-    left: 60px;
-    width: 40px;
-    height: 60px;
-}
-
-.plant-pot {
-    position: absolute;
-    bottom: 0;
-    width: 40px;
-    height: 20px;
-    background: #ffffff;
-    border-radius: 0 0 20px 20px;
-}
-
-.plant-leaves {
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
-    width: 20px;
-    height: 30px;
-    background: #4472c4;
-    border-radius: 10px 10px 0 0;
-}
-
-.floating-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-.floating-rect {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    animation: float 3s ease-in-out infinite;
-}
-
-.rect1 {
-    top: 60px;
-    right: 80px;
-    width: 60px;
-    height: 40px;
-    animation-delay: 0s;
-}
-
-.rect2 {
-    top: 80px;
-    right: 150px;
-    width: 50px;
-    height: 35px;
-    animation-delay: 1s;
-}
-
-.rect3 {
-    top: 120px;
-    right: 200px;
-    width: 45px;
-    height: 30px;
-    animation-delay: 2s;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
-
 .right-section {
     flex: 1;
     padding: 60px 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+  flex-basis: 70%;
 }
 
 .form-header {

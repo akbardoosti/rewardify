@@ -274,7 +274,18 @@ const register = async () => {
 }
 </script>
 
-<style>
+<style scoped>
+.container {
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 1200px;
+  width: 100%;
+  min-height: 700px;
+  margin-inline: auto;
+}
 .required-star {
     color: red;
     margin-right: 2px;

@@ -17,11 +17,11 @@
         <div class="p-3"></div>
       </template>
       <template #item="{ item }">
-        <NuxtLink v-if="item.to" :to="item.to" class="flex items-center p-2 cursor-pointer">
+        <NuxtLink v-if="item.to" :to="item.to" class="flex items-center p-2 gap-1 cursor-pointer">
           <span :class="item.icon" />
           <span class="ml-2">{{ item.label }}</span>
         </NuxtLink>
-        <a v-else-if="item.command" @click="item.command" class="flex items-center p-2 cursor-pointer">
+        <a v-else-if="item.command" @click="item.command" class="flex bg-green-600 transition-all delay-200 rounded text-white gap-1 hover:bg-green-700 items-center p-2 cursor-pointer">
           <span :class="item.icon" />
           <span class="ml-2">{{ item.label }}</span>
         </a>

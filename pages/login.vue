@@ -164,23 +164,7 @@ const login = async () => {
 };
 </script>
 
-<style>
-/* Using unscoped style as this is a complete page replacement */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Vazirmatn', 'Tahoma', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: #f5f5f7;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    direction: rtl;
-}
+<style scoped>
 
 .container {
     display: flex;
@@ -191,6 +175,7 @@ body {
     max-width: 1200px;
     width: 100%;
     min-height: 700px;
+    margin-inline: auto;
 }
 
 .login-section {

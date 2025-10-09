@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex justify-center">
     <div id="birthday-effect" style="display:none;"></div>
     <!-- Phone Check Page -->
     <section id="phone-check-section" class="dashboard-section" v-if="currentSection === 'phone-check'">
@@ -367,7 +367,7 @@ const purchase = async () => {
 
 </script>
 
-<style scope>
+<style scoped>
 
 
 section.dashboard-section {

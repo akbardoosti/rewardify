@@ -128,5 +128,4 @@ const handleResetPassword = async () => {
 :deep(.p-password input) {
   width: 100%;
 }
-
 </style>

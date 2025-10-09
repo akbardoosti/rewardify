@@ -60,9 +60,12 @@
                 <span class="unit">تومان</span>
             </div>
 
-            <button type="submit" id="signup-btn" :disabled="isSigningUp">
-                {{ isSigningUp ? 'در حال ثبت‌نام...' : 'ثبت‌نام' }}
-            </button>
+            <div class="form-buttons">
+                <button type="button" @click="goBack" class="back-btn">بازگشت</button>
+                <button type="submit" id="signup-btn" :disabled="isSigningUp">
+                    {{ isSigningUp ? 'در حال ثبت‌نام...' : 'ثبت‌نام' }}
+                </button>
+            </div>
         </form>
         <div id="signup-message" class="message">{{ signupMessage }}</div>
     </section>
@@ -94,9 +97,12 @@
                 قیمت بعد از اعمال تخفیف: <span id="final-price">{{ formatNumber(finalPrice) }}</span> تومان
             </div>
 
-            <button type="submit" id="purchase-btn" :disabled="isPurchasing">
-                {{ isPurchasing ? 'در حال ثبت...' : 'ثبت خرید' }}
-            </button>
+            <div class="form-buttons">
+                <button type="button" @click="goBack" class="back-btn">بازگشت</button>
+                <button type="submit" id="purchase-btn" :disabled="isPurchasing">
+                    {{ isPurchasing ? 'در حال ثبت...' : 'ثبت خرید' }}
+                </button>
+            </div>
         </form>
         <div id="purchase-message" class="message">{{ purchaseMessage }}</div>
     </section>
@@ -124,6 +130,26 @@ const { formatNumber, parseNumber } = useUtils();
 // State for the current view
 const currentSection = ref('phone-check'); // 'phone-check', 'signup', or 'purchase'
 const customerId = ref(null); // To store the ID of the customer
+
+const goBack = () => {
+  currentSection.value = 'phone-check';
+  // Reset fields to avoid carrying over old data
+  phoneNumber.value = '';
+  phoneCheckMessage.value = '';
+  signupFullName.value = '';
+  signupPhoneNumber.value = '';
+  signupBirthDate.value = '';
+  signupFirstPurchaseAmount.value = null;
+  signupMessage.value = '';
+  customerNameToDisplay.value = '';
+  purchaseAmount.value = null;
+  useDiscount.value = false;
+  purchaseMessage.value = '';
+  birthDatePreview.value = '';
+  isBirthday.value = false;
+  birthdayDiscountMessage.value = '';
+  customerId.value = null;
+};
 
 // Phone Check section
 const phoneNumber = ref('');
@@ -474,6 +500,27 @@ button {
     font-weight: 700;
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
     margin-top: 0.7rem;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.7rem;
+}
+
+.form-buttons button {
+    flex: 1;
+    margin-top: 0;
+}
+
+.back-btn {
+    background: #f1f5ff;
+    color: #6366f1;
+    border: 1.5px solid #e0e7ff;
+}
+
+.back-btn:hover {
+    background: #e0e7ff;
 }
 
 button:disabled {

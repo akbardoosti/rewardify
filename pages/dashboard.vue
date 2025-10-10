@@ -10,9 +10,13 @@
                    placeholder="مثلاً 09123456789" v-model="phoneNumber"
                    inputmode="numeric"
                    :class="{ invalid: isPhoneNumberInvalid }" @input="isPhoneNumberInvalid = false">
-            <button type="submit" id="phone-check-btn" :disabled="isPhoneChecking">
-                {{ isPhoneChecking ? 'در حال بررسی...' : 'بررسی' }}
-            </button>
+            <Button
+                id="phone-check-btn"
+                :disabled="isPhoneChecking"
+                :label="isPhoneChecking ? 'در حال بررسی...' : 'بررسی'"
+                type="submit"
+                class="w-full"
+            />
         </form>
         <div id="phone-check-message" class="message">{{ phoneCheckMessage }}</div>
     </section>
@@ -61,10 +65,14 @@
             </div>
 
             <div class="form-buttons">
-                <button type="button" @click="goBack" class="back-btn p-2">بازگشت</button>
-                <button type="submit" id="signup-btn" :disabled="isSigningUp">
-                    {{ isSigningUp ? 'در حال ثبت‌نام...' : 'ثبت‌نام' }}
-                </button>
+                <Button :label="'بازگشت'" class="w-full" outlined severity="secondary" @click="goBack" />
+                <Button
+                    id="signup-btn"
+                    :disabled="isSigningUp"
+                    :label="isSigningUp ? 'در حال ثبت‌نام...' : 'ثبت‌نام'"
+                    class="w-full"
+                    type="submit"
+                />
             </div>
         </form>
         <div id="signup-message" class="message">{{ signupMessage }}</div>
@@ -98,10 +106,14 @@
             </div>
 
             <div class="form-buttons">
-                <button type="button" @click="goBack" class="back-btn">بازگشت</button>
-                <button type="submit" id="purchase-btn" :disabled="isPurchasing">
-                    {{ isPurchasing ? 'در حال ثبت...' : 'ثبت خرید' }}
-                </button>
+                <Button :label="'بازگشت'" class="w-full" outlined severity="secondary" @click="goBack" />
+                <Button
+                    id="purchase-btn"
+                    :disabled="isPurchasing"
+                    :label="isPurchasing ? 'در حال ثبت...' : 'ثبت خرید'"
+                    class="w-full"
+                    type="submit"
+                />
             </div>
         </form>
         <div id="purchase-message" class="message">{{ purchaseMessage }}</div>
@@ -487,51 +499,10 @@ input.invalid::placeholder {
     }
 }
 
-button {
-    padding: 0.9rem;
-    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.15rem;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    font-family: inherit;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
-    margin-top: 0.7rem;
-}
-
 .form-buttons {
     display: flex;
     gap: 1rem;
     margin-top: 0.7rem;
-}
-
-.form-buttons button {
-    flex: 1;
-    margin-top: 0;
-}
-
-.back-btn {
-    background: #f1f5ff;
-    color: #6366f1;
-    border: 1.5px solid #e0e7ff;
-}
-
-.back-btn:hover {
-    background: #e0e7ff;
-}
-
-button:disabled {
-    background: #b3bcf6;
-    cursor: not-allowed;
-    color: #f3f4f6;
-}
-
-button:hover:not(:disabled) {
-    background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.13);
 }
 
 .message {

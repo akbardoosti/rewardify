@@ -10,34 +10,34 @@
             <h1 class="welcome-title">خوش آمدید</h1>
             <p class="welcome-subtitle">نام‌کاربری و کلمه‌عبور خود را وارد کنید تا به حساب کاربری خود دسترسی پیدا کنید.</p>
 
-            <form @submit.prevent="login">
-                <div class="form-group">
+            <form @submit.prevent="login" class="space-y-6">
+                <div class="flex flex-col gap-2">
                     <label for="credential" class="form-label">نام‌کاربری</label>
-                    <input type="text" id="credential" v-model="username" class="form-input" dir="rtl">
+                    <InputText id="credential" v-model="username" class="w-full" dir="rtl" />
                 </div>
 
-                <div class="form-group">
+                <div class="flex flex-col gap-2">
                     <label class="form-label" for="password">کلمه‌عبور</label>
-                    <div class="password-container">
-                        <input type="password" id="password" v-model="password" class="form-input" dir="rtl">
-                        <!-- <button type="button" class="password-toggle">👁️</button> -->
-                    </div>
+                    <Password
+                        id="password"
+                        v-model="password"
+                        class="w-full"
+                        :feedback="false"
+                        toggleMask
+                        inputClass="w-full"
+                        dir="rtl"
+                    />
                     <div style="text-align: left; margin-top: 8px;">
                         <NuxtLink to="/forgot-password" class="forgot-password">رمز عبور را فراموش کرده‌اید؟</NuxtLink>
                     </div>
                 </div>
 
-                <div class="form-options">
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="remember" v-model="rememberMe">
-                        <label for="remember" style="margin-right: 8px;">مرا به خاطر بسپار</label>
-                    </div>
+                <div class="flex items-center">
+                    <Checkbox inputId="remember" v-model="rememberMe" :binary="true" />
+                    <label for="remember" class="mr-2 text-sm text-gray-600">مرا به خاطر بسپار</label>
                 </div>
 
-                <button type="submit" class="login-btn" :disabled="loading">
-                    <ProgressSpinner v-if="loading" style="width: 24px; height: 24px" strokeWidth="8" />
-                    <span v-else>ورود</span>
-                </button>
+                <Button type="submit" class="w-full justify-center" :loading="loading" label="ورود" />
             </form>
 
             <div class="register-link">
@@ -109,6 +109,10 @@ import api from '~/services/api';
 import { encrypt } from '~/services/crypto';
 import ProgressSpinner from 'primevue/progressspinner';
 import Toast from 'primevue/toast';
+import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
+import Checkbox from 'primevue/checkbox';
+import Button from 'primevue/button';
 
 useHead({
   title: 'لویانا - صفحه ورود'
@@ -237,58 +241,6 @@ const login = async () => {
     text-align: right;
 }
 
-.form-input {
-    width: 100%;
-    padding: 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    background: #f9fafb;
-  color: #1a1a1a;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #4f46e5;
-    background: white;
-}
-
-.password-container {
-    position: relative;
-}
-
-.password-toggle {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #9ca3af;
-    cursor: pointer;
-}
-
-.form-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-}
-
-.checkbox-container input {
-    margin-left: 8px;
-}
-
-.checkbox-container label {
-    color: #6b7280;
-    font-size: 14px;
-}
 
 .forgot-password {
     color: #4f46e5;
@@ -300,27 +252,6 @@ const login = async () => {
     text-decoration: underline;
 }
 
-.login-btn {
-    width: 100%;
-    background: #4f46e5;
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 58px; /* To prevent layout shift */
-}
-
-.login-btn:hover {
-    background: #4338ca;
-}
 
 .divider {
     text-align: center;

@@ -22,93 +22,93 @@
                         </StepList>
                         <StepPanels>
                             <StepPanel v-slot="{ activateCallback }" :value="1">
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex flex-col gap-2">
                                         <label for="storeName">نام کسب و کار <span class="required-star">*</span></label>
-                                        <input type="text" id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ لویانا">
+                                        <InputText id="storeName" v-model="form.storeName" placeholder="مثال: فروشگاه بزرگ لویانا" class="w-full" />
                                     </div>
-                                    <div class="form-group">
+                                    <div class="flex flex-col gap-2">
                                         <label for="salesArea">حوزه فروش <span class="required-star">*</span></label>
-                                        <input type="text" id="salesArea" v-model="form.salesArea" placeholder="مثال: سوپرمارکت">
+                                        <InputText id="salesArea" v-model="form.salesArea" placeholder="مثال: سوپرمارکت" class="w-full" />
                                     </div>
                                 </div>
-                                <div class="form-group full-width">
+                                <div class="flex flex-col gap-2 mt-4">
                                     <label for="storeAddress">آدرس مجموعه</label>
-                                    <input type="text" id="storeAddress" v-model="form.storeAddress" placeholder="مثال: خیابان اصلی، کوچه فرعی، پلاک ۱۰">
+                                    <InputText id="storeAddress" v-model="form.storeAddress" placeholder="مثال: خیابان اصلی، کوچه فرعی، پلاک ۱۰" class="w-full" />
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div class="flex flex-col gap-2">
                                         <label for="province">استان</label>
-                                        <Dropdown v-model="selectedProvince" :options="provinces" filter optionLabel="name" placeholder="استان خود را انتخاب کنید" @change="onProvinceChange" style="width: 100%;" />
+                                        <Dropdown v-model="selectedProvince" :options="provinces" filter optionLabel="name" placeholder="استان خود را انتخاب کنید" @change="onProvinceChange" class="w-full" />
                                     </div>
-                                    <div class="form-group">
+                                    <div class="flex flex-col gap-2">
                                         <label for="city">شهر</label>
-                                        <Dropdown v-model="form.city" :options="cities" filter optionLabel="name" optionValue="name" placeholder="شهر خود را انتخاب کنید" :disabled="!selectedProvince" style="width: 100%;" />
+                                        <Dropdown v-model="form.city" :options="cities" filter optionLabel="name" optionValue="name" placeholder="شهر خود را انتخاب کنید" :disabled="!selectedProvince" class="w-full" />
                                     </div>
                                 </div>
                                 <div class="stepper-buttons">
-                                    <button type="button" @click="() => validateAndGoToNext(activateCallback, 2)" class="submit-btn" style="width: auto; padding: 10px 20px;">بعدی</button>
+                                    <Button @click="() => validateAndGoToNext(activateCallback, 2)" label="بعدی" />
                                 </div>
                             </StepPanel>
                             <StepPanel v-slot="{ activateCallback }" :value="2">
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex flex-col gap-2">
                                         <label for="firstName">نام</label>
-                                        <input type="text" id="firstName" v-model="form.firstName" placeholder="مثال: علی">
+                                        <InputText id="firstName" v-model="form.firstName" placeholder="مثال: علی" class="w-full" />
                                     </div>
-                                    <div class="form-group">
+                                    <div class="flex flex-col gap-2">
                                         <label for="lastName">نام خانوادگی</label>
-                                        <input type="text" id="lastName" v-model="form.lastName" placeholder="مثال: محمدی">
+                                        <InputText id="lastName" v-model="form.lastName" placeholder="مثال: محمدی" class="w-full" />
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div class="flex flex-col gap-2">
                                         <label for="username">نام کاربری <span class="required-star">*</span></label>
-                                        <input type="text" id="username" v-model="form.username" placeholder="مثال: yakaboo_store">
+                                        <InputText id="username" v-model="form.username" placeholder="مثال: yakaboo_store" class="w-full" />
                                     </div>
-                                    <div class="form-group">
+                                    <div class="flex flex-col gap-2">
                                         <label for="email">ایمیل <span class="required-star">*</span></label>
-                                        <input type="email" id="email" v-model="form.email" placeholder="test@test.com">
+                                        <InputText id="email" type="email" v-model="form.email" placeholder="test@test.com" class="w-full" />
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="grid grid-cols-1 mt-4">
+                                    <div class="flex flex-col gap-2">
                                         <label for="phoneNumber">شماره تلفن <span class="required-star">*</span></label>
-                                        <input type="tel" id="phoneNumber" v-model="form.phoneNumber" placeholder="۰۹۱۲۳۴۵۶۷۸۹">
+                                        <InputMask id="phoneNumber" v-model="form.phoneNumber" mask="09999999999" placeholder="۰۹۱۲۳۴۵۶۷۸۹" class="w-full" />
                                     </div>
                                 </div>
-                                <div class="form-group full-width password-field">
+                                <div class="flex flex-col gap-2 mt-4">
                                     <label for="password">رمز عبور <span class="required-star">*</span></label>
-                                    <input type="password" id="password" v-model="form.password">
+                                    <Password id="password" v-model="form.password" toggleMask :feedback="false" inputClass="w-full" />
                                 </div>
-                                <div class="form-group full-width password-field">
+                                <div class="flex flex-col gap-2 mt-4">
                                     <label for="confirmPassword">تایید رمز عبور <span class="required-star">*</span></label>
-                                    <input type="password" id="confirmPassword" v-model="form.confirmPassword">
+                                    <Password id="confirmPassword" v-model="form.confirmPassword" toggleMask :feedback="false" inputClass="w-full" />
                                 </div>
                                 <div class="stepper-buttons">
-                                    <button type="button" @click="activateCallback(1)" class="submit-btn secondary-btn">قبلی</button>
-                                    <button type="button" @click="() => validateAndGoToNext(activateCallback, 3)" class="submit-btn">بعدی</button>
+                                    <Button @click="activateCallback(1)" label="قبلی" severity="secondary" />
+                                    <Button @click="() => validateAndGoToNext(activateCallback, 3)" label="بعدی" />
                                 </div>
                             </StepPanel>
                             <StepPanel v-slot="{ activateCallback }" :value="3">
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex flex-col gap-2">
                                         <label for="first_purchase_discount">تخفیف اولین خرید(%)</label>
-                                        <input type="number" id="first_purchase_discount" v-model.number="form.first_purchase_discount" placeholder="مثال: 10000">
+                                        <InputNumber id="first_purchase_discount" v-model="form.first_purchase_discount" placeholder="مثال: 10" class="w-full" />
                                     </div>
-                                    <div class="form-group">
+                                    <div class="flex flex-col gap-2">
                                         <label for="purchase_discount">تخفیف خریدهای بعدی(%)</label>
-                                        <input type="number" id="purchase_discount" v-model.number="form.purchase_discount" placeholder="مثال: 15">
+                                        <InputNumber id="purchase_discount" v-model="form.purchase_discount" placeholder="مثال: 15" class="w-full" />
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="grid grid-cols-1 mt-4">
+                                    <div class="flex flex-col gap-2">
                                         <label for="birthday_discount">تخفیف روز تولد(%)</label>
-                                        <input type="number" id="birthday_discount" v-model.number="form.birthday_discount" placeholder="مثال: 20">
+                                        <InputNumber id="birthday_discount" v-model="form.birthday_discount" placeholder="مثال: 20" class="w-full" />
                                     </div>
                                 </div>
-                                <div class="checkbox-group">
-                                    <input type="checkbox" id="terms" name="terms" v-model="form.terms">
+                                <div class="flex items-center gap-2 mt-6">
+                                    <Checkbox inputId="terms" v-model="form.terms" :binary="true" />
                                     <label for="terms">
                                         موافقم با <a href="#">شرایط استفاده</a><br>
                                         با ثبت نام، شما موافقت می‌کنید که اطلاعات و داده‌های شخصی خود را
@@ -116,8 +116,8 @@
                                     </label>
                                 </div>
                                 <div class="stepper-buttons">
-                                    <button type="button" @click="activateCallback(2)" class="submit-btn secondary-btn">قبلی</button>
-                                    <button type="submit" class="submit-btn">تکمیل ثبت نام</button>
+                                    <Button @click="activateCallback(2)" label="قبلی" severity="secondary" />
+                                    <Button type="submit" label="تکمیل ثبت نام" />
                                 </div>
                             </StepPanel>
                         </StepPanels>
@@ -142,6 +142,12 @@ import StepPanel from 'primevue/steppanel';
 import StepList from 'primevue/steplist';
 import Step from 'primevue/step';
 import StepPanels from 'primevue/steppanels';
+import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
+import InputNumber from 'primevue/inputnumber';
+import Checkbox from 'primevue/checkbox';
+import Button from 'primevue/button';
+import InputMask from 'primevue/inputmask';
 
 definePageMeta({
   layout: 'default'
@@ -330,133 +336,6 @@ const register = async () => {
     margin-bottom: 30px;
 }
 
-.social-buttons {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.social-btn {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #666;
-    transition: all 0.3s ease;
-}
-
-.social-btn:hover {
-    background: #f8f9fa;
-    border-color: #4285f4;
-}
-
-.google-btn {
-    color: #4285f4;
-}
-
-.facebook-btn {
-    color: #1877f2;
-}
-
-.form-row {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    flex: 1;
-}
-
-.form-group.full-width {
-    flex: none;
-    width: 100%;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #666;
-    font-size: 14px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    background: #fafafa;
-    transition: all 0.3s ease;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: #4285f4;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
-}
-
-.password-field {
-    position: relative;
-}
-
-
-.checkbox-group {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin: 25px 0;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.checkbox-group input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    cursor: pointer;
-    accent-color: #4285f4;
-}
-
-.checkbox-group label {
-    margin: 0;
-    cursor: pointer;
-    color: #666;
-}
-
-.checkbox-group a {
-    color: #4285f4;
-    text-decoration: none;
-}
-
-.checkbox-group a:hover {
-    text-decoration: underline;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 15px;
-    background: #4285f4;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-}
-
-.submit-btn:hover {
-    background: #3367d6;
-}
 
 .login-link {
     text-align: center;
@@ -479,21 +358,6 @@ const register = async () => {
     margin-top: 2rem;
 }
 
-.stepper-buttons .submit-btn {
-    width: auto;
-    padding: 12px 24px;
-}
-
-.secondary-btn {
-    background-color: #f8f9fa;
-    color: #343a40;
-    border: 1px solid #dee2e6;
-}
-
-.secondary-btn:hover {
-    background-color: #e9ecef;
-}
-
 
 @media (max-width: 768px) {
     .container {
@@ -502,14 +366,6 @@ const register = async () => {
 
     .left-section {
         min-height: 300px;
-    }
-
-    .form-row {
-        flex-direction: column;
-    }
-
-    .social-buttons {
-        flex-direction: column;
     }
 }
 </style>

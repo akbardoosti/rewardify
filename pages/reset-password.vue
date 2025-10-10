@@ -21,12 +21,14 @@
 
         <div>
           <label for="confirm_password" class="block text-sm font-medium text-gray-700">تکرار رمز عبور جدید</label>
-          <InputText
+          <Password
             id="confirm_password"
             v-model="confirmPassword"
-            type="password"
             class="w-full mt-1"
+            :feedback="false"
+            toggleMask
             required
+            inputClass="w-full"
           />
         </div>
 

@@ -4,15 +4,26 @@
     <!-- Phone Check Page -->
     <section id="phone-check-section" class="dashboard-section" v-if="currentSection === 'phone-check'">
         <h2>بررسی شماره موبایل</h2>
-        <form id="phone-check-form" @submit.prevent="checkPhoneNumber">
-            <label for="phone_number">شماره موبایل:</label>
-            <input type="text" id="phone_number" name="phone_number" pattern="^09\d{9}$" required
-                   placeholder="مثلاً 09123456789" v-model="phoneNumber"
-                   inputmode="numeric"
-                   :class="{ invalid: isPhoneNumberInvalid }" @input="isPhoneNumberInvalid = false">
-            <button type="submit" id="phone-check-btn" :disabled="isPhoneChecking">
-                {{ isPhoneChecking ? 'در حال بررسی...' : 'بررسی' }}
-            </button>
+        <form id="phone-check-form" @submit.prevent="checkPhoneNumber" class="space-y-4">
+            <div class="flex flex-col gap-2">
+                <label for="phone_number">شماره موبایل:</label>
+                <InputMask
+                    id="phone_number"
+                    v-model="phoneNumber"
+                    mask="09999999999"
+                    placeholder="مثلاً 09123456789"
+                    :class="{ 'p-invalid': isPhoneNumberInvalid }"
+                    @update:modelValue="isPhoneNumberInvalid = false"
+                    class="w-full"
+                />
+            </div>
+            <Button
+                id="phone-check-btn"
+                :disabled="isPhoneChecking"
+                :label="isPhoneChecking ? 'در حال بررسی...' : 'بررسی'"
+                type="submit"
+                class="w-full"
+            />
         </form>
         <div id="phone-check-message" class="message">{{ phoneCheckMessage }}</div>
     </section>
@@ -20,15 +31,27 @@
     <!-- Signup Page -->
     <section id="signup-section" class="dashboard-section" v-if="currentSection === 'signup'">
         <h2>ثبت‌نام مشتری جدید</h2>
-        <form id="signup-form" @submit.prevent="signup">
-            <label for="signup_full_name">نام و نام خانوادگی:</label>
-            <input type="text" id="signup_full_name" name="full_name" required placeholder="مثلاً علی رضایی" v-model="signupFullName"
-                   :class="{ invalid: isSignupFullNameInvalid }" @input="isSignupFullNameInvalid = false">
+        <form id="signup-form" @submit.prevent="signup" class="space-y-4">
+            <div class="flex flex-col gap-2">
+                <label for="signup_full_name">نام و نام خانوادگی:</label>
+                <InputText
+                    id="signup_full_name"
+                    v-model="signupFullName"
+                    placeholder="مثلاً علی رضایی"
+                    :class="{ 'p-invalid': isSignupFullNameInvalid }"
+                    @update:modelValue="isSignupFullNameInvalid = false"
+                    class="w-full"
+                    required
+                />
+            </div>
 
-            <label for="signup_phone_number">شماره موبایل:</label>
-            <input type="text" id="signup_phone_number" name="phone_number" readonly v-model="signupPhoneNumber">
+            <div class="flex flex-col gap-2">
+                <label for="signup_phone_number">شماره موبایل:</label>
+                <InputText id="signup_phone_number" v-model="signupPhoneNumber" readonly class="w-full bg-gray-100" />
+            </div>
 
-            <label for="signup_birth_date">تاریخ تولد:</label>
+            <div class="flex flex-col gap-2">
+                <label for="signup_birth_date">تاریخ تولد:</label>
             <date-picker
                 v-model="signupBirthDate"
                 id="signup_birth_date"
@@ -49,22 +72,35 @@
                  style="margin-top: 0.5rem; font-size: 0.9rem; color: #388e3c; text-align: center;" v-if="birthDatePreview">
                  {{ birthDatePreview }}
             </div>
+            </div>
 
 
-            <label for="signup_first_purchase_amount">مبلغ اولین خرید:</label>
-            <div class="input-with-unit">
-                <input type="text" id="signup_first_purchase_amount" name="first_purchase_amount" min="0" required
-                       placeholder="مثلاً 100,000" v-model="signupFirstPurchaseAmountFormatted"
-                       :class="{ invalid: isSignupFirstPurchaseAmountInvalid }" @input="isSignupFirstPurchaseAmountInvalid = false"
-                       inputmode="numeric">
-                <span class="unit">تومان</span>
+            <div class="flex flex-col gap-2">
+                <label for="signup_first_purchase_amount">مبلغ اولین خرید:</label>
+                <div class="p-inputgroup">
+                    <InputText
+                        id="signup_first_purchase_amount"
+                        v-model="signupFirstPurchaseAmountFormatted"
+                        placeholder="مثلاً 100,000"
+                        :class="{ 'p-invalid': isSignupFirstPurchaseAmountInvalid }"
+                        @update:modelValue="isSignupFirstPurchaseAmountInvalid = false"
+                        inputmode="numeric"
+                        class="w-full"
+                        required
+                    />
+                    <span class="p-inputgroup-addon">تومان</span>
+                </div>
             </div>
 
             <div class="form-buttons">
-                <button type="button" @click="goBack" class="back-btn p-2">بازگشت</button>
-                <button type="submit" id="signup-btn" :disabled="isSigningUp">
-                    {{ isSigningUp ? 'در حال ثبت‌نام...' : 'ثبت‌نام' }}
-                </button>
+                <Button :label="'بازگشت'" class="w-full" outlined severity="secondary" @click="goBack" />
+                <Button
+                    id="signup-btn"
+                    :disabled="isSigningUp"
+                    :label="isSigningUp ? 'در حال ثبت‌نام...' : 'ثبت‌نام'"
+                    class="w-full"
+                    type="submit"
+                />
             </div>
         </form>
         <div id="signup-message" class="message">{{ signupMessage }}</div>
@@ -73,21 +109,29 @@
     <!-- Purchase Page -->
     <section id="purchase-section" class="dashboard-section" v-if="currentSection === 'purchase'">
         <h2>ثبت خرید</h2>
-        <form id="purchase-form" @submit.prevent="purchase">
+        <form id="purchase-form" @submit.prevent="purchase" class="space-y-4">
             <div id="customer-name"
                  style="margin-bottom: 1rem; color: #6366f1; font-weight: 600; font-size: 1.08rem;" v-if="customerNameToDisplay">
                 مشتری: {{ customerNameToDisplay }}
             </div>
-            <label for="purchase_amount">مبلغ خرید:</label>
-            <div class="input-with-unit">
-                <input type="text" id="purchase_amount" name="amount" min="0" required placeholder="مثلاً 50,000" v-model="purchaseAmountFormatted" inputmode="numeric">
-                <span class="unit">تومان</span>
+             <div class="flex flex-col gap-2">
+                <label for="purchase_amount">مبلغ خرید:</label>
+                <div class="p-inputgroup">
+                    <InputText
+                        id="purchase_amount"
+                        v-model="purchaseAmountFormatted"
+                        placeholder="مثلاً 50,000"
+                        inputmode="numeric"
+                        class="w-full"
+                        required
+                    />
+                    <span class="p-inputgroup-addon">تومان</span>
+                </div>
             </div>
 
-            <div id="discount-container" style="display: flex; align-items: center; gap: 0.7rem;">
-                <input type="checkbox" id="use_discount" name="use_discount" v-model="useDiscount">
-                <label for="use_discount">استفاده از تخفیف (<span id="available_discount">{{ formatNumber(totalDiscount) }}</span>)</label>
-                <span class="unit">تومان</span>
+            <div class="flex items-center gap-2">
+                <Checkbox v-model="useDiscount" inputId="use_discount" :binary="true" />
+                <label for="use_discount">استفاده از تخفیف ({{ formatNumber(totalDiscount) }} تومان)</label>
             </div>
             <div id="birthday-discount-message" v-if="isBirthday" style="color: #ff4081; text-align: center; margin-top: 1rem; font-weight: bold;">
                 {{ birthdayDiscountMessage }}
@@ -98,10 +142,14 @@
             </div>
 
             <div class="form-buttons">
-                <button type="button" @click="goBack" class="back-btn">بازگشت</button>
-                <button type="submit" id="purchase-btn" :disabled="isPurchasing">
-                    {{ isPurchasing ? 'در حال ثبت...' : 'ثبت خرید' }}
-                </button>
+                <Button :label="'بازگشت'" class="w-full" outlined severity="secondary" @click="goBack" />
+                <Button
+                    id="purchase-btn"
+                    :disabled="isPurchasing"
+                    :label="isPurchasing ? 'در حال ثبت...' : 'ثبت خرید'"
+                    class="w-full"
+                    type="submit"
+                />
             </div>
         </form>
         <div id="purchase-message" class="message">{{ purchaseMessage }}</div>
@@ -436,38 +484,6 @@ label {
     font-size: 1.07rem;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="date"] {
-    padding: 0.7rem 0.9rem;
-    border: 1.5px solid #bfc7d1;
-    border-radius: 8px;
-    font-size: 1.13rem;
-    text-align: right;
-    background: #f6f8fa;
-    transition: border 0.2s, box-shadow 0.2s;
-    font-family: inherit;
-    color: #2d3137;
-}
-
-input:focus {
-    border: 2px solid #6366f1;
-    outline: none;
-    background: #fff;
-    box-shadow: 0 0 0 2px #e0e7ff;
-}
-
-input.invalid {
-    border: 2.2px solid #e53935 !important;
-    background: #fff0f0;
-    animation: shake 0.18s 1;
-    color: #b71c1c;
-}
-
-input.invalid::placeholder {
-    color: #e53935 !important;
-    opacity: 0.85;
-}
 
 @keyframes shake {
     0% {
@@ -487,51 +503,10 @@ input.invalid::placeholder {
     }
 }
 
-button {
-    padding: 0.9rem;
-    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.15rem;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    font-family: inherit;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
-    margin-top: 0.7rem;
-}
-
 .form-buttons {
     display: flex;
     gap: 1rem;
     margin-top: 0.7rem;
-}
-
-.form-buttons button {
-    flex: 1;
-    margin-top: 0;
-}
-
-.back-btn {
-    background: #f1f5ff;
-    color: #6366f1;
-    border: 1.5px solid #e0e7ff;
-}
-
-.back-btn:hover {
-    background: #e0e7ff;
-}
-
-button:disabled {
-    background: #b3bcf6;
-    cursor: not-allowed;
-    color: #f3f4f6;
-}
-
-button:hover:not(:disabled) {
-    background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.13);
 }
 
 .message {
@@ -573,11 +548,6 @@ button:hover:not(:disabled) {
     gap: 0.7rem;
 }
 
-input[type="checkbox"] {
-    accent-color: #6366f1;
-    width: 1.2em;
-    height: 1.2em;
-}
 
 ::-webkit-input-placeholder {
     color: #b0b3c6;
@@ -624,25 +594,6 @@ section.dashboard-section {
     margin-top: 70px !important;
 }
 
-.input-with-unit {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.1rem;
-}
-
-.input-with-unit input {
-    flex: 1 1 0;
-}
-
-.unit {
-    color: #6366f1;
-    font-size: 1.01rem;
-    font-weight: 500;
-    opacity: 0.85;
-    white-space: nowrap;
-}
 
 @media (max-width: 600px) {
     section.dashboard-section {
@@ -659,13 +610,6 @@ section.dashboard-section {
         margin-top: 60px !important;
     }
 
-    .input-with-unit {
-        gap: 0.2rem;
-    }
-
-    .unit {
-        font-size: 0.93rem;
-    }
 }
 
 #customer-name {

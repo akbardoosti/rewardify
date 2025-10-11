@@ -78,7 +78,7 @@ const contactLink = 'tel:09194563252';
 const tariffs = ref({
   'ماهانه': {
     sms: {
-      title: 'تعرفه پیامک',
+      title: 'تعرفه پیامک (۳۰ روز)',
       plans: [
         { id: 1, name: 'بسته پایه', messages: 1000, cost_per_message: 150, total_price: 150000 },
         { id: 2, name: 'بسته استاندارد', messages: 5000, cost_per_message: 140, total_price: 700000 },
@@ -86,7 +86,7 @@ const tariffs = ref({
       ]
     },
     telegram: {
-      title: 'تعرفه تلگرام',
+      title: 'تعرفه تلگرام (۳۰ روز)',
       plans: [
         { id: 1, name: 'بسته پایه', messages: 1000, cost_per_message: 100, total_price: 100000 },
         { id: 2, name: 'بسته استاندارد', messages: 5000, cost_per_message: 90, total_price: 450000 },
@@ -94,7 +94,7 @@ const tariffs = ref({
       ]
     },
     bale: {
-      title: 'تعرفه بله',
+      title: 'تعرفه بله (۳۰ روز)',
       plans: [
         { id: 1, name: 'بسته پایه', messages: 1000, cost_per_message: 80, total_price: 80000 },
         { id: 2, name: 'بسته استاندارد', messages: 5000, cost_per_message: 70, total_price: 350000 },
@@ -104,7 +104,7 @@ const tariffs = ref({
   },
   'سه ماهه': {
     sms: {
-      title: 'تعرفه پیامک',
+      title: 'تعرفه پیامک (۹۰ روز)',
       plans: [
         { id: 4, name: 'بسته پایه', messages: 3000, cost_per_message: 145, total_price: 435000 },
         { id: 5, name: 'بسته استاندارد', messages: 15000, cost_per_message: 135, total_price: 2025000 },
@@ -112,7 +112,7 @@ const tariffs = ref({
       ]
     },
     telegram: {
-      title: 'تعرفه تلگرام',
+      title: 'تعرفه تلگرام (۹۰ روز)',
       plans: [
         { id: 4, name: 'بسته پایه', messages: 3000, cost_per_message: 95, total_price: 285000 },
         { id: 5, name: 'بسته استاندارد', messages: 15000, cost_per_message: 85, total_price: 1275000 },
@@ -120,7 +120,7 @@ const tariffs = ref({
       ]
     },
     bale: {
-      title: 'تعرفه بله',
+      title: 'تعرفه بله (۹۰ روز)',
       plans: [
         { id: 4, name: 'بسته پایه', messages: 3000, cost_per_message: 75, total_price: 225000 },
         { id: 5, name: 'بسته استاندارد', messages: 15000, cost_per_message: 65, total_price: 975000 },
@@ -130,7 +130,7 @@ const tariffs = ref({
   },
   'سالیانه': {
     sms: {
-      title: 'تعرفه پیامک',
+      title: 'تعرفه پیامک (یکساله)',
       plans: [
         { id: 7, name: 'بسته پایه', messages: 12000, cost_per_message: 140, total_price: 1680000 },
         { id: 8, name: 'بسته استاندارد', messages: 60000, cost_per_message: 130, total_price: 7800000 },
@@ -138,7 +138,7 @@ const tariffs = ref({
       ]
     },
     telegram: {
-      title: 'تعرفه تلگرام',
+      title: 'تعرفه تلگرام (یکساله)',
       plans: [
         { id: 7, name: 'بسته پایه', messages: 12000, cost_per_message: 90, total_price: 1080000 },
         { id: 8, name: 'بسته استاندارد', messages: 60000, cost_per_message: 80, total_price: 4800000 },
@@ -146,7 +146,7 @@ const tariffs = ref({
       ]
     },
     bale: {
-      title: 'تعرفه بله',
+      title: 'تعرفه بله (یکساله)',
       plans: [
         { id: 7, name: 'بسته پایه', messages: 12000, cost_per_message: 70, total_price: 840000 },
         { id: 8, name: 'بسته استاندارد', messages: 60000, cost_per_message: 60, total_price: 3600000 },

@@ -5,7 +5,7 @@
     <section id="phone-check-section" class="dashboard-section" v-if="currentSection === 'phone-check'">
         <h2>بررسی شماره موبایل</h2>
         <form id="phone-check-form" @submit.prevent="checkPhoneNumber" class="space-y-4">
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1">
                 <label for="phone_number">شماره موبایل:</label>
                 <InputMask
                     id="phone_number"
@@ -32,7 +32,7 @@
     <section id="signup-section" class="dashboard-section" v-if="currentSection === 'signup'">
         <h2>ثبت‌نام مشتری جدید</h2>
         <form id="signup-form" @submit.prevent="signup" class="space-y-4">
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1">
                 <label for="signup_full_name">نام و نام خانوادگی:</label>
                 <InputText
                     id="signup_full_name"
@@ -45,12 +45,12 @@
                 />
             </div>
 
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1">
                 <label for="signup_phone_number">شماره موبایل:</label>
                 <InputText id="signup_phone_number" v-model="signupPhoneNumber" readonly class="w-full bg-gray-100" />
             </div>
 
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1">
                 <label for="signup_birth_date">تاریخ تولد:</label>
             <date-picker
                 v-model="signupBirthDate"
@@ -75,21 +75,23 @@
             </div>
 
 
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1">
                 <label for="signup_first_purchase_amount">مبلغ اولین خرید:</label>
-                <div class="p-inputgroup">
-                    <InputText
-                        id="signup_first_purchase_amount"
-                        v-model="signupFirstPurchaseAmountFormatted"
-                        placeholder="مثلاً 100,000"
-                        :class="{ 'p-invalid': isSignupFirstPurchaseAmountInvalid }"
-                        @update:modelValue="isSignupFirstPurchaseAmountInvalid = false"
-                        inputmode="numeric"
-                        class="w-full"
-                        required
-                    />
-                    <span class="p-inputgroup-addon">تومان</span>
-                </div>
+              <InputGroup>
+                <InputText
+                  id="signup_first_purchase_amount"
+                  v-model="signupFirstPurchaseAmountFormatted"
+                  placeholder="مثلاً 100,000"
+                  :class="{ 'p-invalid': isSignupFirstPurchaseAmountInvalid }"
+                  @update:modelValue="isSignupFirstPurchaseAmountInvalid = false"
+                  inputmode="numeric"
+                  class="w-full"
+                  required
+                />
+                <InputGroupAddon>
+                  تومان
+                </InputGroupAddon>
+              </InputGroup>
             </div>
 
             <div class="form-buttons">
@@ -114,19 +116,21 @@
                  style="margin-bottom: 1rem; color: #6366f1; font-weight: 600; font-size: 1.08rem;" v-if="customerNameToDisplay">
                 مشتری: {{ customerNameToDisplay }}
             </div>
-             <div class="flex flex-col gap-2">
+             <div class="flex flex-col gap-1">
                 <label for="purchase_amount">مبلغ خرید:</label>
-                <div class="p-inputgroup">
-                    <InputText
-                        id="purchase_amount"
-                        v-model="purchaseAmountFormatted"
-                        placeholder="مثلاً 50,000"
-                        inputmode="numeric"
-                        class="w-full"
-                        required
-                    />
-                    <span class="p-inputgroup-addon">تومان</span>
-                </div>
+               <InputGroup>
+                 <InputText
+                   id="purchase_amount"
+                   v-model="purchaseAmountFormatted"
+                   placeholder="مثلاً 50,000"
+                   inputmode="numeric"
+                   class="w-full"
+                   required
+                 />
+                 <InputGroupAddon>
+                   تومان
+                 </InputGroupAddon>
+               </InputGroup>
             </div>
 
             <div class="flex items-center gap-2">
@@ -479,7 +483,7 @@ form {
 
 label {
     font-weight: 500;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0;
     color: #444;
     font-size: 1.07rem;
 }
@@ -680,9 +684,4 @@ section.dashboard-section {
     }
 }
 
-#purchase-btn {
-    font-size: 1.32rem;
-    font-weight: bold;
-    letter-spacing: 0.08em;
-}
 </style>

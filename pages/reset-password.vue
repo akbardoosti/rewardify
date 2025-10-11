@@ -16,7 +16,16 @@
             :feedback="true"
             toggleMask
             required
-          />
+            weakLabel="ضعیف"
+            mediumLabel="متوسط"
+            strongLabel="مستحکم"
+            promptLabel="کلمه‌عبور را وارد کنید"
+          >
+            <template #header>
+              میزان قدرت کلمه‌عبور
+            </template>
+
+          </Password>
         </div>
 
         <div>

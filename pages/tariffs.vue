@@ -14,8 +14,8 @@
 
     <ClientOnly>
       <div class="flex justify-center">
-        <TabView class="w-full md:w-10/12 lg:w-8/12">
-          <TabPanel v-for="(period, periodName) in tariffs" :key="periodName" :header="periodName">
+        <TabView class="w-full">
+          <TabPanel v-for="(period, periodName) in tariffs" :key="periodName" :header="periodName" >
             <Accordion :multiple="false" :activeIndex="0" expandIcon="pi pi-chevron-up" collapseIcon="pi pi-chevron-down">
               <AccordionTab v-for="(service, serviceName) in period" :key="serviceName" :header="service.title">
                 <div class="flex flex-col">

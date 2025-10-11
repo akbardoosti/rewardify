@@ -11,12 +11,12 @@
             <p class="welcome-subtitle">نام‌کاربری و کلمه‌عبور خود را وارد کنید تا به حساب کاربری خود دسترسی پیدا کنید.</p>
 
             <form @submit.prevent="login" class="space-y-6">
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-1">
                     <label for="credential" class="form-label">نام‌کاربری</label>
                     <InputText id="credential" v-model="username" class="w-full" dir="rtl" />
                 </div>
 
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-1">
                     <label class="form-label" for="password">کلمه‌عبور</label>
                     <Password
                         id="password"
@@ -40,7 +40,7 @@
                 <Button type="submit" class="w-full justify-center" :loading="loading" label="ورود" />
             </form>
 
-            <div class="register-link">
+            <div class="register-link mt-3">
                 حساب کاربری ندارید؟ <NuxtLink to="/register">هم‌اکنون ثبت نام کنید.</NuxtLink>
             </div>
         </div>
@@ -193,7 +193,7 @@ const login = async () => {
 .logo {
     display: flex;
     align-items: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .logo-icon {
@@ -234,7 +234,6 @@ const login = async () => {
 
 .form-label {
     display: block;
-    margin-bottom: 8px;
     color: #374151;
     font-weight: 500;
     font-size: 14px;

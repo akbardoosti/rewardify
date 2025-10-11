@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col" style="margin-top: 60px;">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col" style="margin-top: 60px;">
     <h1 class="text-2xl text-center">
       تعرفه‌های ارسال پیام لویانا
     </h1>

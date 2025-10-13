@@ -169,7 +169,6 @@
         </form>
     <div id="purchase-message" :class="['message', { 'success': purchaseMessageIsSuccess }]">{{ purchaseMessage }}</div>
     </section>
-    <ConfirmDialog />
   </div>
 </template>
 
@@ -400,6 +399,9 @@ const removeCustomer = () => {
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: 'حذف کن',
         rejectLabel: 'انصراف',
+        acceptProps: {
+          severity: 'danger',
+        },
         accept: async () => {
             try {
                 await api.deleteCustomer(customerId.value);
@@ -643,7 +645,17 @@ label {
     background-position: left 0.7rem center;
     background-size: 1.2em 1.2em;
     padding-left: 2.2em;
-  width: 100%;
+    width: 100%;
+
+  padding: .5rem .9rem;
+  border-radius: 5px;
+  border: 1px solid var(--p-inputtext-border-color);
+}
+:deep(#signup_birth_date.persian-date-input:focus){
+  border-color: var(--p-inputtext-focus-border-color);
+  box-shadow: var(--p-inputtext-focus-ring-shadow);
+  outline: var(--p-inputtext-focus-ring-width) var(--p-inputtext-focus-ring-style) var(--p-inputtext-focus-ring-color);
+  outline-offset: var(--p-inputtext-focus-ring-offset);
 }
 
 section.dashboard-section {

@@ -115,6 +115,8 @@
 
   <slot />
   <Toast />
+  <ConfirmDialog />
+
 </template>
 <style scoped>
 .brand-header-bar {

@@ -105,16 +105,19 @@
                 />
             </div>
         </form>
-        <div id="signup-message" class="message">{{ signupMessage }}</div>
+        <div id="signup-message" :class="['message', { 'success': signupMessageIsSuccess }]">{{ signupMessage }}</div>
     </section>
 
     <!-- Purchase Page -->
     <section id="purchase-section" class="dashboard-section" v-if="currentSection === 'purchase'">
         <h2>ثبت خرید</h2>
         <form id="purchase-form" @submit.prevent="purchase" class="space-y-4">
-            <div id="customer-name"
-                 style="margin-bottom: 1rem; color: #6366f1; font-weight: 600; font-size: 1.08rem;" v-if="customerNameToDisplay">
-                مشتری: {{ customerNameToDisplay }}
+            <div id="customer-name-container" class="flex items-center justify-between" v-if="customerNameToDisplay">
+                <div id="customer-name"
+                     style="color: #6366f1; font-weight: 600; font-size: 1.08rem;">
+                    مشتری: {{ customerNameToDisplay }}
+                </div>
+                <Button icon="pi pi-trash" severity="danger" text rounded aria-label="حذف مشتری" @click="removeCustomer" />
             </div>
              <div class="flex flex-col gap-1">
                 <label for="purchase_amount">مبلغ خرید:</label>
@@ -133,7 +136,15 @@
                </InputGroup>
             </div>
 
-            <div class="flex items-center gap-2">
+            <div v-if="availableDiscount > 0" class="flex items-center gap-2">
+                <label>تخفیف خریدهای قبلی: {{ formatNumber(availableDiscount) }} تومان</label>
+            </div>
+
+            <div v-if="isBirthday" class="flex items-center gap-2">
+                <label>تخفیف تولد: {{ formatNumber(birthdayDiscount * (purchaseAmount || 0)) }} تومان</label>
+            </div>
+
+            <div class="flex items-center gap-2 mt-2">
                 <Checkbox v-model="useDiscount" inputId="use_discount" :binary="true" />
                 <label for="use_discount">استفاده از تخفیف ({{ formatNumber(totalDiscount) }} تومان)</label>
             </div>
@@ -156,7 +167,7 @@
                 />
             </div>
         </form>
-        <div id="purchase-message" class="message">{{ purchaseMessage }}</div>
+        <div id="purchase-message" :class="['message', { 'success': purchaseMessageIsSuccess }]">{{ purchaseMessage }}</div>
     </section>
   </div>
 </template>
@@ -193,10 +204,12 @@ const goBack = () => {
   signupBirthDate.value = '';
   signupFirstPurchaseAmount.value = null;
   signupMessage.value = '';
+  signupMessageIsSuccess.value = false;
   customerNameToDisplay.value = '';
   purchaseAmount.value = null;
   useDiscount.value = false;
   purchaseMessage.value = '';
+  purchaseMessageIsSuccess.value = false;
   birthDatePreview.value = '';
   isBirthday.value = false;
   birthdayDiscountMessage.value = '';
@@ -267,6 +280,7 @@ const signupPhoneNumber = ref('');
 const signupBirthDate = ref('');
 const signupFirstPurchaseAmount = ref(null);
 const signupMessage = ref('');
+const signupMessageIsSuccess = ref(false);
 const birthDatePreview = ref('');
 const isSignupFullNameInvalid = ref(false);
 const isSignupBirthDateInvalid = ref(false);
@@ -288,6 +302,7 @@ const isSigningUp = ref(false);
 const signup = async () => {
   isSigningUp.value = true;
   signupMessage.value = '';
+  signupMessageIsSuccess.value = false;
   try {
     // Basic validation
     isSignupFullNameInvalid.value = !signupFullName.value;
@@ -315,16 +330,17 @@ const signup = async () => {
     const newCustomer = response.data;
     customerId.value = newCustomer.id;
 
-    signupMessage.value = 'ثبت‌نام با موفقیت انجام شد!';
+    signupMessageIsSuccess.value = true;
+    signupMessage.value = `خرید با موفقیت ثبت شد! مبلغ نهایی: ${formatNumber(signupFirstPurchaseAmount.value)} تومان`;
 
-    // After signup, move to the purchase section
-    customerNameToDisplay.value = newCustomer.full_name;
-    purchaseAmount.value = signupFirstPurchaseAmount.value;
-    availableDiscount.value = 0;
-    currentSection.value = 'phone-check';
+    // After signup, show success and redirect to phone-check section
+    setTimeout(() => {
+        goBack();
+    }, 2000);
 
   } catch (error) {
     console.error('Error during signup:', error);
+    signupMessageIsSuccess.value = false;
     if (error.response && error.response.data) {
         const errorMessages = Object.values(error.response.data).flat();
         signupMessage.value = `خطا: ${errorMessages.join(' ')}`;
@@ -343,6 +359,7 @@ const useDiscount = ref(false);
 const availableDiscount = ref(0);
 const birthdayDiscount = ref(0);
 const purchaseMessage = ref('');
+const purchaseMessageIsSuccess = ref(false);
 
 const purchaseAmountFormatted = computed({
   get: () => formatNumber(purchaseAmount.value),
@@ -371,6 +388,13 @@ const isPurchasing = ref(false);
 const isBirthday = ref(false);
 const birthdayDiscountMessage = ref('');
 
+const removeCustomer = () => {
+    console.log(`Attempting to remove customer: ${customerId.value}`);
+    // Here you would typically call an API to delete the customer
+    // and then handle the UI response, e.g., goBack()
+    goBack();
+};
+
 const triggerConfetti = () => {
     const birthdayEffectContainer = document.getElementById('birthday-effect');
     if (!birthdayEffectContainer) return;
@@ -396,6 +420,7 @@ const triggerConfetti = () => {
 const purchase = async () => {
   isPurchasing.value = true;
   purchaseMessage.value = '';
+  purchaseMessageIsSuccess.value = false;
   try {
     if (!purchaseAmount.value || purchaseAmount.value <= 0) {
       purchaseMessage.value = 'لطفاً مبلغ خرید معتبری را وارد کنید.';
@@ -410,6 +435,7 @@ const purchase = async () => {
 
     await api.createPurchase(payload);
 
+    purchaseMessageIsSuccess.value = true;
     purchaseMessage.value = `خرید با موفقیت ثبت شد! مبلغ نهایی: ${formatNumber(finalPrice.value)} تومان`;
 
     setTimeout(() => {
@@ -432,6 +458,7 @@ const purchase = async () => {
     }, 2500);
   } catch (error) {
     console.error('Error during purchase:', error);
+    purchaseMessageIsSuccess.value = false;
     if (error.response && error.response.data) {
         const errors = Object.values(error.response.data).flat().join(' ');
         purchaseMessage.value = `خطا در ثبت خرید: ${errors}`;
@@ -522,6 +549,10 @@ label {
     font-weight: 500;
     letter-spacing: -0.2px;
     transition: color 0.2s;
+}
+
+.message.success {
+    color: #388e3c;
 }
 
 .message:not(:empty) {

@@ -102,6 +102,10 @@ export default {
     return apiClient.get(`/costumers/${customerId}/discount`);
   },
 
+  deleteCustomer(customerId: number) {
+    return apiClient.delete(`/costumers/${customerId}`);
+  },
+
   downloadReports() {
     return apiClient.get('/reports/', {
       responseType: 'blob', // Important for handling file downloads

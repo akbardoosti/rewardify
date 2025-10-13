@@ -167,8 +167,9 @@
                 />
             </div>
         </form>
-        <div id="purchase-message" :class="['message', { 'success': purchaseMessageIsSuccess }]">{{ purchaseMessage }}</div>
+    <div id="purchase-message" :class="['message', { 'success': purchaseMessageIsSuccess }]">{{ purchaseMessage }}</div>
     </section>
+    <ConfirmDialog />
   </div>
 </template>
 
@@ -185,10 +186,14 @@ useHead({
 import { ref, computed, watch } from 'vue'
 import DatePicker from '@alireza-ab/vue3-persian-datepicker';
 import moment from 'moment-jalaali';
+import { useConfirm } from "primevue/useconfirm";
+import { useToast } from "primevue/usetoast";
 import api from '~/services/api'; // Import the centralized API service
 import { useUtils } from '~/composables/useUtils';
 
 const { formatNumber, parseNumber } = useUtils();
+const confirm = useConfirm();
+const toast = useToast();
 
 // State for the current view
 const currentSection = ref('phone-check'); // 'phone-check', 'signup', or 'purchase'
@@ -389,10 +394,26 @@ const isBirthday = ref(false);
 const birthdayDiscountMessage = ref('');
 
 const removeCustomer = () => {
-    console.log(`Attempting to remove customer: ${customerId.value}`);
-    // Here you would typically call an API to delete the customer
-    // and then handle the UI response, e.g., goBack()
-    goBack();
+    confirm.require({
+        message: 'آیا از حذف این مشتری اطمینان دارید؟ این عمل قابل بازگشت نیست.',
+        header: 'تایید حذف',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'حذف کن',
+        rejectLabel: 'انصراف',
+        accept: async () => {
+            try {
+                await api.deleteCustomer(customerId.value);
+                toast.add({ severity: 'success', summary: 'موفق', detail: 'مشتری با موفقیت حذف شد.', life: 3000 });
+                goBack();
+            } catch (error) {
+                console.error('Error deleting customer:', error);
+                toast.add({ severity: 'error', summary: 'خطا', detail: 'در حذف مشتری مشکلی پیش آمد.', life: 3000 });
+            }
+        },
+        reject: () => {
+            // Optional: Do something on rejection
+        }
+    });
 };
 
 const triggerConfetti = () => {

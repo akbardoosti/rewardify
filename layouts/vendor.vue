@@ -114,6 +114,9 @@
   </Drawer>
 
   <slot />
+  <Toast />
+  <ConfirmDialog />
+
 </template>
 <style scoped>
 .brand-header-bar {
@@ -187,6 +190,7 @@ import Menubar from "primevue/menubar";
 import Avatar from "primevue/avatar";
 import Drawer from "primevue/drawer";
 import Button from "primevue/button";
+import Toast from "primevue/toast";
 import {ref, onMounted, onUnmounted, computed} from "vue";
 import api from '~/services/api';
 import { decrypt } from '~/services/crypto';

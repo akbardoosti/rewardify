@@ -54,6 +54,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       // تنظیمات service worker (اختیاری، پیش‌فرض خوب است)
+      navigateFallback: null
     },
     // فعال کردن تولید خودکار آیکون‌ها (اگر از PWA Assets Generator استفاده می‌کنید)
     // assetsGenerator: {

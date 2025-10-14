@@ -35,7 +35,7 @@
                         <tr>
                           <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">مدت اعتبار</th>
                           <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تعداد پیام</th>
-                          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت پیشنهادی</th>
+                          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت</th>
                           <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                         </tr>
                         </thead>
@@ -72,7 +72,7 @@
                         <thead class="bg-gray-50">
                         <tr>
                           <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">مدت اعتبار</th>
-                          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت پیشنهادی</th>
+                          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">قیمت</th>
                           <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                         </tr>
                         </thead>
@@ -95,6 +95,16 @@
         </div>
       </ClientOnly>
     </div>
+
+    <div class="mt-8 text-center">
+      <h2 class="text-xl mb-4">پشتیبانی</h2>
+      <p class="mb-4">برای مشاوره و خرید بسته‌ها می‌توانید با شماره‌ زیر تماس بگیرید:</p>
+      <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+        <a v-for="num in supportNumbers" :key="num.link" :href="num.link" class="text-lg text-indigo-600 hover:text-indigo-900 font-bold">
+          {{ num.display }}
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -113,7 +123,11 @@ definePageMeta({
   layout: 'vendor'
 });
 
-const contactLink = 'tel:09194563252';
+const contactLink = 'tel:09024846812';
+
+const supportNumbers = [
+  { display: '09024846812', link: 'tel:09024846812' },
+]
 
 const periods = ref(['۱ ماهه', '۳ ماهه', '۱ ساله']);
 const selectedPeriod = ref(periods.value[0]);

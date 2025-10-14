@@ -98,7 +98,7 @@
 
     <div class="mt-8 text-center">
       <h2 class="text-xl mb-4">پشتیبانی</h2>
-      <p class="mb-4">برای مشاوره و خرید بسته‌ها می‌توانید با شماره‌های زیر تماس بگیرید:</p>
+      <p class="mb-4">برای مشاوره و خرید بسته‌ها می‌توانید با شماره‌ زیر تماس بگیرید:</p>
       <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
         <a v-for="num in supportNumbers" :key="num.link" :href="num.link" class="text-lg text-indigo-600 hover:text-indigo-900 font-bold">
           {{ num.display }}
@@ -123,12 +123,10 @@ definePageMeta({
   layout: 'vendor'
 });
 
-const contactLink = 'tel:09222412012';
+const contactLink = 'tel:09024846812';
 
 const supportNumbers = [
-  { display: '0922 241 2012', link: 'tel:09222412012' },
-  { display: '0910 580 0782', link: 'tel:09105800782' },
-  { display: '0919 679 1889', link: 'tel:09196791889' },
+  { display: '09024846812', link: 'tel:09024846812' },
 ]
 
 const periods = ref(['۱ ماهه', '۳ ماهه', '۱ ساله']);
